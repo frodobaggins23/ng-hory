@@ -1,4 +1,5 @@
 @use "../../styles/_colors.scss" as *;
+@use "../../styles/_variables.scss" as *;
 
 .app-layout {
   display: flex;
@@ -12,19 +13,28 @@
 }
 
 .app-header {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 5vh;
-  color: $secondary-heavy;
+  display: none;
+
+  @include min-breakpoint("m") {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 5vh;
+    color: $secondary-heavy;
+  }
 }
 
 .app-content {
-  height: 95vh;
-  width: 95%;
-  overflow: auto;
-  border: 3px solid $secondary-light;
-  border-radius: 4px;
-  margin: 0 auto 3rem auto;
+  @include min-breakpoint("m") {
+    height: 95vh;
+    width: 95%;
+    overflow: auto;
+    border: 3px solid $secondary-light;
+    border-radius: 4px;
+    margin: 0 auto 3rem auto;
+  }
+
+  height: 100%;
+  width: 100%;
 }
