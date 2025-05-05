@@ -13,7 +13,7 @@ import { MountainStateService } from '../services/mountain-state.service';
 
 const API_KEY = 'KjyC3fA7h5K85KSxtf8czTIDggXXGkUirvOF_c6Hp_E';
 const MAPY_CZ_URL =
-  'https://api.mapy.cz/v1/maptiles/basic/256/{z}/{x}/{y}?apikey=' + API_KEY;
+  'https://api.mapy.cz/v1/maptiles/outdoor/256/{z}/{x}/{y}?apikey=' + API_KEY;
 
 const HOME_GPS: L.LatLngExpression = [50.0898917, 14.6692611];
 
