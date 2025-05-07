@@ -5,16 +5,16 @@ import { ThumbnailComponent } from '../thumbnail/thumbnail.component';
 
 type Column = {
   name: string;
-  onMobile: boolean;
+  onDesktopOnly: boolean;
 };
 
 const COLUMNS: Column[] = [
-  { name: 'date', onMobile: true },
-  { name: 'img', onMobile: false },
-  { name: 'description', onMobile: true },
-  { name: 'duration', onMobile: true },
-  { name: 'distance', onMobile: false },
-  { name: 'heartRate', onMobile: false },
+  { name: 'date', onDesktopOnly: false },
+  { name: 'img', onDesktopOnly: true },
+  { name: 'description', onDesktopOnly: false },
+  { name: 'duration', onDesktopOnly: false },
+  { name: 'distance', onDesktopOnly: true },
+  { name: 'heartRate', onDesktopOnly: true },
 ];
 
 @Component({

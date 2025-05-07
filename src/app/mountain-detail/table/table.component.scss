@@ -17,7 +17,7 @@ table {
       }
 
       th {
-        display: none;
+        display: grid;
         min-width: 50px;
         padding: 10px;
         background-color: $primary-heavy;
@@ -26,12 +26,12 @@ table {
         font-weight: bold;
         border: 1px solid $primary-light;
 
-        @include min-breakpoint("m") {
-          display: block;
-        }
+        &.desktop {
+          display: none;
 
-        &.mobile {
-          display: block;
+          @include min-breakpoint("m") {
+            display: grid;
+          }
         }
       }
     }
@@ -58,18 +58,18 @@ table {
     }
 
     td {
-      display: none;
+      display: grid;
       padding: 10px;
       border: 1px solid $primary-light;
       align-items: center;
       min-width: 50px;
 
-      @include min-breakpoint("m") {
-        display: grid;
-      }
+      &.desktop {
+        display: none;
 
-      &.mobile {
-        display: grid;
+        @include min-breakpoint("m") {
+          display: grid;
+        }
       }
 
       img {

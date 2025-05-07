@@ -3,7 +3,7 @@
     <tr>
       <th
         *ngFor="let column of columns"
-        [ngClass]="{ mobile: column.onMobile }"
+        [ngClass]="{ desktop: column.onDesktopOnly }"
       >
         {{ column.name }}
       </th>
@@ -11,8 +11,8 @@
   </thead>
   <tbody>
     <tr *ngFor="let climb of mountainDetail.climbs">
-      <td class="mobile">{{ climb.date }}</td>
-      <td>
+      <td>{{ climb.date }}</td>
+      <td class="desktop">
         <img
           src="{{ climb.img }}"
           alt="climb thumbnail"
@@ -20,10 +20,10 @@
           *ngIf="climb.img"
         />
       </td>
-      <td class="large mobile">{{ climb.description }}</td>
-      <td class="mobile">{{ climb.duration }}</td>
-      <td>{{ climb.distance }}</td>
-      <td>{{ climb.heartRate }}</td>
+      <td class="large">{{ climb.description }}</td>
+      <td>{{ climb.duration }}</td>
+      <td class="desktop">{{ climb.distance }}</td>
+      <td class="desktop">{{ climb.heartRate }}</td>
       <app-mountain-detail-thumbnail
         *ngIf="thumbnailId === climb.id && climb.img"
         [imageUrl]="climb.img"
