@@ -1,14 +1,23 @@
-import { Component, Input } from '@angular/core';
+import { Component, WritableSignal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MountainStateService } from '../services/mountain-state.service';
+import { MountainDetailComponent } from '../mountain-detail/mountain-detail.component';
 
 @Component({
   selector: 'app-switcher',
-  imports: [],
+  imports: [MountainDetailComponent, CommonModule],
   templateUrl: './switcher.component.html',
   styleUrl: './switcher.component.scss',
 })
 export class SwitcherComponent {
   constructor(private mountainStateService: MountainStateService) {}
+
+  showMountainDetail: boolean = false;
+  mountainName!: WritableSignal<string>;
+
+  ngOnInit() {
+    this.mountainName = this.mountainStateService.mountainName;
+  }
 
   setNextMountainName() {
     this.mountainStateService.setNextMountain();
@@ -17,5 +26,8 @@ export class SwitcherComponent {
     this.mountainStateService.setPreviousMountain();
   }
 
-  @Input() location: string = 'location';
+  toggleMountainDetail() {
+    console.log('toggleMountainDetail');
+    this.showMountainDetail = !this.showMountainDetail;
+  }
 }

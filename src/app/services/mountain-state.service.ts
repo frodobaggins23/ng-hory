@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { mountains, type Mountain } from './mountains';
+import { mountains, type Mountain } from '../../data';
 
 @Injectable({
   providedIn: 'root',
@@ -28,14 +28,6 @@ export class MountainStateService {
   setMountain(mountain: Mountain) {
     this.mountainName.set(mountain.name);
     this.mountainCoordinates.set(mountain.coordinates);
-  }
-
-  getMountainCoordinates(): L.LatLngExpression {
-    return this.mountainCoordinates();
-  }
-
-  getMountainName(): string {
-    return this.mountainName();
   }
 
   getCurrentMountain(): Mountain {

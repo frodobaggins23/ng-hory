@@ -1,5 +1,11 @@
 <div class="switcher">
   <button class="arrow left" (click)="setPreviousMountainName()">&larr;</button>
-  <div class="toolbar">{{ location }}</div>
+  <div class="toolbar" (click)="toggleMountainDetail()">
+    {{ mountainName() }}
+  </div>
   <button class="arrow right" (click)="setNextMountainName()">&rarr;</button>
 </div>
+<app-mountain-detail
+  *ngIf="showMountainDetail"
+  mountain="{{ mountainName() }}"
+></app-mountain-detail>

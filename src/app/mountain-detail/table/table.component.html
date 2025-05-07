@@ -1,0 +1,19 @@
+<table>
+  <thead>
+    <tr>
+      <th *ngFor="let column of columns">{{ column }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let climb of mountainDetail.climbs">
+      <td>{{ climb.date }}</td>
+      <td>
+        <img src="{{ climb.img }}" alt="climb thumbnail" />
+      </td>
+      <td class="large">{{ climb.description }}</td>
+      <td>{{ climb.duration }}</td>
+      <td>{{ climb.distance }}</td>
+      <td>{{ climb.heartRate }}</td>
+    </tr>
+  </tbody>
+</table>
