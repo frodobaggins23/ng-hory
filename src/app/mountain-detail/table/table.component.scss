@@ -1,4 +1,5 @@
 @use "../../../styles/_colors.scss" as *;
+@use "../../../styles/_variables.scss" as *;
 
 table {
   background-color: $white;
@@ -8,15 +9,30 @@ table {
     width: 100%;
     tr {
       display: grid;
-      grid-template-columns: 1fr 0.5fr 2fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 2fr 1fr;
       grid-auto-flow: row;
+
+      @include min-breakpoint("m") {
+        grid-template-columns: 1fr 0.5fr 2fr 1fr 1fr 1fr;
+      }
+
       th {
+        display: none;
+        min-width: 50px;
         padding: 10px;
         background-color: $primary-heavy;
         color: $white;
         text-align: left;
         font-weight: bold;
         border: 1px solid $primary-light;
+
+        @include min-breakpoint("m") {
+          display: block;
+        }
+
+        &.mobile {
+          display: block;
+        }
       }
     }
   }
@@ -25,8 +41,12 @@ table {
     width: 100%;
     tr {
       display: grid;
-      grid-template-columns: 1fr 0.5fr 2fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 2fr 1fr;
       grid-auto-flow: row;
+
+      @include min-breakpoint("m") {
+        grid-template-columns: 1fr 0.5fr 2fr 1fr 1fr 1fr;
+      }
 
       &:nth-child(even) {
         background-color: rgba($secondary-heavy, 0.2);
@@ -38,10 +58,19 @@ table {
     }
 
     td {
+      display: none;
       padding: 10px;
       border: 1px solid $primary-light;
-      display: flex;
       align-items: center;
+      min-width: 50px;
+
+      @include min-breakpoint("m") {
+        display: grid;
+      }
+
+      &.mobile {
+        display: grid;
+      }
 
       img {
         width: 50px;
@@ -49,6 +78,8 @@ table {
         object-fit: cover;
         border-radius: 5px;
         cursor: pointer;
+        align-self: center;
+        justify-self: center;
       }
     }
   }

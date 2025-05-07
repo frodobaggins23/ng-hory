@@ -3,13 +3,18 @@ import { MountainStateService } from '../../services/mountain-state.service';
 import { CommonModule } from '@angular/common';
 import { ThumbnailComponent } from '../thumbnail/thumbnail.component';
 
-const COLUMNS = [
-  'date',
-  'img',
-  'description',
-  'duration',
-  'distance',
-  'heartRate',
+type Column = {
+  name: string;
+  onMobile: boolean;
+};
+
+const COLUMNS: Column[] = [
+  { name: 'date', onMobile: true },
+  { name: 'img', onMobile: false },
+  { name: 'description', onMobile: true },
+  { name: 'duration', onMobile: true },
+  { name: 'distance', onMobile: false },
+  { name: 'heartRate', onMobile: false },
 ];
 
 @Component({
