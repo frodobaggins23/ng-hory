@@ -5,6 +5,7 @@ export type Mountain = {
 };
 
 export type Climb = {
+  id: number;
   date: string;
   img?: string;
   description: string;

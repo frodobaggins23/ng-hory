@@ -2,6 +2,7 @@ import { Climb } from '../types';
 
 export const climbsBlanik: Climb[] = [
   {
+    id: 1,
     date: '2023-03-05',
     img: '/img/blanik.jpg',
     description:
@@ -11,7 +12,9 @@ export const climbsBlanik: Climb[] = [
     heartRate: '110 bpm',
   },
   {
+    id: 2,
     date: '2023-03-06',
+    img: '/img/blanik.jpg',
     description:
       'The hike to Blaník is easy and family-friendly, with a mix of forest trails and historical sites.',
     duration: '2.5 hours',

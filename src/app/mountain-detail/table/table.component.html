@@ -8,12 +8,23 @@
     <tr *ngFor="let climb of mountainDetail.climbs">
       <td>{{ climb.date }}</td>
       <td>
-        <img src="{{ climb.img }}" alt="climb thumbnail" />
+        <img
+          src="{{ climb.img }}"
+          alt="climb thumbnail"
+          (click)="showThumbnail(climb.id)"
+          *ngIf="climb.img"
+        />
       </td>
       <td class="large">{{ climb.description }}</td>
       <td>{{ climb.duration }}</td>
       <td>{{ climb.distance }}</td>
       <td>{{ climb.heartRate }}</td>
+      <app-mountain-detail-thumbnail
+        *ngIf="thumbnailId === climb.id && climb.img"
+        [imageUrl]="climb.img"
+        (click)="hideThumbnail()"
+        [isVisible]="thumbnailId === climb.id"
+      />
     </tr>
   </tbody>
 </table>

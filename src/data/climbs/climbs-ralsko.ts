@@ -2,6 +2,7 @@ import { Climb } from '../types';
 
 export const climbsRalsko: Climb[] = [
   {
+    id: 1,
     date: '2023-04-10',
     img: '/img/ralsko.jpg',
     description:
@@ -11,6 +12,7 @@ export const climbsRalsko: Climb[] = [
     heartRate: '115 bpm',
   },
   {
+    id: 2,
     date: '2023-04-11',
     description:
       'The hike to Ralsko is peaceful and scenic, with a mix of forest paths and historical landmarks.',

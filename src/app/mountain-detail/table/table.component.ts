@@ -1,6 +1,7 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { MountainStateService } from '../../services/mountain-state.service';
 import { CommonModule } from '@angular/common';
+import { ThumbnailComponent } from '../thumbnail/thumbnail.component';
 
 const COLUMNS = [
   'date',
@@ -13,7 +14,7 @@ const COLUMNS = [
 
 @Component({
   selector: 'app-mountain-detail-table',
-  imports: [CommonModule],
+  imports: [CommonModule, ThumbnailComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
@@ -22,9 +23,17 @@ export class TableComponent {
   @Input() mountainName: string = '';
   mountainDetail!: ReturnType<MountainStateService['getCurrentMountain']>;
   columns = COLUMNS;
+  thumbnailId: number | null = null;
 
   getCurrentMountain() {
     this.mountainDetail = this.mountainStateService.getCurrentMountain();
+  }
+
+  showThumbnail(id: number) {
+    this.thumbnailId = id;
+  }
+  hideThumbnail() {
+    this.thumbnailId = null;
   }
 
   ngOnInit() {

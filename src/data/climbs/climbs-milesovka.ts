@@ -2,6 +2,7 @@ import { Climb } from '../types';
 
 export const climbsMilesovka: Climb[] = [
   {
+    id: 1,
     date: '2023-06-20',
     img: '/img/milesovka.jpg',
     description:
@@ -11,6 +12,7 @@ export const climbsMilesovka: Climb[] = [
     heartRate: '120 bpm',
   },
   {
+    id: 2,
     date: '2023-06-21',
     description:
       'The hike to Milešovka is a popular choice for nature lovers, offering a mix of forest trails and open vistas.',

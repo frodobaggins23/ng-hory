@@ -2,6 +2,7 @@ import { Climb } from '../types';
 
 export const climbsLovos: Climb[] = [
   {
+    id: 1,
     date: '2023-07-10',
     img: '/img/lovos.jpg',
     description:
@@ -11,6 +12,7 @@ export const climbsLovos: Climb[] = [
     heartRate: '110 bpm',
   },
   {
+    id: 2,
     date: '2023-07-11',
     description:
       'The trail to Lovoš is short but steep, making it a great choice for a quick yet rewarding hike.',

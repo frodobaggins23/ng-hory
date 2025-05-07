@@ -2,6 +2,7 @@ import { Climb } from '../types';
 
 export const climbsSnezka: Climb[] = [
   {
+    id: 1,
     date: '2023-09-01',
     img: '/img/snezka.jpg',
     description:
@@ -11,7 +12,9 @@ export const climbsSnezka: Climb[] = [
     heartRate: '130 bpm',
   },
   {
+    id: 2,
     date: '2023-09-02',
+    img: '/img/snezka.jpg',
     description:
       'The hike to Sněžka is challenging but rewarding. The trail is well-marked and offers beautiful views of the surrounding mountains and valleys.',
     duration: '5 hours',

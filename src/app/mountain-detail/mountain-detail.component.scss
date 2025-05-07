@@ -10,9 +10,8 @@
   right: 2rem;
   width: 90vw;
   height: 70vh;
-  background-color: $white;
+  background-color: rgba($white, 0.9);
   z-index: 3;
   color: $black;
-  opacity: 0.9;
   border: 0.5rem solid $primary-light;
 }

@@ -2,6 +2,7 @@ import { Climb } from '../types';
 
 export const climbsJested: Climb[] = [
   {
+    id: 1,
     date: '2023-08-01',
     img: '/img/jested.jpg',
     description:
@@ -11,6 +12,7 @@ export const climbsJested: Climb[] = [
     heartRate: '120 bpm',
   },
   {
+    id: 2,
     date: '2023-08-02',
     description:
       'The hike to Ještěd is relatively easy and suitable for families, offering a mix of nature and architectural beauty.',
