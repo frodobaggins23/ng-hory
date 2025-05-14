@@ -3,7 +3,11 @@
     <tr>
       <th
         *ngFor="let column of columns"
-        [ngClass]="{ desktop: column.onDesktopOnly }"
+        [ngClass]="{
+          desktop: column.onDesktopOnly,
+          lastCol: column?.isLast ?? false
+        }"
+        [attr.colspan]="column.isLast ? 2 : 1"
       >
         {{ column.name }}
       </th>
@@ -21,9 +25,10 @@
         />
       </td>
       <td class="large">{{ climb.description }}</td>
-      <td>{{ climb.duration }}</td>
       <td class="desktop">{{ climb.distance }}</td>
       <td class="desktop">{{ climb.heartRate }}</td>
+      <td>{{ climb.duration }}</td>
+      <td>t</td>
       <app-mountain-detail-thumbnail
         *ngIf="thumbnailId === climb.id && climb.img"
         [imageUrl]="climb.img"

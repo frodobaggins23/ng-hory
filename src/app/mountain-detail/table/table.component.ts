@@ -6,15 +6,16 @@ import { ThumbnailComponent } from '../thumbnail/thumbnail.component';
 type Column = {
   name: string;
   onDesktopOnly: boolean;
+  isLast?: boolean;
 };
 
 const COLUMNS: Column[] = [
   { name: 'date', onDesktopOnly: false },
   { name: 'img', onDesktopOnly: true },
   { name: 'description', onDesktopOnly: false },
-  { name: 'duration', onDesktopOnly: false },
   { name: 'distance', onDesktopOnly: true },
   { name: 'heartRate', onDesktopOnly: true },
+  { name: 'duration', onDesktopOnly: false, isLast: true },
 ];
 
 @Component({
