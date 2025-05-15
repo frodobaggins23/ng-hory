@@ -2,6 +2,8 @@ import { Component, Input, SimpleChanges } from '@angular/core';
 import { MountainStateService } from '../../services/mountain-state.service';
 import { CommonModule } from '@angular/common';
 import { ThumbnailComponent } from '../thumbnail/thumbnail.component';
+import { ExpandIconComponent } from '../expand-icon/expand-icon.component';
+import { ExpandContentComponent } from '../expand-content/expand-content.component';
 
 type Column = {
   name: string;
@@ -20,7 +22,12 @@ const COLUMNS: Column[] = [
 
 @Component({
   selector: 'app-mountain-detail-table',
-  imports: [CommonModule, ThumbnailComponent],
+  imports: [
+    CommonModule,
+    ThumbnailComponent,
+    ExpandIconComponent,
+    ExpandContentComponent,
+  ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
@@ -30,6 +37,7 @@ export class TableComponent {
   mountainDetail!: ReturnType<MountainStateService['getCurrentMountain']>;
   columns = COLUMNS;
   thumbnailId: number | null = null;
+  expandedColumn: number | null = null;
 
   getCurrentMountain() {
     this.mountainDetail = this.mountainStateService.getCurrentMountain();
@@ -40,6 +48,10 @@ export class TableComponent {
   }
   hideThumbnail() {
     this.thumbnailId = null;
+  }
+
+  expandColumn(id: number) {
+    this.expandedColumn = this.expandedColumn === id ? null : id;
   }
 
   ngOnInit() {

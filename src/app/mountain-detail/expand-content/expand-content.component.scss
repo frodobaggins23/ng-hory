@@ -1,0 +1,20 @@
+@use "../../../styles/_colors.scss" as *;
+
+.container {
+  display: block;
+  height: 0px;
+  min-height: 0px;
+  width: 100%;
+  transition: height 0.3s ease-in-out;
+  overflow: hidden;
+
+  &.visible {
+    height: 300px;
+    transition: height 0.3s ease-in-out;
+    border: 1px solid $primary-light;
+  }
+}
+
+.expandContent {
+  grid-column: span 6;
+}
