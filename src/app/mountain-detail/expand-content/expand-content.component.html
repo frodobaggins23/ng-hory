@@ -1,3 +1,6 @@
 <tr [ngClass]="{ visible: expanded, container: true }">
-  <td class="expandContent">expand-content works!{{ content }}</td>
+  <td class="expandContent">expand-content works!</td>
+  <button *ngIf="!!content?.track" (click)="showTrack(content.track!)">
+    Trasa
+  </button>
 </tr>

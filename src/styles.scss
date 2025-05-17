@@ -4,3 +4,9 @@
 * {
   box-sizing: border-box;
 }
+
+.grayscale {
+  .leaflet-tile {
+    filter: grayscale(100%);
+  }
+}

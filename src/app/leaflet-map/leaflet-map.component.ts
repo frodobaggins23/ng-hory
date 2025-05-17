@@ -10,6 +10,7 @@ import * as L from 'leaflet';
 import geojsontest from '../assets/test-geojson.json';
 import { SwitcherComponent } from '../switcher/switcher.component';
 import { MountainStateService } from '../services/mountain-state.service';
+import { MapService } from '../services/map.service';
 
 const API_KEY = 'KjyC3fA7h5K85KSxtf8czTIDggXXGkUirvOF_c6Hp_E';
 const MAPY_CZ_URL =
@@ -24,22 +25,22 @@ const HOME_GPS: L.LatLngExpression = [50.0898917, 14.6692611];
   imports: [SwitcherComponent],
 })
 export class LeafletMapComponent implements OnInit, AfterViewInit {
-  private map!: L.Map;
-  @Input() location: string = 'foo';
-
   mountainName = computed(() => this.mountainStateService.mountainName());
   mountainCoordinates = computed(() =>
     this.mountainStateService.mountainCoordinates()
   );
 
-  marker: L.Circle = this.createMarker(HOME_GPS);
+  marker!: L.Circle;
 
-  constructor(private mountainStateService: MountainStateService) {
+  constructor(
+    private mountainStateService: MountainStateService,
+    private mapService: MapService
+  ) {
     effect(() => {
-      this.marker = this.createMarker(this.mountainCoordinates());
-      if (this.map) {
-        this.centerMap();
-        this.marker.addTo(this.map);
+      this.marker = this.mapService.createMarker(this.mountainCoordinates());
+      if ((this as any).mapInitialized) {
+        this.mapService.centerMap(this.mountainCoordinates());
+        this.mapService.addMarker(this.marker);
       }
     });
   }
@@ -47,35 +48,10 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
   ngOnInit() {}
 
   ngAfterViewInit() {
-    this.initMap();
-    this.marker = this.createMarker(this.mountainCoordinates());
-    this.centerMap();
-    this.marker.addTo(this.map);
-    //https://mygeodata.cloud/
-    L.geoJSON(geojsontest as GeoJSON.GeoJsonObject).addTo(this.map);
-  }
-
-  private createMarker(coordinates: L.LatLngExpression) {
-    const marker = L.circle(coordinates, {
-      color: 'red',
-      fillColor: '#f03',
-      fillOpacity: 0.5,
-      radius: 10,
-    });
-    return marker;
-  }
-
-  private initMap() {
-    const baseMapURl = MAPY_CZ_URL;
-    this.map = L.map('map', {
-      center: HOME_GPS,
-      zoom: 17,
-      layers: [],
-    });
-    L.tileLayer(baseMapURl).addTo(this.map);
-  }
-
-  private centerMap() {
-    this.map.flyTo(this.mountainCoordinates());
+    this.mapService.initMap('map', HOME_GPS, 17, MAPY_CZ_URL);
+    this.marker = this.mapService.createMarker(this.mountainCoordinates());
+    this.mapService.centerMap(this.mountainCoordinates(), true);
+    this.mapService.addMarker(this.marker);
+    (this as any).mapInitialized = true;
   }
 }

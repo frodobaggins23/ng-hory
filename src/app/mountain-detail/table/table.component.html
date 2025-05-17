@@ -38,7 +38,7 @@
       </tr>
       <app-mountain-detail-expand-content
         [expanded]="expandedColumn === climb.id"
-        [content]="climb.description"
+        [content]="climb"
       />
       <app-mountain-detail-thumbnail
         *ngIf="thumbnailId === climb.id && climb.img"

@@ -1,4 +1,5 @@
 import { Climb } from '../types';
+import test01 from '../tracks/lovos/test1.json';
 
 export const climbsLovos: Climb[] = [
   {
@@ -10,6 +11,7 @@ export const climbsLovos: Climb[] = [
     duration: '2 hours',
     distance: '5 km',
     heartRate: '110 bpm',
+    track: test01 as GeoJSON.GeoJsonObject,
   },
   {
     id: 2,

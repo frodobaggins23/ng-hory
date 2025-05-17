@@ -1,4 +1,4 @@
-<div class="detail-container">
+<div class="detail-container" *ngIf="!mapService.isShowingTrackOnMap()">
   <h2 class="mountain-name">
     {{ mountain }}
   </h2>
