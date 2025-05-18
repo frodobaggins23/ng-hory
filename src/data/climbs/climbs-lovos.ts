@@ -1,25 +1,16 @@
 import { Climb } from '../types';
-import test01 from '../tracks/lovos/test1.json';
+import { lovos01 } from '../tracks/lovos';
 
 export const climbsLovos: Climb[] = [
   {
     id: 1,
-    date: '2023-07-10',
+    date: '2025-01-12',
     img: '/img/lovos.jpg',
     description:
-      'Lovoš is a volcanic hill in the Czech Republic, offering panoramic views of the Central Bohemian Uplands.',
-    duration: '2 hours',
-    distance: '5 km',
-    heartRate: '110 bpm',
-    track: test01 as GeoJSON.GeoJsonObject,
-  },
-  {
-    id: 2,
-    date: '2023-07-11',
-    description:
-      'The trail to Lovoš is short but steep, making it a great choice for a quick yet rewarding hike.',
-    duration: '3 hours',
-    distance: '6 km',
-    heartRate: '115 bpm',
+      'Zimní výstup na Lovoš. Bez nesmeků to nešlo. Sníh a led na vrcholu.',
+    duration: '01:38:17',
+    distance: '5.18 km',
+    heartRate: '124 bpm',
+    track: lovos01 as GeoJSON.GeoJsonObject,
   },
 ];

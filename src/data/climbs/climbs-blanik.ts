@@ -1,24 +1,25 @@
 import { Climb } from '../types';
+import { blanik01, blanik02 } from '../tracks/blanik';
 
 export const climbsBlanik: Climb[] = [
   {
     id: 1,
-    date: '2023-03-05',
+    date: '2025-03-03',
     img: '/img/blanik.jpg',
-    description:
-      'Blaník is a hill in the Czech Republic, famous for the legend of the sleeping knights who will awaken in the country’s time of need.',
-    duration: '2 hours',
-    distance: '5 km',
-    heartRate: '110 bpm',
+    description: 'Klasický výstup, ze zadu od Kondrace. Pohodové tempo.',
+    duration: '00:46:54',
+    distance: '2.69 km',
+    heartRate: '125 bpm',
+    track: blanik01 as GeoJSON.GeoJsonObject,
   },
   {
     id: 2,
-    date: '2023-03-06',
+    date: '2025-03-03',
     img: '/img/blanik.jpg',
-    description:
-      'The hike to Blaník is easy and family-friendly, with a mix of forest trails and historical sites.',
-    duration: '2.5 hours',
-    distance: '6 km',
-    heartRate: '115 bpm',
+    description: 'Výstup od parkoviště na čas.',
+    duration: '00:16:51',
+    distance: '1 km',
+    heartRate: '148 bpm',
+    track: blanik02 as GeoJSON.GeoJsonObject,
   },
 ];

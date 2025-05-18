@@ -1,23 +1,26 @@
 import { Climb } from '../types';
+import { jested01, jested02 } from '../tracks/jested';
 
 export const climbsJested: Climb[] = [
   {
     id: 1,
-    date: '2023-08-01',
+    date: '2025-02-08',
     img: '/img/jested.jpg',
     description:
-      'Ještěd is a mountain in the Czech Republic known for its iconic tower and breathtaking views of the surrounding landscape.',
-    duration: '3 hours',
-    distance: '8 km',
-    heartRate: '120 bpm',
+      'Zimní výstup, s nesmeky a hůlkami. Není moc sněhu, ale je namrzlo.',
+    duration: '01:47:06',
+    distance: '5.87 km',
+    heartRate: '137 bpm',
+    track: jested01 as GeoJSON.GeoJsonObject,
   },
   {
     id: 2,
-    date: '2023-08-02',
+    date: '2025-04-28',
     description:
-      'The hike to Ještěd is relatively easy and suitable for families, offering a mix of nature and architectural beauty.',
-    duration: '4 hours',
-    distance: '10 km',
-    heartRate: '125 bpm',
+      'Jarní výšlap. Slunečné počasí, všude se to zelená. Ideální podmínky.',
+    duration: '01:33:31',
+    distance: '5.56 km',
+    heartRate: '138 bpm',
+    track: jested02 as GeoJSON.GeoJsonObject,
   },
 ];
