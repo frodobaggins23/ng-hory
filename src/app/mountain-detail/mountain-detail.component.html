@@ -1,6 +1,8 @@
 <div class="detail-container" *ngIf="!mapService.isShowingTrackOnMap()">
   <h2 class="mountain-name">
-    {{ mountain }}
+    {{ mountainStateService.mountainName() }}
   </h2>
-  <app-mountain-detail-table [mountainName]="mountain" />
+  <app-mountain-detail-table
+    [mountainName]="mountainStateService.mountainName()"
+  />
 </div>

@@ -1,22 +1,7 @@
-<div class="switcher">
+<div class="switcher" *ngIf="!mapService.isShowingTrackOnMap()">
   <button class="arrow left" (click)="setPreviousMountainName()">&larr;</button>
-  <div
-    *ngIf="mapService.isShowingTrackOnMap()"
-    class="toolbar"
-    (click)="hideTrack()"
-  >
-    Hide track preview
-  </div>
-  <div
-    *ngIf="!mapService.isShowingTrackOnMap()"
-    class="toolbar"
-    (click)="toggleMountainDetail()"
-  >
+  <div class="toolbar" (click)="handleClick()">
     {{ mountainStateService.mountainName() }}
   </div>
   <button class="arrow right" (click)="setNextMountainName()">&rarr;</button>
 </div>
-<app-mountain-detail
-  *ngIf="showMountainDetail"
-  mountain="{{ mountainStateService.mountainName() }}"
-></app-mountain-detail>
