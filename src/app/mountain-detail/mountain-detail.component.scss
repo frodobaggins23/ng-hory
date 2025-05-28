@@ -17,4 +17,22 @@
   z-index: 3;
   color: $black;
   border: 0.5rem solid $primary-light;
+
+  .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2rem;
+    cursor: pointer;
+    color: $primary-heavy;
+
+    .icon {
+      width: 2rem;
+      transition: transform 0.3s ease-in-out;
+
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
 }

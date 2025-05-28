@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TableComponent } from './table/table.component';
 import { MapService } from '../services/map.service';
 import { CommonModule } from '@angular/common';
@@ -15,4 +15,5 @@ export class MountainDetailComponent {
     public mapService: MapService,
     public mountainStateService: MountainStateService
   ) {}
+  @Input({ required: true }) handleClose!: () => void;
 }

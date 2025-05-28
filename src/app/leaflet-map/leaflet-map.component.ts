@@ -39,7 +39,7 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
   );
 
   marker!: L.Circle;
-  showMountainDetail: boolean = false;
+  isMountainDetailVisible: boolean = false;
 
   constructor(
     private mountainStateService: MountainStateService,
@@ -66,11 +66,15 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
     console.log('running createMarker');
     this.marker = this.mapService.createMarker(this.mountainCoordinates());
     this.marker.on('click', () => {
-      this.toggleMountainDetail();
+      this.showMountainDetail();
     });
     this.mapService.addMarker(this.marker);
   }
-  toggleMountainDetail() {
-    this.showMountainDetail = !this.showMountainDetail;
+
+  showMountainDetail() {
+    this.isMountainDetailVisible = true;
+  }
+  hideMountainDetail() {
+    this.isMountainDetailVisible = false;
   }
 }
