@@ -1,9 +1,7 @@
-<div class="leaflet-map-container">
-  <div id="map" class="leaflet-map"></div>
-  <app-switcher [handleClick]="showMountainDetail.bind(this)" />
-  <app-hide-track-preview />
-  <app-mountain-detail
-    *ngIf="isMountainDetailVisible"
-    [handleClose]="hideMountainDetail.bind(this)"
-  />
-</div>
+<div id="map" class="leaflet-map"></div>
+<app-switcher [handleClick]="showMountainDetail.bind(this)" />
+<app-hide-track-preview />
+<app-mountain-detail
+  *ngIf="isMountainDetailVisible"
+  [handleClose]="hideMountainDetail.bind(this)"
+/>

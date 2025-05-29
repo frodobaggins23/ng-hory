@@ -1,5 +1,7 @@
 <router-outlet>
-  <app-layout>
-    <app-leaflet-map />
-  </app-layout>
+  <app-intro-page
+    (scrolledPast)="onIntroScrolled()"
+    [scrolled]="introScrolled"
+  ></app-intro-page>
+  <app-leaflet-map *ngIf="showMap"></app-leaflet-map>
 </router-outlet>

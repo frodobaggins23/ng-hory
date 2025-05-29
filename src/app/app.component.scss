@@ -1,2 +1,12 @@
-
-
+/* Make the app scrollable for the intro effect */
+:host {
+  display: block;
+  height: 105vh;
+  position: relative;
+  overflow-y: scroll;
+  transition: height 0.8s, overflow 0.8s;
+}
+:host.scrolled {
+  height: 100vh;
+  overflow: hidden;
+}
