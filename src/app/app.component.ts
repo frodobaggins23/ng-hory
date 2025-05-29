@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
-import { LayoutComponent } from './layout/layout.component';
 import { IntroPageComponent } from './intro-page/intro-page.component';
 import { CommonModule } from '@angular/common';
 
@@ -14,7 +13,6 @@ const TRANSITION_TIME = 300;
     RouterOutlet,
     CommonModule,
     LeafletMapComponent,
-    LayoutComponent,
     IntroPageComponent,
   ],
   templateUrl: './app.component.html',
