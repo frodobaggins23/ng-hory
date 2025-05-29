@@ -1,11 +1,11 @@
 @use "../../styles/_colors.scss" as *;
 
 :host {
+  display: block;
   position: relative;
   height: 100vh;
   width: 100vw;
   z-index: 1;
-  overflow: hidden;
 }
 
 .leaflet-map {
