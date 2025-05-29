@@ -4,7 +4,7 @@ import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
 import { IntroPageComponent } from './intro-page/intro-page.component';
 import { CommonModule } from '@angular/common';
 
-const TRANSITION_TIME = 300;
+const TRANSITION_TIME = 1200;
 
 @Component({
   selector: 'app-root',

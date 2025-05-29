@@ -24,12 +24,30 @@ $transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
     opacity $transition-duration $transition-timing-function $transition-delay;
   will-change: transform, opacity;
   background: linear-gradient(135deg, $primary-light 0%, $secondary-light 100%);
+  overflow: hidden;
 
   &.scrolled {
     height: 100vh;
     transform: translateY(-100vh);
     opacity: 0;
     pointer-events: none;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  &.scrolled::before {
+    opacity: 0;
   }
 }
 
@@ -40,5 +58,28 @@ $transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
 
 .intro-page p {
   font-size: 1.2rem;
-  color: #333;
+}
+
+.intro-bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.intro-page .intro-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  color: $secondary-light;
+  text-shadow: 2px 2px 8px $primary-light;
 }
