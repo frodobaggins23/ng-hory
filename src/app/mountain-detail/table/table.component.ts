@@ -16,6 +16,7 @@ const COLUMNS: Column[] = [
   { name: 'img', onDesktopOnly: true },
   { name: 'description', onDesktopOnly: false },
   { name: 'distance', onDesktopOnly: true },
+  { name: 'elevation', onDesktopOnly: true },
   { name: 'heartRate', onDesktopOnly: true },
   { name: 'duration', onDesktopOnly: false, isLast: true },
 ];

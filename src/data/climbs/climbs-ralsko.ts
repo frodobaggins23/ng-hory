@@ -3,21 +3,23 @@ import { Climb } from '../types';
 export const climbsRalsko: Climb[] = [
   {
     id: 1,
-    date: '2023-04-10',
+    date: '2025-02-15',
     img: '/img/ralsko.jpg',
     description:
-      'Ralsko is a forested hill in the Czech Republic, known for its ruins of a medieval castle at the summit.',
-    duration: '3 hours',
-    distance: '6 km',
-    heartRate: '115 bpm',
+      'Zimní výstup na Ralsko. Sníh a led na vrcholu, ale výhledy stojí za to.',
+    duration: '01:36:03',
+    distance: '4.66 km',
+    heartRate: '131 bpm',
+    elevationGain: 542,
   },
   {
     id: 2,
-    date: '2023-04-11',
+    date: '2025-04-19',
     description:
-      'The hike to Ralsko is peaceful and scenic, with a mix of forest paths and historical landmarks.',
-    duration: '3.5 hours',
-    distance: '7 km',
-    heartRate: '120 bpm',
+      'Jarní výstup na Ralsko. Květy a zelené listí, ideální podmínky.',
+    duration: '01:30:37',
+    distance: '5.37 km',
+    heartRate: '125 bpm',
+    elevationGain: 538,
   },
 ];

@@ -12,5 +12,6 @@ export type Climb = {
   duration: string;
   distance: string;
   heartRate: string;
+  elevationGain: number;
   track?: GeoJSON.GeoJsonObject;
 };

@@ -16,7 +16,7 @@ $grid-template-columns-mobile: minmax(40px, 1fr) minmax(60px, 2fr)
   minmax(20px, 0.5fr) minmax(20px, 0.5fr);
 $grid-template-columns-desktop: minmax(20px, 1fr) minmax(20px, 0.75fr)
   minmax(60px, 2fr) minmax(20px, 1fr) minmax(20px, 1fr) minmax(20px, 1fr)
-  minmax(20px, 0.5fr);
+  minmax(20px, 1fr) minmax(20px, 0.5fr);
 $border: 1px solid $primary-light;
 
 table {

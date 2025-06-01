@@ -5,19 +5,19 @@ TRACKS_ROOT_DIR='./src/data/tracks'
 BLANIK_DIR="${TRACKS_ROOT_DIR}/blanik"
 JESTED_DIR="${TRACKS_ROOT_DIR}/jested"
 LOVOS_DIR="${TRACKS_ROOT_DIR}/lovos"
-RIP_DIR="${TRACKS_ROOT_DIR}/rip"
-SNEZKA_DIR="${TRACKS_ROOT_DIR}/snezka"
 RALSKO_DIR="${TRACKS_ROOT_DIR}/ralsko"
 MILESOVKA_DIR="${TRACKS_ROOT_DIR}/milesovka"
+KOSTALOV_DIR="${TRACKS_ROOT_DIR}/kostalov"
+LIPSKA_HORA_DIR="${TRACKS_ROOT_DIR}/lipska_hora"
 
 MOUNTAINS=(
     "BLANIK"
     "JESTED"
     "LOVOS"
-    "RIP"
-    "SNEZKA"
     "RALSKO"
     "MILESOVKA"
+    "KOSTALOV"
+    "LIPSKA_HORA"
 )
 
 if [ ! -d "./tracks" ]; then

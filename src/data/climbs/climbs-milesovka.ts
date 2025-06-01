@@ -11,6 +11,7 @@ export const climbsMilesovka: Climb[] = [
     duration: '01:33:01',
     distance: '4.55 km',
     heartRate: '137 bpm',
+    elevationGain: 701,
     track: milesovka01 as GeoJSON.GeoJsonObject,
   },
   {
@@ -21,6 +22,7 @@ export const climbsMilesovka: Climb[] = [
     duration: '01:17:33',
     distance: '4.31 km',
     heartRate: '126 bpm',
+    elevationGain: 639,
     track: milesovka02 as GeoJSON.GeoJsonObject,
   },
 ];

@@ -11,6 +11,7 @@ export const climbsJested: Climb[] = [
     duration: '01:47:06',
     distance: '5.87 km',
     heartRate: '137 bpm',
+    elevationGain: 757,
     track: jested01 as GeoJSON.GeoJsonObject,
   },
   {
@@ -21,6 +22,7 @@ export const climbsJested: Climb[] = [
     duration: '01:33:31',
     distance: '5.56 km',
     heartRate: '138 bpm',
+    elevationGain: 742,
     track: jested02 as GeoJSON.GeoJsonObject,
   },
 ];

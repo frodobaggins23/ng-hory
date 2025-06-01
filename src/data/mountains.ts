@@ -1,9 +1,9 @@
 import { Mountain } from './types';
-import { climbsSnezka } from './climbs/climbs-snezka';
+import { climbsKostalov } from './climbs/climbs-kostalov';
 import { climbsJested } from './climbs/climbs-jested';
 import { climbsLovos } from './climbs/climbs-lovos';
 import { climbsMilesovka } from './climbs/climbs-milesovka';
-import { climbsRip } from './climbs/climbs-rip';
+import { climbsLipskaHora } from './climbs/climbs-lipska-hora';
 import { climbsRalsko } from './climbs/climbs-ralsko';
 import { climbsBlanik } from './climbs/climbs-blanik';
 
@@ -12,11 +12,6 @@ export const mountains: Mountain[] = [
     name: 'Ještěd',
     coordinates: [50.7326181, 14.9850481],
     climbs: climbsJested,
-  },
-  {
-    name: 'Sněžka',
-    coordinates: [50.73602, 15.7396017],
-    climbs: climbsSnezka,
   },
   {
     name: 'Lovoš',
@@ -29,11 +24,6 @@ export const mountains: Mountain[] = [
     climbs: climbsMilesovka,
   },
   {
-    name: 'Říp',
-    coordinates: [50.3865333, 14.2896225],
-    climbs: climbsRip,
-  },
-  {
     name: 'Ralsko',
     coordinates: [50.6741994, 14.7659739],
     climbs: climbsRalsko,
@@ -42,5 +32,15 @@ export const mountains: Mountain[] = [
     name: 'Blaník',
     coordinates: [49.6418089, 14.8736789],
     climbs: climbsBlanik,
+  },
+  {
+    name: 'Koštálov',
+    coordinates: [50.4902408, 13.9847233],
+    climbs: climbsKostalov,
+  },
+  {
+    name: 'Lipská hora',
+    coordinates: [50.5124383, 13.9128083],
+    climbs: climbsLipskaHora,
   },
 ];

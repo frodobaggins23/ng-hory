@@ -11,6 +11,7 @@ export const climbsLovos: Climb[] = [
     duration: '01:38:17',
     distance: '5.18 km',
     heartRate: '124 bpm',
+    elevationGain: 633,
     track: lovos01 as GeoJSON.GeoJsonObject,
   },
 ];
