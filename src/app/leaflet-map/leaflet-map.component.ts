@@ -18,8 +18,6 @@ const API_KEY = 'KjyC3fA7h5K85KSxtf8czTIDggXXGkUirvOF_c6Hp_E';
 const MAPY_CZ_URL =
   'https://api.mapy.cz/v1/maptiles/outdoor/256/{z}/{x}/{y}?apikey=' + API_KEY;
 
-const HOME_GPS: L.LatLngExpression = [50.0898917, 14.6692611];
-
 @Component({
   selector: 'app-leaflet-map',
   templateUrl: './leaflet-map.component.html',
@@ -45,12 +43,10 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
     private mountainStateService: MountainStateService,
     private mapService: MapService
   ) {
-    let firstInit = true;
     effect(() => {
       if (this.mapInitialized()) {
         this.createMarker();
-        this.mapService.centerMap(this.mountainCoordinates(), firstInit);
-        firstInit = false;
+        this.mapService.centerMap(this.mountainCoordinates());
       }
     });
   }
@@ -58,7 +54,7 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
   ngOnInit() {}
 
   ngAfterViewInit() {
-    this.mapService.initMap('map', HOME_GPS, 17, MAPY_CZ_URL);
+    this.mapService.initMap('map', this.mountainCoordinates(), 17, MAPY_CZ_URL);
     this.mapInitialized.set(true);
   }
 
