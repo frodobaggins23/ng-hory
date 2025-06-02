@@ -43,3 +43,7 @@ Thumbs.db
 
 # tracks temp files
 tracks-tmp
+
+# envs
+.env
+src/environments/environment.development.ts

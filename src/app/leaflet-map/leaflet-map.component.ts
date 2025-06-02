@@ -13,10 +13,11 @@ import { MapService } from '../services/map.service';
 import { HideTrackPreviewComponent } from '../hide-track-preview/hide-track-preview.component';
 import { MountainDetailComponent } from '../mountain-detail/mountain-detail.component';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../environments/environment';
 
-const API_KEY = 'KjyC3fA7h5K85KSxtf8czTIDggXXGkUirvOF_c6Hp_E';
 const MAPY_CZ_URL =
-  'https://api.mapy.cz/v1/maptiles/outdoor/256/{z}/{x}/{y}?apikey=' + API_KEY;
+  'https://api.mapy.cz/v1/maptiles/outdoor/256/{z}/{x}/{y}?apikey=' +
+  environment['API_KEY'];
 
 @Component({
   selector: 'app-leaflet-map',
