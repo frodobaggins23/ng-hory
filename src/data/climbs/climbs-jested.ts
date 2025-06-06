@@ -5,7 +5,7 @@ export const climbsJested: Climb[] = [
   {
     id: 1,
     date: '2025-02-08',
-    img: '/img/jested.jpg',
+    imgs: ['/img/jested.jpg'],
     description:
       'Zimní výstup, s nesmeky a hůlkami. Není moc sněhu, ale je namrzlo.',
     duration: '01:47:06',
@@ -17,6 +17,7 @@ export const climbsJested: Climb[] = [
   {
     id: 2,
     date: '2025-04-28',
+    imgs: [],
     description:
       'Jarní výšlap. Slunečné počasí, všude se to zelená. Ideální podmínky.',
     duration: '01:33:31',

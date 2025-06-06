@@ -1,6 +1,3 @@
-<div
-  [ngClass]="{ show: isVisible, 'thumbnail-overlay': true }"
-  (click)="handleClick()"
->
+<div [ngClass]="{ show: isVisible, 'thumbnail-overlay': true }">
   <img [src]="imageUrl" alt="Mountain Thumbnail" class="thumbnail" />
 </div>

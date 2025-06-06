@@ -10,5 +10,4 @@ import { Component, Input } from '@angular/core';
 export class ThumbnailComponent {
   @Input() imageUrl: string = '';
   @Input() isVisible: boolean = false;
-  @Input() handleClick!: () => void;
 }

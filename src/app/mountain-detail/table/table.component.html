@@ -19,10 +19,10 @@
         <td>{{ climb.date }}</td>
         <td class="desktop">
           <img
-            src="{{ climb.img }}"
+            *ngIf="climb.imgs && climb.imgs.length > 0"
+            [src]="climb.imgs[0]"
             alt="climb thumbnail"
             (click)="showThumbnail(climb.id)"
-            *ngIf="climb.img"
           />
         </td>
         <td class="large">{{ climb.description }}</td>
@@ -42,8 +42,8 @@
         [content]="climb"
       />
       <app-mountain-detail-thumbnail
-        *ngIf="thumbnailId === climb.id && climb.img"
-        [imageUrl]="climb.img"
+        *ngIf="thumbnailId === climb.id && climb.imgs && climb.imgs.length > 0"
+        [imageUrl]="climb.imgs[0]"
         (click)="hideThumbnail()"
         [isVisible]="thumbnailId === climb.id"
       />
