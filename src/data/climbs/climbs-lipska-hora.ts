@@ -5,7 +5,7 @@ export const climbsLipskaHora: Climb[] = [
   {
     id: 1,
     date: '2025-05-24',
-    imgs: ['/img/lipska_hora.jpg'],
+    imgs: ['lipska_hora.jpg'],
     description:
       'Prvovýstup na vrchol Lipské hory. Vyhlídka nahoře byla úchvatná. Když jsem tam dorazil, spontálně jsem udělal wow.',
     duration: '0:39:03',

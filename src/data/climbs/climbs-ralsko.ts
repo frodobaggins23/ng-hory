@@ -4,7 +4,7 @@ export const climbsRalsko: Climb[] = [
   {
     id: 1,
     date: '2025-02-15',
-    imgs: ['/img/ralsko.jpg'],
+    imgs: ['ralsko.jpg'],
     description:
       'Zimní výstup na Ralsko. Sníh a led na vrcholu, ale výhledy stojí za to.',
     duration: '01:36:03',

@@ -1,4 +1,5 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
+import { ImageService } from '../../services/image.service';
 import { MountainStateService } from '../../services/mountain-state.service';
 import { CommonModule } from '@angular/common';
 import { ThumbnailComponent } from '../thumbnail/thumbnail.component';
@@ -33,7 +34,10 @@ const COLUMNS: Column[] = [
   styleUrl: './table.component.scss',
 })
 export class TableComponent {
-  constructor(private mountainStateService: MountainStateService) {}
+  constructor(
+    private mountainStateService: MountainStateService,
+    public imageService: ImageService
+  ) {}
   @Input() mountainName: string = '';
   mountainDetail!: ReturnType<MountainStateService['getCurrentMountain']>;
   columns = COLUMNS;

@@ -20,7 +20,7 @@
         <td class="desktop">
           <img
             *ngIf="climb.imgs && climb.imgs.length > 0"
-            [src]="climb.imgs[0]"
+            [src]="imageService.getCdnUrl(climb.imgs[0])"
             alt="climb thumbnail"
             (click)="showThumbnail(climb.id)"
           />
@@ -43,7 +43,7 @@
       />
       <app-mountain-detail-thumbnail
         *ngIf="thumbnailId === climb.id && climb.imgs && climb.imgs.length > 0"
-        [imageUrl]="climb.imgs[0]"
+        [imageUrl]="imageService.getCdnUrl(climb.imgs[0])"
         (click)="hideThumbnail()"
         [isVisible]="thumbnailId === climb.id"
       />

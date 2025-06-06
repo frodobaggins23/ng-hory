@@ -5,7 +5,7 @@ export const climbsMilesovka: Climb[] = [
   {
     id: 1,
     date: '2025-01-25',
-    imgs: ['/img/milesovka.jpg'],
+    imgs: ['milesovka.jpg'],
     description:
       'Zimní výstup. Nebylo ani tolik sněhu, ale na vrcholu byl led. Bez nesmeků to nešlo.',
     duration: '01:33:01',
