@@ -1,0 +1,54 @@
+.gallery-wrapper {
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 16/9;
+  background: #000;
+  position: relative;
+  overflow: hidden;
+  min-width: 320px;
+  min-height: 180px;
+  margin: 0 auto;
+}
+
+.gallery-arrows {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  padding: 0 0.6em;
+  z-index: 2;
+  pointer-events: none; /* allow image by default to get events, except buttons below */
+}
+
+.gallery-arrow {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+  z-index: 3;
+  padding: 0 8px;
+  height: 100%;
+}
+
+.arrow-svg {
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0 1px 4px #1118);
+  user-select: none;
+}
+
+.gallery-image {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+  background: #000;
+  object-fit: contain;
+}

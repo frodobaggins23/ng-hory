@@ -1,6 +1,8 @@
 <tr [ngClass]="{ visible: expanded, container: true }">
-  <td class="expandContent">expand-content works!</td>
-  <button *ngIf="!!content?.track" (click)="showTrack(content.track!)">
+  <td class="expandContent">
+    <app-photo-gallery *ngIf="hasImages" [images]="images"></app-photo-gallery>
+  </td>
+  <button *ngIf="hasTrack" (click)="showTrack(content.track!)">
     Trasa
   </button>
 </tr>

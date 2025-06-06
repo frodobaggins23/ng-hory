@@ -1,0 +1,25 @@
+<div class="gallery-wrapper" *ngIf="hasImages">
+  <div class="gallery-arrows" *ngIf="hasMultipleImages">
+    <button
+      class="gallery-arrow left"
+      (click)="prev()"
+      type="button"
+      aria-label="Previous image"
+    >
+      <img src="/img/icons/arrow_left.svg" alt="Previous" class="arrow-svg" />
+    </button>
+    <button
+      class="gallery-arrow right"
+      (click)="next()"
+      type="button"
+      aria-label="Next image"
+    >
+      <img src="/img/icons/arrow_right.svg" alt="Next" class="arrow-svg" />
+    </button>
+  </div>
+  <img
+    [src]="imageService.getCdnUrl(images[currentIndex])"
+    alt="Photo gallery image"
+    class="gallery-image"
+  />
+</div>
