@@ -3,10 +3,12 @@ import { Component, Input } from '@angular/core';
 import { MapService } from '../../services/map.service';
 import { Climb } from '../../../data/types';
 import { PhotoGalleryComponent } from '../../photo-gallery/photo-gallery.component';
+import { SpeedmeterComponent } from '../speedmeter/speedmeter.component';
+import { ClimbDescriptionComponent } from '../climb-description/climb-description.component';
 
 @Component({
   selector: 'app-mountain-detail-expand-content',
-  imports: [CommonModule, PhotoGalleryComponent],
+  imports: [CommonModule, PhotoGalleryComponent, SpeedmeterComponent, ClimbDescriptionComponent],
   templateUrl: './expand-content.component.html',
   styleUrl: './expand-content.component.scss',
 })
