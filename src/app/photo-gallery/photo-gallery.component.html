@@ -18,8 +18,9 @@
     </button>
   </div>
   <img
-    [src]="imageService.getCdnUrl(images[currentIndex])"
+    [src]="currentImageUrl"
     alt="Photo gallery image"
     class="gallery-image"
+    (click)="openPreview()"
   />
 </div>

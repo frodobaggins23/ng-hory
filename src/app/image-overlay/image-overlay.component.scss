@@ -1,0 +1,39 @@
+.image-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease, backdrop-filter 0.3s ease;
+  cursor: pointer;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.image-overlay.show {
+  opacity: 1;
+}
+
+.overlay-image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  cursor: default;
+}
+
+.overlay-image:hover {
+  transform: scale(1.02);
+}

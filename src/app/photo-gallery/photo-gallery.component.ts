@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImageService } from '../services/image.service';
+import { OverlayService } from '../services/overlay.service';
 
 @Component({
   selector: 'app-photo-gallery',
@@ -10,7 +11,10 @@ import { ImageService } from '../services/image.service';
   styleUrl: './photo-gallery.component.scss'
 })
 export class PhotoGalleryComponent {
-  constructor(public imageService: ImageService) {}
+  constructor(
+    public imageService: ImageService,
+    private overlayService: OverlayService
+  ) {}
 
   @Input() images: string[] = [];
   currentIndex = 0;
@@ -23,6 +27,10 @@ export class PhotoGalleryComponent {
     return this.images.length > 1;
   }
 
+  get currentImageUrl(): string {
+    return this.hasImages ? this.imageService.getCdnUrl(this.images[this.currentIndex]) : '';
+  }
+
   prev(): void {
     if (!this.images.length) return;
     this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
@@ -31,5 +39,12 @@ export class PhotoGalleryComponent {
   next(): void {
     if (!this.images.length) return;
     this.currentIndex = (this.currentIndex + 1) % this.images.length;
+  }
+
+  openPreview(): void {
+    this.overlayService.openImageOverlay({
+      imageUrl: this.currentImageUrl,
+      altText: 'Gallery image preview'
+    });
   }
 }

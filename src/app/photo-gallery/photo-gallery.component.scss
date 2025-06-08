@@ -51,4 +51,10 @@
   margin: 0 auto;
   background: #000;
   object-fit: contain;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.gallery-image:hover {
+  transform: scale(1.02);
 }

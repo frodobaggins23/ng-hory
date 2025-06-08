@@ -1,0 +1,12 @@
+<div 
+  class="image-overlay" 
+  [class.show]="isVisible"
+  (click)="onOverlayClick()"
+>
+  <img 
+    [src]="imageUrl" 
+    [alt]="altText" 
+    class="overlay-image"
+    (click)="$event.stopPropagation()"
+  />
+</div>

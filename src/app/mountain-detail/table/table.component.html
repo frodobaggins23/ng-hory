@@ -41,12 +41,6 @@
         [expanded]="expandedColumn === climb.id"
         [content]="climb"
       />
-      <app-mountain-detail-thumbnail
-        *ngIf="thumbnailId === climb.id && climb.imgs && climb.imgs.length > 0"
-        [imageUrl]="imageService.getCdnUrl(climb.imgs[0])"
-        (click)="hideThumbnail()"
-        [isVisible]="thumbnailId === climb.id"
-      />
     </ng-container>
   </tbody>
 </table>
