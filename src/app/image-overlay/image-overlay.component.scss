@@ -37,3 +37,27 @@
 .overlay-image:hover {
   transform: scale(1.02);
 }
+
+/* Close Button */
+.overlay-close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+  z-index: 10001;
+}
+
+.overlay-close-button:hover {
+  background: rgba(0, 0, 0, 0.8);
+}

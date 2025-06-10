@@ -5,6 +5,7 @@
       (click)="prev()"
       type="button"
       aria-label="Previous image"
+      [disabled]="isLoading"
     >
       <img src="/img/icons/arrow_left.svg" alt="Previous" class="arrow-svg" />
     </button>
@@ -13,14 +14,36 @@
       (click)="next()"
       type="button"
       aria-label="Next image"
+      [disabled]="isLoading"
     >
       <img src="/img/icons/arrow_right.svg" alt="Next" class="arrow-svg" />
     </button>
   </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="gallery-loading">
+    <div class="loading-spinner"></div>
+    <span class="loading-text">Loading image...</span>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="hasError" class="gallery-error">
+    <div class="error-icon">⚠️</div>
+    <span class="error-text">Failed to load image</span>
+    <button class="retry-button" (click)="retryLoad()">Retry</button>
+  </div>
+
+  <!-- Image Display -->
   <img
+    *ngIf="currentImageUrl && !isLoading && !hasError"
     [src]="currentImageUrl"
     alt="Photo gallery image"
     class="gallery-image"
     (click)="openPreview()"
   />
+
+  <!-- Cache Indicator -->
+  <div *ngIf="currentImageState.fromCache && !isLoading && !hasError" class="cache-indicator">
+    📁 Cached
+  </div>
 </div>

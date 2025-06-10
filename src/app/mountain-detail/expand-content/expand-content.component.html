@@ -4,7 +4,7 @@
       <div class="top-section">
         <div class="left-section">
           <div class="gallery-section" *ngIf="hasImages">
-            <app-photo-gallery [images]="images"></app-photo-gallery>
+            <app-photo-gallery [images]="images" [mountainName]="mountainName"></app-photo-gallery>
           </div>
           <app-climb-description 
             *ngIf="!hasImages" 

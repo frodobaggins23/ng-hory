@@ -1,12 +1,19 @@
 <div 
   class="image-overlay" 
   [class.show]="isVisible"
-  (click)="onOverlayClick()"
 >
   <img 
     [src]="imageUrl" 
     [alt]="altText" 
     class="overlay-image"
-    (click)="$event.stopPropagation()"
   />
+
+  <!-- Close Button -->
+  <button 
+    class="overlay-close-button" 
+    (click)="closeOverlay.emit()"
+    aria-label="Close image preview"
+  >
+    ✕
+  </button>
 </div>

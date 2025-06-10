@@ -1,10 +1,12 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
-import { ImageService } from '../../services/image.service';
+import { Component, Input, SimpleChanges, OnDestroy } from '@angular/core';
+import { ImageService, ImageLoadResult } from '../../services/image.service';
 import { MountainStateService } from '../../services/mountain-state.service';
 import { OverlayService } from '../../services/overlay.service';
 import { CommonModule } from '@angular/common';
 import { ExpandIconComponent } from '../expand-icon/expand-icon.component';
 import { ExpandContentComponent } from '../expand-content/expand-content.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 type Column = {
   name: string;
@@ -28,26 +30,114 @@ const COLUMNS: Column[] = [
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
-export class TableComponent {
+export class TableComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
+  private thumbnailCache = new Map<number, { url: string; loading: boolean; error: boolean }>();
+
   constructor(
     private mountainStateService: MountainStateService,
     public imageService: ImageService,
     private overlayService: OverlayService
   ) {}
+
   @Input() mountainName: string = '';
   mountainDetail!: ReturnType<MountainStateService['getCurrentMountain']>;
   columns = COLUMNS;
   expandedColumn: number | null = null;
 
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+
+    // Clean up blob URLs
+    this.thumbnailCache.forEach(thumb => {
+      if (thumb.url && thumb.url.startsWith('blob:')) {
+        URL.revokeObjectURL(thumb.url);
+      }
+    });
+  }
+
   getCurrentMountain() {
     this.mountainDetail = this.mountainStateService.getCurrentMountain();
+    // Clear thumbnail cache when mountain changes
+    this.thumbnailCache.clear();
+    // Load thumbnails for visible climbs
+    this.loadVisibleThumbnails();
+  }
+
+  private loadVisibleThumbnails() {
+    if (!this.mountainDetail.climbs || !this.mountainName) return;
+    
+    this.mountainDetail.climbs.forEach(climb => {
+      if (climb.imgs && climb.imgs.length > 0) {
+        this.loadThumbnail(climb.id);
+      }
+    });
+  }
+
+  getThumbnailUrl(climbId: number): string {
+    const cached = this.thumbnailCache.get(climbId);
+    if (cached && !cached.loading && !cached.error) {
+      return cached.url;
+    }
+    return '';
+  }
+
+  isThumbnailLoading(climbId: number): boolean {
+    const cached = this.thumbnailCache.get(climbId);
+    return cached?.loading || false;
+  }
+
+  hasThumbnailError(climbId: number): boolean {
+    const cached = this.thumbnailCache.get(climbId);
+    return cached?.error || false;
+  }
+
+  loadThumbnail(climbId: number) {
+    const climb = this.mountainDetail.climbs?.find((c) => c.id === climbId);
+    if (!climb || !climb.imgs || climb.imgs.length === 0 || !this.mountainName) {
+      return;
+    }
+
+    // Check if already loading or loaded
+    const cached = this.thumbnailCache.get(climbId);
+    if (cached) {
+      return;
+    }
+
+    // Set loading state
+    this.thumbnailCache.set(climbId, { url: '', loading: true, error: false });
+
+    // Load image from Drive
+    const imageName = climb.imgs[0];
+    this.imageService.getImageUrl(this.mountainName, imageName).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
+      next: (result: ImageLoadResult) => {
+        this.thumbnailCache.set(climbId, { 
+          url: result.url, 
+          loading: false, 
+          error: false 
+        });
+      },
+      error: (error) => {
+        console.error('Error loading thumbnail:', error);
+        this.thumbnailCache.set(climbId, { 
+          url: '', 
+          loading: false, 
+          error: true 
+        });
+      }
+    });
   }
 
   showThumbnail(id: number) {
+    const thumbnailUrl = this.getThumbnailUrl(id);
     const climb = this.mountainDetail.climbs?.find((c) => c.id === id);
-    if (climb && climb.imgs && climb.imgs.length > 0) {
+    
+    if (thumbnailUrl && climb) {
       this.overlayService.openImageOverlay({
-        imageUrl: this.imageService.getCdnUrl(climb.imgs[0]),
+        imageUrl: thumbnailUrl,
         altText: `Climb thumbnail for ${climb.date}`,
       });
     }

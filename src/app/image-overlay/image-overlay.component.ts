@@ -14,12 +14,8 @@ export class ImageOverlayComponent {
   @Input() isVisible: boolean = false;
   @Output() closeOverlay = new EventEmitter<void>();
 
-  onOverlayClick(): void {
-    this.closeOverlay.emit();
-  }
-
-  @HostListener('document:keydown.escape', ['$event'])
-  onEscapeKey(event: KeyboardEvent): void {
+  @HostListener('document:keydown.escape')
+  onEscapeKey(): void {
     this.closeOverlay.emit();
   }
 }
