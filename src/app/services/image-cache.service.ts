@@ -27,7 +27,7 @@ export class ImageCacheService {
   private readonly DB_NAME = 'HoryImageCache';
   private readonly DB_VERSION = 1;
   private readonly STORE_NAME = 'imageCache';
-  private readonly MAX_IMAGES = 15;
+  private readonly MAX_IMAGES = 50;
   private readonly MAX_SIZE_PER_IMAGE = 5 * 1024 * 1024; // 5MB
   private db: IDBDatabase | null = null;
 

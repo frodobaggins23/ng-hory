@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { map, switchMap, catchError, tap } from 'rxjs/operators';
+import { map, switchMap, catchError, tap, share } from 'rxjs/operators';
 import { GoogleDriveService, DriveImageMetadata } from './google-drive.service';
 import { ImageCacheService } from './image-cache.service';
 import { mountains } from '../../data/mountains';
@@ -16,6 +16,8 @@ export interface ImageLoadResult {
 })
 export class ImageService {
   private folderImageCache = new Map<string, DriveImageMetadata[]>();
+  private pendingFolderRequests = new Map<string, Observable<DriveImageMetadata[]>>();
+  private pendingImageRequests = new Map<string, Observable<ImageLoadResult>>();
 
   constructor(
     private driveService: GoogleDriveService,
@@ -26,6 +28,7 @@ export class ImageService {
    * Get image URL for display - cache first, then Drive download
    */
   getImageUrl(mountainName: string, imageName: string): Observable<ImageLoadResult> {
+    const imageKey = `${mountainName}:${imageName}`;
     const mountainId = mountainName.toLowerCase().replace(/\s+/g, '-');
     
     // First check cache
@@ -41,8 +44,29 @@ export class ImageService {
           });
         }
 
+        // Check if download is already pending for this image
+        const pendingRequest = this.pendingImageRequests.get(imageKey);
+        if (pendingRequest) {
+          return pendingRequest;
+        }
+
         // Not in cache - download from Drive
-        return this.downloadAndCacheImage(mountainName, imageName);
+        const downloadRequest$ = this.downloadAndCacheImage(mountainName, imageName).pipe(
+          tap(() => {
+            // Remove from pending requests when completed
+            this.pendingImageRequests.delete(imageKey);
+          }),
+          catchError(error => {
+            // Remove from pending requests on error
+            this.pendingImageRequests.delete(imageKey);
+            return throwError(() => error);
+          }),
+          share() // Share the Observable to prevent multiple downloads
+        );
+
+        // Cache the pending request
+        this.pendingImageRequests.set(imageKey, downloadRequest$);
+        return downloadRequest$;
       }),
       catchError(error => {
         console.error('Error loading image:', error);
@@ -66,18 +90,33 @@ export class ImageService {
       return of(cached);
     }
 
-    // Inspect Drive folder
-    return this.driveService.inspectFolder(mountain.driveFolderId).pipe(
+    // Check if request is already pending
+    const pending = this.pendingFolderRequests.get(mountainName);
+    if (pending) {
+      return pending;
+    }
+
+    // Create new request and cache it
+    const request$ = this.driveService.inspectFolder(mountain.driveFolderId).pipe(
       tap(result => {
         // Cache the metadata
         this.folderImageCache.set(mountainName, result.images);
+        // Remove from pending requests
+        this.pendingFolderRequests.delete(mountainName);
       }),
       map(result => result.images),
       catchError(error => {
         console.error('Error preloading mountain images:', error);
+        // Remove from pending requests on error
+        this.pendingFolderRequests.delete(mountainName);
         return throwError(() => error);
-      })
+      }),
+      share() // Share the Observable to prevent multiple API calls
     );
+
+    // Cache the pending request
+    this.pendingFolderRequests.set(mountainName, request$);
+    return request$;
   }
 
   /**
