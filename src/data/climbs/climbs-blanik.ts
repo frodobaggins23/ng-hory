@@ -5,7 +5,7 @@ export const climbsBlanik: Climb[] = [
   {
     id: 1,
     date: '2025-03-03',
-    imgs: ['blanik.jpg'],
+    imgs: ['blanik01a02_01.jpg', 'blanik01a02_02.jpg'],
     description: 'Klasický výstup, ze zadu od Kondrace. Pohodové tempo.',
     duration: '00:46:54',
     distance: '2.69 km',
@@ -16,7 +16,7 @@ export const climbsBlanik: Climb[] = [
   {
     id: 2,
     date: '2025-03-03',
-    imgs: ['blanik.jpg'],
+    imgs: ['blanik01a02_01.jpg', 'blanik01a02_02.jpg', 'blanik02_01.jpg', 'blanik02_02.jpg'],
     description: 'Výstup od parkoviště na čas.',
     duration: '00:16:51',
     distance: '1 km',
@@ -27,7 +27,7 @@ export const climbsBlanik: Climb[] = [
   {
     id: 3,
     date: '2025-05-31',
-    imgs: ['blanik.jpg'],
+    imgs: ['blanik03_01.jpg'],
     description: 'Výstup od parkoviště na čas. Tentokrát s kamarádem.',
     duration: '00:15:34',
     distance: '1 km',

@@ -5,7 +5,7 @@ export const climbsLovos: Climb[] = [
   {
     id: 1,
     date: '2025-01-12',
-    imgs: ['lovos.jpg'],
+    imgs: ['lovos01_01.jpg', 'lovos01_02.jpg', 'lovos01_03.jpg', 'lovos01_04.jpg', 'lovos01_05.jpg', 'lovos01_06.jpg'],
     description:
       'Zimní výstup na Lovoš. Bez nesmeků to nešlo. Sníh a led na vrcholu.',
     duration: '01:38:17',
