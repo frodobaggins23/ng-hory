@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
-  apiKey: '', // Placeholder for API key (legacy)
+  apiKey: 'KjyC3fA7h5K85KSxtf8czTIDggXXGkUirvOF_c6Hp_E', // Placeholder for API key (legacy)
   cdnHost: 'https://ik.imagekit.io/', // Legacy CDN (will be replaced by Drive)
-  cdnFolder: '', // Placeholder for CDN folder (legacy)
+  cdnFolder: 'a2nerrafe', // Placeholder for CDN folder (legacy)
   
   // Google Drive configuration - injected by scripts/inject-env.js
   googleDriveApiKey: '', // Placeholder for Google Drive API key

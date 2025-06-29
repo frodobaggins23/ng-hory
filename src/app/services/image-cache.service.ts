@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, from, throwError } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
+import { IndexedDBUtils, RxJSUtils } from '../utils';
 
 export interface CachedImage {
   id: string;           // composite key: "mountainId:imageName"
@@ -65,31 +66,26 @@ export class ImageCacheService {
     
     return from(this.ensureDB()).pipe(
       switchMap(() => {
-        return new Promise<Blob | null>((resolve, reject) => {
-          const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
-          const store = transaction.objectStore(this.STORE_NAME);
-          const request = store.get(key);
-
-          request.onsuccess = () => {
-            const cachedImage: CachedImage | undefined = request.result;
-            
+        return from(
+          IndexedDBUtils.wrapOperation(() => {
+            const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
+            const store = transaction.objectStore(this.STORE_NAME);
+            return store.get(key);
+          }).then((cachedImage: CachedImage | undefined) => {
             if (cachedImage) {
-              // Update last accessed time
+              // Update last accessed time in a separate transaction
               cachedImage.lastAccessed = new Date();
-              store.put(cachedImage);
-              resolve(cachedImage.blob);
-            } else {
-              resolve(null);
+              return IndexedDBUtils.wrapOperation(() => {
+                const updateTransaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
+                const updateStore = updateTransaction.objectStore(this.STORE_NAME);
+                return updateStore.put(cachedImage);
+              }).then(() => cachedImage.blob);
             }
-          };
-
-          request.onerror = () => reject(request.error);
-        });
+            return null;
+          })
+        );
       }),
-      catchError(error => {
-        console.error('Error getting cached image:', error);
-        return throwError(() => error);
-      })
+      catchError(RxJSUtils.logAndRethrow('Error getting cached image'))
     );
   }
 
@@ -111,31 +107,27 @@ export class ImageCacheService {
     return from(this.ensureDB()).pipe(
       switchMap(() => this.evictIfNeeded()),
       switchMap(() => {
-        return new Promise<void>((resolve, reject) => {
-          const cachedImage: CachedImage = {
-            id: key,
-            mountainId,
-            imageName,
-            blob,
-            mimeType: blob.type,
-            size: blob.size,
-            lastAccessed: new Date(),
-            downloadDate: new Date(),
-            driveFileId
-          };
+        const cachedImage: CachedImage = {
+          id: key,
+          mountainId,
+          imageName,
+          blob,
+          mimeType: blob.type,
+          size: blob.size,
+          lastAccessed: new Date(),
+          downloadDate: new Date(),
+          driveFileId
+        };
 
-          const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
-          const store = transaction.objectStore(this.STORE_NAME);
-          const request = store.put(cachedImage);
-
-          request.onsuccess = () => resolve();
-          request.onerror = () => reject(request.error);
-        });
+        return from(
+          IndexedDBUtils.wrapOperation(() => {
+            const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
+            const store = transaction.objectStore(this.STORE_NAME);
+            return store.put(cachedImage);
+          }).then(() => void 0)
+        );
       }),
-      catchError(error => {
-        console.error('Error storing image:', error);
-        return throwError(() => error);
-      })
+      catchError(RxJSUtils.logAndRethrow('Error storing image'))
     );
   }
 
@@ -145,29 +137,22 @@ export class ImageCacheService {
   getCacheStats(): Observable<CacheStats> {
     return from(this.ensureDB()).pipe(
       switchMap(() => {
-        return new Promise<CacheStats>((resolve, reject) => {
-          const transaction = this.db!.transaction([this.STORE_NAME], 'readonly');
-          const store = transaction.objectStore(this.STORE_NAME);
-          const request = store.getAll();
-
-          request.onsuccess = () => {
-            const images: CachedImage[] = request.result;
+        return from(
+          IndexedDBUtils.wrapOperation(() => {
+            const transaction = this.db!.transaction([this.STORE_NAME], 'readonly');
+            const store = transaction.objectStore(this.STORE_NAME);
+            return store.getAll();
+          }).then((images: CachedImage[]) => {
             const totalSize = images.reduce((sum, img) => sum + img.size, 0);
-            
-            resolve({
+            return {
               totalImages: images.length,
               totalSize,
               availableSlots: this.MAX_IMAGES - images.length
-            });
-          };
-
-          request.onerror = () => reject(request.error);
-        });
+            };
+          })
+        );
       }),
-      catchError(error => {
-        console.error('Error getting cache stats:', error);
-        return throwError(() => error);
-      })
+      catchError(RxJSUtils.logAndRethrow('Error getting cache stats'))
     );
   }
 
@@ -177,19 +162,15 @@ export class ImageCacheService {
   clearCache(): Observable<void> {
     return from(this.ensureDB()).pipe(
       switchMap(() => {
-        return new Promise<void>((resolve, reject) => {
-          const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
-          const store = transaction.objectStore(this.STORE_NAME);
-          const request = store.clear();
-
-          request.onsuccess = () => resolve();
-          request.onerror = () => reject(request.error);
-        });
+        return from(
+          IndexedDBUtils.wrapOperation(() => {
+            const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
+            const store = transaction.objectStore(this.STORE_NAME);
+            return store.clear();
+          })
+        );
       }),
-      catchError(error => {
-        console.error('Error clearing cache:', error);
-        return throwError(() => error);
-      })
+      catchError(RxJSUtils.logAndRethrow('Error clearing cache'))
     );
   }
 

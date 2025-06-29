@@ -4,6 +4,7 @@ import { map, switchMap, catchError, tap, share } from 'rxjs/operators';
 import { GoogleDriveService, DriveImageMetadata } from './google-drive.service';
 import { ImageCacheService } from './image-cache.service';
 import { mountains } from '../../data/mountains';
+import { MountainUtils, RxJSUtils, BlobUtils } from '../utils';
 
 export interface ImageLoadResult {
   url: string;
@@ -28,15 +29,15 @@ export class ImageService {
    * Get image URL for display - cache first, then Drive download
    */
   getImageUrl(mountainName: string, imageName: string): Observable<ImageLoadResult> {
-    const imageKey = `${mountainName}:${imageName}`;
-    const mountainId = mountainName.toLowerCase().replace(/\s+/g, '-');
+    const imageKey = MountainUtils.createImageKey(mountainName, imageName);
+    const mountainId = MountainUtils.normalizeMountainName(mountainName);
     
     // First check cache
     return this.cacheService.getImage(mountainId, imageName).pipe(
       switchMap(cachedBlob => {
         if (cachedBlob) {
           // Return cached image
-          const url = URL.createObjectURL(cachedBlob);
+          const url = BlobUtils.createBlobUrl(cachedBlob);
           return of({
             url,
             fromCache: true,
@@ -52,15 +53,7 @@ export class ImageService {
 
         // Not in cache - download from Drive
         const downloadRequest$ = this.downloadAndCacheImage(mountainName, imageName).pipe(
-          tap(() => {
-            // Remove from pending requests when completed
-            this.pendingImageRequests.delete(imageKey);
-          }),
-          catchError(error => {
-            // Remove from pending requests on error
-            this.pendingImageRequests.delete(imageKey);
-            return throwError(() => error);
-          }),
+          RxJSUtils.cleanupMapEntry(this.pendingImageRequests, imageKey),
           share() // Share the Observable to prevent multiple downloads
         );
 
@@ -101,16 +94,10 @@ export class ImageService {
       tap(result => {
         // Cache the metadata
         this.folderImageCache.set(mountainName, result.images);
-        // Remove from pending requests
-        this.pendingFolderRequests.delete(mountainName);
       }),
       map(result => result.images),
-      catchError(error => {
-        console.error('Error preloading mountain images:', error);
-        // Remove from pending requests on error
-        this.pendingFolderRequests.delete(mountainName);
-        return throwError(() => error);
-      }),
+      RxJSUtils.cleanupMapEntry(this.pendingFolderRequests, mountainName),
+      catchError(RxJSUtils.logAndRethrow('Error preloading mountain images')),
       share() // Share the Observable to prevent multiple API calls
     );
 
@@ -148,12 +135,12 @@ export class ImageService {
         // Download the image
         return this.driveService.downloadImage(imageMetadata.id).pipe(
           switchMap(blob => {
-            const mountainId = mountainName.toLowerCase().replace(/\s+/g, '-');
+            const mountainId = MountainUtils.normalizeMountainName(mountainName);
             
             // Store in cache
             return this.cacheService.storeImage(mountainId, imageName, blob, imageMetadata.id).pipe(
               map(() => ({
-                url: URL.createObjectURL(blob),
+                url: BlobUtils.createBlobUrl(blob),
                 fromCache: false,
                 size: blob.size
               }))

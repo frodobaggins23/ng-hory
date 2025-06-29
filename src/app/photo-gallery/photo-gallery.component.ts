@@ -4,13 +4,8 @@ import { Subject, BehaviorSubject, of } from 'rxjs';
 import { takeUntil, catchError } from 'rxjs/operators';
 import { ImageService, ImageLoadResult } from '../services/image.service';
 import { OverlayService } from '../services/overlay.service';
+import { BlobUtils, ImageState, ImageStateUtils } from '../utils';
 
-interface ImageState {
-  url: string | null;
-  loading: boolean;
-  error: string | null;
-  fromCache: boolean;
-}
 
 @Component({
   selector: 'app-photo-gallery',
@@ -22,12 +17,9 @@ interface ImageState {
 export class PhotoGalleryComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private imageStates = new Map<string, ImageState>();
-  private currentImageState$ = new BehaviorSubject<ImageState>({
-    url: null,
-    loading: false,
-    error: null,
-    fromCache: false
-  });
+  private currentImageState$ = new BehaviorSubject<ImageState>(
+    ImageStateUtils.createInitialState()
+  );
 
   constructor(
     private imageService: ImageService,
@@ -49,11 +41,7 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
     
     // Clean up blob URLs to prevent memory leaks
-    this.imageStates.forEach(state => {
-      if (state.url && state.url.startsWith('blob:')) {
-        URL.revokeObjectURL(state.url);
-      }
-    });
+    BlobUtils.revokeBlobUrlsFromMap(this.imageStates);
   }
 
   get hasImages(): boolean {
@@ -93,13 +81,7 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
     }
 
     // Set loading state
-    const loadingState: ImageState = {
-      url: null,
-      loading: true,
-      error: null,
-      fromCache: false
-    };
-    this.currentImageState$.next(loadingState);
+    ImageStateUtils.setLoading(this.currentImageState$);
 
     // Load image from Drive
     this.imageService.getImageUrl(this.mountainName, imageName).pipe(
@@ -113,12 +95,9 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
         } as ImageLoadResult & { error: string });
       })
     ).subscribe(result => {
-      const newState: ImageState = {
-        url: result.url,
-        loading: false,
-        error: (result as any).error || null,
-        fromCache: result.fromCache
-      };
+      const newState = (result as any).error 
+        ? ImageStateUtils.createErrorState((result as any).error)
+        : ImageStateUtils.createSuccessState(result);
 
       // Cache the state
       this.imageStates.set(imageName, newState);

@@ -7,6 +7,7 @@ import { ExpandIconComponent } from '../expand-icon/expand-icon.component';
 import { ExpandContentComponent } from '../expand-content/expand-content.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { BlobUtils } from '../../utils';
 
 type Column = {
   name: string;
@@ -50,11 +51,7 @@ export class TableComponent implements OnDestroy {
     this.destroy$.complete();
 
     // Clean up blob URLs
-    this.thumbnailCache.forEach(thumb => {
-      if (thumb.url && thumb.url.startsWith('blob:')) {
-        URL.revokeObjectURL(thumb.url);
-      }
-    });
+    BlobUtils.revokeBlobUrlsFromMap(this.thumbnailCache);
   }
 
   getCurrentMountain() {

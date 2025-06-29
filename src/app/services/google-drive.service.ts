@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, from, throwError } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { RxJSUtils } from '../utils';
 
 export interface DriveImageMetadata {
   id: string;
@@ -58,10 +59,7 @@ export class GoogleDriveService {
           };
         })
     ).pipe(
-      catchError(error => {
-        console.error('Error inspecting Drive folder:', error);
-        return throwError(() => error);
-      })
+      catchError(RxJSUtils.logAndRethrow('Error inspecting Drive folder'))
     );
   }
 
@@ -80,10 +78,7 @@ export class GoogleDriveService {
           return response.blob();
         })
     ).pipe(
-      catchError(error => {
-        console.error('Error downloading image:', error);
-        return throwError(() => error);
-      })
+      catchError(RxJSUtils.logAndRethrow('Error downloading image'))
     );
   }
 
