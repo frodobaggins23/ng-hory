@@ -122,7 +122,17 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
     
     this.overlayService.openImageOverlay({
       imageUrl: this.currentImageUrl,
-      altText: 'Gallery image preview'
+      altText: 'Gallery image preview',
+      images: this.images,
+      showNavigation: this.hasMultipleImages,
+      onNavigateNext: () => {
+        this.next();
+        this.overlayService.updateOverlayImage(this.currentImageUrl);
+      },
+      onNavigatePrev: () => {
+        this.prev();
+        this.overlayService.updateOverlayImage(this.currentImageUrl);
+      } 
     });
   }
 

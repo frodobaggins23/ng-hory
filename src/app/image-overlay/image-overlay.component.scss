@@ -1,3 +1,7 @@
+$icons-size: 2.53vw; // 50px at 1980px viewport width
+$icons-min-size: 30px; // Minimum size for icons
+$icons-max-size: 50px; // Maximum size for icons
+
 .image-overlay {
   position: fixed;
   top: 0;
@@ -60,4 +64,56 @@
 
 .overlay-close-button:hover {
   background: rgba(0, 0, 0, 0.8);
+}
+
+.overlay-navigation {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  pointer-events: none;
+  padding: 0 20px;
+  z-index: 10001;
+}
+
+.overlay-nav-button {
+  background: none;
+  border: none;
+  width: $icons-size;
+  min-width: $icons-min-size;
+  max-width: $icons-max-size;
+  max-height: $icons-max-size;
+  min-height: $icons-min-size;
+  height: $icons-size;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  pointer-events: auto;
+}
+
+.overlay-nav-button:hover {
+  transform: scale(1.1);
+}
+
+.overlay-nav-button.prev, .overlay-nav-button.next {
+  transform: translateY(-50%);
+}
+
+.overlay-nav-button:hover.prev,
+.overlay-nav-button:hover.next {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.nav-arrow-svg {
+  width: $icons-size;
+  height: $icons-size;
+  min-width: $icons-min-size;
+  max-width: $icons-max-size;
+  max-height: $icons-max-size;
+  min-height: $icons-min-size;
 }

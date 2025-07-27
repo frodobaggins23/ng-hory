@@ -132,13 +132,48 @@ export class TableComponent implements OnDestroy {
     const thumbnailUrl = this.getThumbnailUrl(id);
     const climb = this.mountainDetail.climbs?.find((c) => c.id === id);
     
-    if (thumbnailUrl && climb) {
-      this.overlayService.openImageOverlay({
-        imageUrl: thumbnailUrl,
-        altText: `Climb thumbnail for ${climb.date}`,
-      });
+    if (thumbnailUrl && climb && climb.imgs) {
+      this.openImageOverlayWithNavigation(
+        thumbnailUrl,
+        climb,
+        0
+      );
     }
   }
+
+  private openImageOverlayWithNavigation(
+     imageUrl: string, 
+     climb: any, 
+     initialIndex: number
+   ) {
+     let currentIndex = initialIndex;
+     
+     const navigateToImage = (index: number) => {
+       const imageName = climb.imgs[index];
+       this.imageService.getImageUrl(this.mountainName, imageName).pipe(
+         takeUntil(this.destroy$)
+       ).subscribe({
+         next: (result: ImageLoadResult) => {
+           this.overlayService.updateOverlayImage(result.url);
+         }
+       });
+     };
+     
+      this.overlayService.openImageOverlay({
+       imageUrl: imageUrl,
+       altText: `Climb image for ${climb.date}`,
+       images: climb.imgs,
+       showNavigation: climb.imgs.length > 1,
+       onNavigateNext: () => {
+         currentIndex = (currentIndex + 1) % climb.imgs.length;
+         navigateToImage(currentIndex);
+       },
+       onNavigatePrev: () => {
+         currentIndex = (currentIndex - 1 + climb.imgs.length) % climb.imgs.length;
+         navigateToImage(currentIndex);
+       }
+     });
+   }
 
   expandColumn(id: number) {
     this.expandedColumn = this.expandedColumn === id ? null : id;
