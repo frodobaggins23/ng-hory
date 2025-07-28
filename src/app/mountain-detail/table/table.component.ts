@@ -1,3 +1,4 @@
+// I was here
 import { Component, Input, SimpleChanges, OnDestroy } from '@angular/core';
 import { ImageService, ImageLoadResult } from '../../services/image.service';
 import { MountainStateService } from '../../services/mountain-state.service';
@@ -64,7 +65,7 @@ export class TableComponent implements OnDestroy {
 
   private loadVisibleThumbnails() {
     if (!this.mountainDetail.climbs || !this.mountainName) return;
-    
+
     this.mountainDetail.climbs.forEach(climb => {
       if (climb.imgs && climb.imgs.length > 0) {
         this.loadThumbnail(climb.id);
@@ -91,7 +92,7 @@ export class TableComponent implements OnDestroy {
   }
 
   loadThumbnail(climbId: number) {
-    const climb = this.mountainDetail.climbs?.find((c) => c.id === climbId);
+    const climb = this.mountainDetail.climbs?.find(c => c.id === climbId);
     if (!climb || !climb.imgs || climb.imgs.length === 0 || !this.mountainName) {
       return;
     }
@@ -107,73 +108,67 @@ export class TableComponent implements OnDestroy {
 
     // Load image from Drive
     const imageName = climb.imgs[0];
-    this.imageService.getImageUrl(this.mountainName, imageName).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe({
-      next: (result: ImageLoadResult) => {
-        this.thumbnailCache.set(climbId, { 
-          url: result.url, 
-          loading: false, 
-          error: false 
-        });
-      },
-      error: (error) => {
-        console.error('Error loading thumbnail:', error);
-        this.thumbnailCache.set(climbId, { 
-          url: '', 
-          loading: false, 
-          error: true 
-        });
-      }
-    });
+    this.imageService
+      .getImageUrl(this.mountainName, imageName)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (result: ImageLoadResult) => {
+          this.thumbnailCache.set(climbId, {
+            url: result.url,
+            loading: false,
+            error: false,
+          });
+        },
+        error: error => {
+          console.error('Error loading thumbnail:', error);
+          this.thumbnailCache.set(climbId, {
+            url: '',
+            loading: false,
+            error: true,
+          });
+        },
+      });
   }
 
   showThumbnail(id: number) {
     const thumbnailUrl = this.getThumbnailUrl(id);
-    const climb = this.mountainDetail.climbs?.find((c) => c.id === id);
-    
+    const climb = this.mountainDetail.climbs?.find(c => c.id === id);
+
     if (thumbnailUrl && climb && climb.imgs) {
-      this.openImageOverlayWithNavigation(
-        thumbnailUrl,
-        climb,
-        0
-      );
+      this.openImageOverlayWithNavigation(thumbnailUrl, climb, 0);
     }
   }
 
-  private openImageOverlayWithNavigation(
-     imageUrl: string, 
-     climb: any, 
-     initialIndex: number
-   ) {
-     let currentIndex = initialIndex;
-     
-     const navigateToImage = (index: number) => {
-       const imageName = climb.imgs[index];
-       this.imageService.getImageUrl(this.mountainName, imageName).pipe(
-         takeUntil(this.destroy$)
-       ).subscribe({
-         next: (result: ImageLoadResult) => {
-           this.overlayService.updateOverlayImage(result.url);
-         }
-       });
-     };
-     
-      this.overlayService.openImageOverlay({
-       imageUrl: imageUrl,
-       altText: `Climb image for ${climb.date}`,
-       images: climb.imgs,
-       showNavigation: climb.imgs.length > 1,
-       onNavigateNext: () => {
-         currentIndex = (currentIndex + 1) % climb.imgs.length;
-         navigateToImage(currentIndex);
-       },
-       onNavigatePrev: () => {
-         currentIndex = (currentIndex - 1 + climb.imgs.length) % climb.imgs.length;
-         navigateToImage(currentIndex);
-       }
-     });
-   }
+  private openImageOverlayWithNavigation(imageUrl: string, climb: any, initialIndex: number) {
+    let currentIndex = initialIndex;
+
+    const navigateToImage = (index: number) => {
+      const imageName = climb.imgs[index];
+      this.imageService
+        .getImageUrl(this.mountainName, imageName)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (result: ImageLoadResult) => {
+            this.overlayService.updateOverlayImage(result.url);
+          },
+        });
+    };
+
+    this.overlayService.openImageOverlay({
+      imageUrl: imageUrl,
+      altText: `Climb image for ${climb.date}`,
+      images: climb.imgs,
+      showNavigation: climb.imgs.length > 1,
+      onNavigateNext: () => {
+        currentIndex = (currentIndex + 1) % climb.imgs.length;
+        navigateToImage(currentIndex);
+      },
+      onNavigatePrev: () => {
+        currentIndex = (currentIndex - 1 + climb.imgs.length) % climb.imgs.length;
+        navigateToImage(currentIndex);
+      },
+    });
+  }
 
   expandColumn(id: number) {
     this.expandedColumn = this.expandedColumn === id ? null : id;

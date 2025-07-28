@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": ["WebFetch(domain:docs.anthropic.com)"],
+    "deny": []
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/custom_hook_scripts/run-prettier.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/custom_hook_scripts/check-eslint.sh"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/custom_hook_scripts/inject-eslint-feedback.py"
+          }
+        ]
+      }
+    ]
+  }
+}

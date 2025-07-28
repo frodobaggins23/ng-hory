@@ -43,7 +43,14 @@ Thumbs.db
 
 # tracks temp files
 tracks-tmp
+.claude/custom_hook_scripts/tmp_files
+
+# logs
+.claude/custom_hook_scripts/logs
 
 # envs
 .env
 src/environments/environment.development.ts
+
+# AI
+!.claude/settings.local.json
