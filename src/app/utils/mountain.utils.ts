@@ -24,7 +24,7 @@ export class MountainUtils {
     const [mountainId, ...imageNameParts] = key.split(':');
     return {
       mountainId,
-      imageName: imageNameParts.join(':') // Handle image names with colons
+      imageName: imageNameParts.join(':'), // Handle image names with colons
     };
   }
 }

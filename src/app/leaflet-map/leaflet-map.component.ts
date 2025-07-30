@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  computed,
-  effect,
-  signal,
-} from '@angular/core';
+import { Component, OnInit, AfterViewInit, computed, effect, signal } from '@angular/core';
 import * as L from 'leaflet';
 import { SwitcherComponent } from '../switcher/switcher.component';
 import { MountainStateService } from '../services/mountain-state.service';
@@ -16,26 +9,18 @@ import { CommonModule } from '@angular/common';
 import { environment } from '../../environments/environment';
 
 const MAPY_CZ_URL =
-  'https://api.mapy.cz/v1/maptiles/outdoor/256/{z}/{x}/{y}?apikey=' +
-  environment.apiKey;
+  'https://api.mapy.cz/v1/maptiles/outdoor/256/{z}/{x}/{y}?apikey=' + environment.apiKey;
 
 @Component({
   selector: 'app-leaflet-map',
   templateUrl: './leaflet-map.component.html',
   styleUrls: ['./leaflet-map.component.scss'],
-  imports: [
-    SwitcherComponent,
-    HideTrackPreviewComponent,
-    MountainDetailComponent,
-    CommonModule,
-  ],
+  imports: [SwitcherComponent, HideTrackPreviewComponent, MountainDetailComponent, CommonModule],
 })
 export class LeafletMapComponent implements OnInit, AfterViewInit {
   mapInitialized = signal(false);
   mountainName = computed(() => this.mountainStateService.mountainName());
-  mountainCoordinates = computed(() =>
-    this.mountainStateService.mountainCoordinates()
-  );
+  mountainCoordinates = computed(() => this.mountainStateService.mountainCoordinates());
 
   marker!: L.Circle;
   isMountainDetailVisible: boolean = false;

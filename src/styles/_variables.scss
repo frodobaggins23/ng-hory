@@ -1,7 +1,7 @@
 $breakpoints: (
-  "s": 480px,
-  "m": 768px,
-  "l": 1024px,
+  's': 480px,
+  'm': 768px,
+  'l': 1024px,
 );
 
 @mixin min-breakpoint($breakpoint) {

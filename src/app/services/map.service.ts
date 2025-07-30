@@ -11,12 +11,7 @@ export class MapService {
   zoomLevel: number = 20;
   constructor() {}
 
-  initMap(
-    mapId: string,
-    center: L.LatLngExpression,
-    zoom: number,
-    baseMapUrl: string
-  ) {
+  initMap(mapId: string, center: L.LatLngExpression, zoom: number, baseMapUrl: string) {
     this.map = L.map(mapId, { center, zoom, layers: [] });
     this.zoomLevel = zoom;
     L.tileLayer(baseMapUrl).addTo(this.map);

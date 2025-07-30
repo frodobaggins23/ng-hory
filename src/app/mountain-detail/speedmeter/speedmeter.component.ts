@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-speedmeter',
   imports: [CommonModule],
   templateUrl: './speedmeter.component.html',
-  styleUrl: './speedmeter.component.scss'
+  styleUrl: './speedmeter.component.scss',
 })
 export class SpeedmeterComponent {
   @Input() value!: string;

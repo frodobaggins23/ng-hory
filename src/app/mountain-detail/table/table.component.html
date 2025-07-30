@@ -5,7 +5,7 @@
         *ngFor="let column of columns"
         [ngClass]="{
           desktop: column.onDesktopOnly,
-          lastCol: column?.isLast ?? false
+          lastCol: column?.isLast ?? false,
         }"
         [attr.colspan]="column.isLast ? 2 : 1"
       >
@@ -23,12 +23,16 @@
             <div *ngIf="isThumbnailLoading(climb.id)" class="thumbnail-loading">
               <div class="thumbnail-spinner"></div>
             </div>
-            
+
             <!-- Error State -->
-            <div *ngIf="hasThumbnailError(climb.id)" class="thumbnail-error" title="Failed to load thumbnail">
+            <div
+              *ngIf="hasThumbnailError(climb.id)"
+              class="thumbnail-error"
+              title="Failed to load thumbnail"
+            >
               ⚠️
             </div>
-            
+
             <!-- Thumbnail Image -->
             <img
               *ngIf="getThumbnailUrl(climb.id)"

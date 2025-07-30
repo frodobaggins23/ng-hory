@@ -8,9 +8,8 @@ describe('ImageOverlayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ImageOverlayComponent]
-    })
-    .compileComponents();
+      imports: [ImageOverlayComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ImageOverlayComponent);
     component = fixture.componentInstance;

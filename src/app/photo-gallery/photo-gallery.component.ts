@@ -6,13 +6,12 @@ import { ImageService, ImageLoadResult } from '../services/image.service';
 import { OverlayService } from '../services/overlay.service';
 import { BlobUtils, ImageState, ImageStateUtils } from '../utils';
 
-
 @Component({
   selector: 'app-photo-gallery',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './photo-gallery.component.html',
-  styleUrl: './photo-gallery.component.scss'
+  styleUrl: './photo-gallery.component.scss',
 })
 export class PhotoGalleryComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
@@ -39,7 +38,7 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-    
+
     // Clean up blob URLs to prevent memory leaks
     BlobUtils.revokeBlobUrlsFromMap(this.imageStates);
   }
@@ -84,25 +83,28 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
     ImageStateUtils.setLoading(this.currentImageState$);
 
     // Load image from Drive
-    this.imageService.getImageUrl(this.mountainName, imageName).pipe(
-      takeUntil(this.destroy$),
-      catchError(error => {
-        console.error('Error loading image:', error);
-        return of({
-          url: '',
-          fromCache: false,
-          error: error.message
-        } as ImageLoadResult & { error: string });
-      })
-    ).subscribe(result => {
-      const newState = (result as any).error 
-        ? ImageStateUtils.createErrorState((result as any).error)
-        : ImageStateUtils.createSuccessState(result);
+    this.imageService
+      .getImageUrl(this.mountainName, imageName)
+      .pipe(
+        takeUntil(this.destroy$),
+        catchError(error => {
+          console.error('Error loading image:', error);
+          return of({
+            url: '',
+            fromCache: false,
+            error: error.message,
+          } as ImageLoadResult & { error: string });
+        })
+      )
+      .subscribe(result => {
+        const newState = (result as any).error
+          ? ImageStateUtils.createErrorState((result as any).error)
+          : ImageStateUtils.createSuccessState(result);
 
-      // Cache the state
-      this.imageStates.set(imageName, newState);
-      this.currentImageState$.next(newState);
-    });
+        // Cache the state
+        this.imageStates.set(imageName, newState);
+        this.currentImageState$.next(newState);
+      });
   }
 
   prev(): void {
@@ -119,7 +121,7 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
 
   openPreview(): void {
     if (!this.currentImageUrl) return;
-    
+
     this.overlayService.openImageOverlay({
       imageUrl: this.currentImageUrl,
       altText: 'Gallery image preview',
@@ -132,13 +134,13 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
       onNavigatePrev: () => {
         this.prev();
         this.overlayService.updateOverlayImage(this.currentImageUrl);
-      } 
+      },
     });
   }
 
   retryLoad(): void {
     if (!this.hasImages) return;
-    
+
     const imageName = this.images[this.currentIndex];
     this.imageStates.delete(imageName); // Clear cached error state
     this.loadCurrentImage();

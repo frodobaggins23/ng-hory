@@ -1,4 +1,4 @@
-@use "../../../styles/_colors.scss" as *;
+@use '../../../styles/_colors.scss' as *;
 
 .speedmeter {
   width: 80px;
@@ -22,11 +22,12 @@
     border-color: #3b82f6;
     background: rgba(59, 130, 246, 0.2);
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-    
-    .metric-value, .metric-label {
+
+    .metric-value,
+    .metric-label {
       color: #3b82f6;
     }
-    
+
     &.animate {
       animation: speedmeterAppear 0.6s ease-out forwards;
       animation-delay: 0.4s;
@@ -37,11 +38,12 @@
     border-color: #059669;
     background: rgba(5, 150, 105, 0.2);
     box-shadow: 0 0 20px rgba(5, 150, 105, 0.3);
-    
-    .metric-value, .metric-label {
+
+    .metric-value,
+    .metric-label {
       color: #059669;
     }
-    
+
     &.animate {
       animation: speedmeterAppear 0.6s ease-out forwards;
       animation-delay: 0.5s;
@@ -52,11 +54,12 @@
     border-color: #ef4444;
     background: rgba(239, 68, 68, 0.2);
     box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
-    
-    .metric-value, .metric-label {
+
+    .metric-value,
+    .metric-label {
       color: #ef4444;
     }
-    
+
     &.animate {
       animation: speedmeterAppear 0.6s ease-out forwards;
       animation-delay: 0.6s;
@@ -67,11 +70,12 @@
     border-color: #d97706;
     background: rgba(217, 119, 6, 0.2);
     box-shadow: 0 0 20px rgba(217, 119, 6, 0.3);
-    
-    .metric-value, .metric-label {
+
+    .metric-value,
+    .metric-label {
       color: #d97706;
     }
-    
+
     &.animate {
       animation: speedmeterAppear 0.6s ease-out forwards;
       animation-delay: 0.7s;
@@ -113,11 +117,11 @@
     width: 60px;
     height: 60px;
   }
-  
+
   .metric-value {
     font-size: 10px;
   }
-  
+
   .metric-label {
     font-size: 7px;
   }

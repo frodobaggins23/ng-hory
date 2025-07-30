@@ -8,9 +8,8 @@ describe('LeafletMapComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LeafletMapComponent]
-    })
-    .compileComponents();
+      imports: [LeafletMapComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LeafletMapComponent);
     component = fixture.componentInstance;

@@ -16,7 +16,9 @@ $icons-max-size: 50px; // Maximum size for icons
   justify-content: center;
   align-items: center;
   opacity: 0;
-  transition: opacity 0.3s ease, backdrop-filter 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    backdrop-filter 0.3s ease;
   cursor: pointer;
   padding: 2rem;
   box-sizing: border-box;
@@ -100,7 +102,8 @@ $icons-max-size: 50px; // Maximum size for icons
   transform: scale(1.1);
 }
 
-.overlay-nav-button.prev, .overlay-nav-button.next {
+.overlay-nav-button.prev,
+.overlay-nav-button.next {
   transform: translateY(-50%);
 }
 

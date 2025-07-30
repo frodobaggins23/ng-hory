@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './image-overlay.component.html',
-  styleUrl: './image-overlay.component.scss'
+  styleUrl: './image-overlay.component.scss',
 })
 export class ImageOverlayComponent {
   @Input() imageUrl: string = '';
@@ -52,5 +52,4 @@ export class ImageOverlayComponent {
   onNextClick(): void {
     this.navigateNext.emit();
   }
-
 }

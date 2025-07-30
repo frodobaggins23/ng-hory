@@ -8,9 +8,8 @@ describe('HideTrackPreviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HideTrackPreviewComponent]
-    })
-    .compileComponents();
+      imports: [HideTrackPreviewComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HideTrackPreviewComponent);
     component = fixture.componentInstance;

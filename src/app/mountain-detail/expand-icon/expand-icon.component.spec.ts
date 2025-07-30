@@ -8,9 +8,8 @@ describe('ExpandIconComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ExpandIconComponent]
-    })
-    .compileComponents();
+      imports: [ExpandIconComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ExpandIconComponent);
     component = fixture.componentInstance;

@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'app-climb-description',
   imports: [],
   templateUrl: './climb-description.component.html',
-  styleUrl: './climb-description.component.scss'
+  styleUrl: './climb-description.component.scss',
 })
 export class ClimbDescriptionComponent {
   @Input() description!: string;

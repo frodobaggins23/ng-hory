@@ -4,15 +4,15 @@ import { map, catchError, switchMap } from 'rxjs/operators';
 import { IndexedDBUtils, RxJSUtils } from '../utils';
 
 export interface CachedImage {
-  id: string;           // composite key: "mountainId:imageName"
-  mountainId: string;   
-  imageName: string;    
-  blob: Blob;          
-  mimeType: string;    
-  size: number;        // bytes
-  lastAccessed: Date;  
-  downloadDate: Date;  
-  driveFileId: string; 
+  id: string; // composite key: "mountainId:imageName"
+  mountainId: string;
+  imageName: string;
+  blob: Blob;
+  mimeType: string;
+  size: number; // bytes
+  lastAccessed: Date;
+  downloadDate: Date;
+  driveFileId: string;
 }
 
 export interface CacheStats {
@@ -22,7 +22,7 @@ export interface CacheStats {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ImageCacheService {
   private readonly DB_NAME = 'HoryImageCache';
@@ -46,9 +46,9 @@ export class ImageCacheService {
         resolve();
       };
 
-      request.onupgradeneeded = (event) => {
+      request.onupgradeneeded = event => {
         const db = (event.target as IDBOpenDBRequest).result;
-        
+
         if (!db.objectStoreNames.contains(this.STORE_NAME)) {
           const store = db.createObjectStore(this.STORE_NAME, { keyPath: 'id' });
           store.createIndex('lastAccessed', 'lastAccessed', { unique: false });
@@ -63,7 +63,7 @@ export class ImageCacheService {
    */
   getImage(mountainId: string, imageName: string): Observable<Blob | null> {
     const key = `${mountainId}:${imageName}`;
-    
+
     return from(this.ensureDB()).pipe(
       switchMap(() => {
         return from(
@@ -93,15 +93,17 @@ export class ImageCacheService {
    * Store image in cache with LRU eviction
    */
   storeImage(
-    mountainId: string, 
-    imageName: string, 
-    blob: Blob, 
+    mountainId: string,
+    imageName: string,
+    blob: Blob,
     driveFileId: string
   ): Observable<void> {
     const key = `${mountainId}:${imageName}`;
-    
+
     if (blob.size > this.MAX_SIZE_PER_IMAGE) {
-      return throwError(() => new Error(`Image too large: ${blob.size} bytes (max: ${this.MAX_SIZE_PER_IMAGE})`));
+      return throwError(
+        () => new Error(`Image too large: ${blob.size} bytes (max: ${this.MAX_SIZE_PER_IMAGE})`)
+      );
     }
 
     return from(this.ensureDB()).pipe(
@@ -116,7 +118,7 @@ export class ImageCacheService {
           size: blob.size,
           lastAccessed: new Date(),
           downloadDate: new Date(),
-          driveFileId
+          driveFileId,
         };
 
         return from(
@@ -147,7 +149,7 @@ export class ImageCacheService {
             return {
               totalImages: images.length,
               totalSize,
-              availableSlots: this.MAX_IMAGES - images.length
+              availableSlots: this.MAX_IMAGES - images.length,
             };
           })
         );
@@ -181,49 +183,51 @@ export class ImageCacheService {
   }
 
   private evictIfNeeded(): Observable<void> {
-    return from(new Promise<void>((resolve, reject) => {
-      const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
-      const store = transaction.objectStore(this.STORE_NAME);
-      const index = store.index('lastAccessed');
-      const request = index.openCursor();
-      
-      let imageCount = 0;
+    return from(
+      new Promise<void>((resolve, reject) => {
+        const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
+        const store = transaction.objectStore(this.STORE_NAME);
+        const index = store.index('lastAccessed');
+        const request = index.openCursor();
 
-      request.onsuccess = (event) => {
-        const cursor = (event.target as IDBRequest).result;
-        
-        if (cursor) {
-          imageCount++;
-          cursor.continue();
-        } else {
-          // If we have reached the limit, delete oldest images
-          if (imageCount >= this.MAX_IMAGES) {
-            const deleteCount = imageCount - this.MAX_IMAGES + 1; // +1 to make room for new image
-            
-            // Get oldest images to delete
-            const oldestRequest = index.openCursor();
-            let deletedCount = 0;
-            
-            oldestRequest.onsuccess = (deleteEvent) => {
-              const deleteCursor = (deleteEvent.target as IDBRequest).result;
-              
-              if (deleteCursor && deletedCount < deleteCount) {
-                store.delete(deleteCursor.primaryKey);
-                deletedCount++;
-                deleteCursor.continue();
-              } else {
-                resolve();
-              }
-            };
-            
-            oldestRequest.onerror = () => reject(oldestRequest.error);
+        let imageCount = 0;
+
+        request.onsuccess = event => {
+          const cursor = (event.target as IDBRequest).result;
+
+          if (cursor) {
+            imageCount++;
+            cursor.continue();
           } else {
-            resolve();
-          }
-        }
-      };
+            // If we have reached the limit, delete oldest images
+            if (imageCount >= this.MAX_IMAGES) {
+              const deleteCount = imageCount - this.MAX_IMAGES + 1; // +1 to make room for new image
 
-      request.onerror = () => reject(request.error);
-    }));
+              // Get oldest images to delete
+              const oldestRequest = index.openCursor();
+              let deletedCount = 0;
+
+              oldestRequest.onsuccess = deleteEvent => {
+                const deleteCursor = (deleteEvent.target as IDBRequest).result;
+
+                if (deleteCursor && deletedCount < deleteCount) {
+                  store.delete(deleteCursor.primaryKey);
+                  deletedCount++;
+                  deleteCursor.continue();
+                } else {
+                  resolve();
+                }
+              };
+
+              oldestRequest.onerror = () => reject(oldestRequest.error);
+            } else {
+              resolve();
+            }
+          }
+        };
+
+        request.onerror = () => reject(request.error);
+      })
+    );
   }
 }

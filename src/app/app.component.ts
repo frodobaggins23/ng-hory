@@ -9,12 +9,7 @@ const TRANSITION_TIME = 1200;
 @Component({
   selector: 'app-root',
   host: { '[class.scrolled]': 'introScrolled' },
-  imports: [
-    RouterOutlet,
-    CommonModule,
-    LeafletMapComponent,
-    IntroPageComponent,
-  ],
+  imports: [RouterOutlet, CommonModule, LeafletMapComponent, IntroPageComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

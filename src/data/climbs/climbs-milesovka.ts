@@ -17,9 +17,14 @@ export const climbsMilesovka: Climb[] = [
   {
     id: 2,
     date: '2025-05-11 ',
-    imgs: ['milesovka02_01.jpg', 'milesovka02_02.jpg', 'milesovka02_03.jpg', 'milesovka02_04.jpg', 'milesovka02_05.jpg'],
-    description:
-      'Krásný jarní výstup. Slunečné počasí, všude se to zelená. Ideální podmínky.',
+    imgs: [
+      'milesovka02_01.jpg',
+      'milesovka02_02.jpg',
+      'milesovka02_03.jpg',
+      'milesovka02_04.jpg',
+      'milesovka02_05.jpg',
+    ],
+    description: 'Krásný jarní výstup. Slunečné počasí, všude se to zelená. Ideální podmínky.',
     duration: '01:17:33',
     distance: '4.31 km',
     heartRate: '126 bpm',

@@ -23,7 +23,7 @@ export class IntroPageComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     window.addEventListener('scroll', this.scrollHandler);
-    this.attachVideo()
+    this.attachVideo();
   }
 
   ngOnDestroy() {
@@ -31,7 +31,7 @@ export class IntroPageComponent implements AfterViewInit, OnDestroy {
   }
 
   private attachVideo() {
-    const videoElement = window.document.getElementById("video") as HTMLSourceElement;
+    const videoElement = window.document.getElementById('video') as HTMLSourceElement;
     const source = videoElement.dataset['src'];
     if (videoElement && source) {
       videoElement.src = source;

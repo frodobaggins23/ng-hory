@@ -31,7 +31,7 @@ export class ImageService {
   getImageUrl(mountainName: string, imageName: string): Observable<ImageLoadResult> {
     const imageKey = MountainUtils.createImageKey(mountainName, imageName);
     const mountainId = MountainUtils.normalizeMountainName(mountainName);
-    
+
     // First check cache
     return this.cacheService.getImage(mountainId, imageName).pipe(
       switchMap(cachedBlob => {
@@ -41,7 +41,7 @@ export class ImageService {
           return of({
             url,
             fromCache: true,
-            size: cachedBlob.size
+            size: cachedBlob.size,
           });
         }
 
@@ -74,7 +74,9 @@ export class ImageService {
   preloadMountainImages(mountainName: string): Observable<DriveImageMetadata[]> {
     const mountain = mountains.find(m => m.name === mountainName);
     if (!mountain?.driveFolderId) {
-      return throwError(() => new Error(`No Drive folder configured for mountain: ${mountainName}`));
+      return throwError(
+        () => new Error(`No Drive folder configured for mountain: ${mountainName}`)
+      );
     }
 
     // Check if already cached
@@ -118,10 +120,16 @@ export class ImageService {
   /**
    * Download image from Drive and store in cache
    */
-  private downloadAndCacheImage(mountainName: string, imageName: string): Observable<ImageLoadResult> {
+  private downloadAndCacheImage(
+    mountainName: string,
+    imageName: string
+  ): Observable<ImageLoadResult> {
     const mountain = mountains.find(m => m.name === mountainName);
     if (!mountain?.driveFolderId) {
-      return throwError(() => new Error(`Drive folder not configured for ${mountainName}. Please check mountain data.`));
+      return throwError(
+        () =>
+          new Error(`Drive folder not configured for ${mountainName}. Please check mountain data.`)
+      );
     }
 
     // Get folder metadata first
@@ -129,32 +137,41 @@ export class ImageService {
       switchMap(images => {
         const imageMetadata = this.driveService.findImageByName(images, imageName);
         if (!imageMetadata) {
-          return throwError(() => new Error(`Image '${imageName}' not found in ${mountainName} Drive folder`));
+          return throwError(
+            () => new Error(`Image '${imageName}' not found in ${mountainName} Drive folder`)
+          );
         }
 
         // Download the image
         return this.driveService.downloadImage(imageMetadata.id).pipe(
           switchMap(blob => {
             const mountainId = MountainUtils.normalizeMountainName(mountainName);
-            
+
             // Store in cache
             return this.cacheService.storeImage(mountainId, imageName, blob, imageMetadata.id).pipe(
               map(() => ({
                 url: BlobUtils.createBlobUrl(blob),
                 fromCache: false,
-                size: blob.size
+                size: blob.size,
               }))
             );
           }),
           catchError(error => {
             console.error(`Failed to download image ${imageName} for ${mountainName}:`, error);
-            return throwError(() => new Error(`Download failed: ${error.message || 'Network error'}`));
+            return throwError(
+              () => new Error(`Download failed: ${error.message || 'Network error'}`)
+            );
           })
         );
       }),
       catchError(error => {
         console.error(`Error accessing ${mountainName} Drive folder:`, error);
-        return throwError(() => new Error(`Drive folder access failed: ${error.message || 'Check API key and permissions'}`));
+        return throwError(
+          () =>
+            new Error(
+              `Drive folder access failed: ${error.message || 'Check API key and permissions'}`
+            )
+        );
       })
     );
   }

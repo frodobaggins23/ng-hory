@@ -27,10 +27,10 @@ export class IndexedDBUtils {
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(storeNames, mode);
       const store = transaction.objectStore(Array.isArray(storeNames) ? storeNames[0] : storeNames);
-      
+
       transaction.oncomplete = () => resolve();
       transaction.onerror = () => reject(transaction.error);
-      
+
       try {
         operation(transaction, store);
       } catch (error) {

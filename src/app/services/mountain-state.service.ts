@@ -9,11 +9,8 @@ export class MountainStateService {
   mountainCoordinates = signal<L.LatLngExpression>(mountains[0].coordinates);
 
   private changeMountain(offset: number) {
-    const currentIndex = mountains.findIndex(
-      (mountain) => mountain.name === this.mountainName()
-    );
-    const newIndex =
-      (currentIndex + offset + mountains.length) % mountains.length;
+    const currentIndex = mountains.findIndex(mountain => mountain.name === this.mountainName());
+    const newIndex = (currentIndex + offset + mountains.length) % mountains.length;
     this.setMountain(mountains[newIndex]);
   }
 
@@ -31,6 +28,6 @@ export class MountainStateService {
   }
 
   getCurrentMountain(): Mountain {
-    return mountains.find((mountain) => mountain.name === this.mountainName())!;
+    return mountains.find(mountain => mountain.name === this.mountainName())!;
   }
 }

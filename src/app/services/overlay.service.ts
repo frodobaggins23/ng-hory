@@ -69,10 +69,9 @@ export class OverlayService {
     document.body.appendChild(this.overlayRef.location.nativeElement);
   }
 
-  updateOverlayImage(imageUrl:string): void {
+  updateOverlayImage(imageUrl: string): void {
     if (this.overlayRef) {
       this.overlayRef.setInput('imageUrl', imageUrl);
-
     }
   }
 

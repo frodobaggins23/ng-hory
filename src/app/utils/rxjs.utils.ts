@@ -8,17 +8,14 @@ export class RxJSUtils {
   /**
    * Standardized error handling with optional fallback value
    */
-  static handleError<T>(
-    errorMessage: string,
-    fallbackValue?: T
-  ): (error: any) => Observable<T> {
+  static handleError<T>(errorMessage: string, fallbackValue?: T): (error: any) => Observable<T> {
     return (error: any) => {
       console.error(errorMessage, error);
-      
+
       if (fallbackValue !== undefined) {
         return of(fallbackValue);
       }
-      
+
       return throwError(() => error);
     };
   }
@@ -40,29 +37,28 @@ export class RxJSUtils {
     map: Map<K, V>,
     key: K
   ): (source: Observable<any>) => Observable<any> {
-    return (source: Observable<any>) => source.pipe(
-      tap({
-        complete: () => map.delete(key),
-        error: () => map.delete(key)
-      })
-    );
+    return (source: Observable<any>) =>
+      source.pipe(
+        tap({
+          complete: () => map.delete(key),
+          error: () => map.delete(key),
+        })
+      );
   }
 
   /**
    * Logs performance timing for operations
    */
-  static measurePerformance<T>(
-    operationName: string
-  ): (source: Observable<T>) => Observable<T> {
+  static measurePerformance<T>(operationName: string): (source: Observable<T>) => Observable<T> {
     return (source: Observable<T>) => {
       const startTime = performance.now();
-      
+
       return source.pipe(
         tap({
           next: () => {
             const duration = performance.now() - startTime;
             console.log(`📊 ${operationName}: ${duration.toFixed(2)}ms`);
-          }
+          },
         })
       );
     };

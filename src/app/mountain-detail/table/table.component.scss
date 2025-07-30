@@ -1,5 +1,5 @@
-@use "../../../styles/_colors.scss" as *;
-@use "../../../styles/_variables.scss" as *;
+@use '../../../styles/_colors.scss' as *;
+@use '../../../styles/_variables.scss' as *;
 
 // Reset table element styles
 table,
@@ -12,11 +12,10 @@ td {
   box-sizing: border-box;
 }
 
-$grid-template-columns-mobile: minmax(40px, 1fr) minmax(60px, 2fr)
-  minmax(20px, 0.5fr) minmax(20px, 0.5fr);
-$grid-template-columns-desktop: minmax(20px, 1fr) minmax(20px, 0.75fr)
-  minmax(60px, 2fr) minmax(20px, 1fr) minmax(20px, 1fr) minmax(20px, 1fr)
-  minmax(20px, 1fr) minmax(20px, 0.5fr);
+$grid-template-columns-mobile: minmax(40px, 1fr) minmax(60px, 2fr) minmax(20px, 0.5fr)
+  minmax(20px, 0.5fr);
+$grid-template-columns-desktop: minmax(20px, 1fr) minmax(20px, 0.75fr) minmax(60px, 2fr)
+  minmax(20px, 1fr) minmax(20px, 1fr) minmax(20px, 1fr) minmax(20px, 1fr) minmax(20px, 0.5fr);
 $border: 1px solid $primary-light;
 
 table {
@@ -32,7 +31,7 @@ table {
       border-top: $border;
       border-left: $border;
 
-      @include min-breakpoint("m") {
+      @include min-breakpoint('m') {
         grid-template-columns: $grid-template-columns-desktop;
       }
 
@@ -52,7 +51,7 @@ table {
         &.desktop {
           display: none;
 
-          @include min-breakpoint("m") {
+          @include min-breakpoint('m') {
             display: grid;
           }
         }
@@ -69,7 +68,7 @@ table {
       border-top: $border;
       border-left: $border;
 
-      @include min-breakpoint("m") {
+      @include min-breakpoint('m') {
         grid-template-columns: $grid-template-columns-desktop;
       }
 
@@ -92,7 +91,7 @@ table {
       &.desktop {
         display: none;
 
-        @include min-breakpoint("m") {
+        @include min-breakpoint('m') {
           display: grid;
         }
       }
@@ -169,6 +168,10 @@ table {
 }
 
 @keyframes thumbnail-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

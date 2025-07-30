@@ -23,7 +23,7 @@ export class ImageStateUtils {
       url: null,
       loading: false,
       error: null,
-      fromCache: false
+      fromCache: false,
     };
   }
 
@@ -35,7 +35,7 @@ export class ImageStateUtils {
       url: null,
       loading: true,
       error: null,
-      fromCache: false
+      fromCache: false,
     };
   }
 
@@ -47,7 +47,7 @@ export class ImageStateUtils {
       url: result.url,
       loading: false,
       error: null,
-      fromCache: result.fromCache
+      fromCache: result.fromCache,
     };
   }
 
@@ -59,7 +59,7 @@ export class ImageStateUtils {
       url: null,
       loading: false,
       error,
-      fromCache: false
+      fromCache: false,
     };
   }
 
