@@ -3,7 +3,9 @@
     "allow": [
       "WebFetch(domain:docs.anthropic.com)",
       "Bash(npm run lint)",
-      "Bash(npm run lint:*)"
+      "Bash(npm run lint:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(npx tsc:*)"
     ],
     "deny": []
   },
