@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, from } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { RxJSUtils } from '../utils';
 
@@ -46,12 +46,14 @@ export class GoogleDriveService {
           return response.json();
         })
         .then(data => {
-          const images: DriveImageMetadata[] = (data.files || []).map((file: any) => ({
-            id: file.id,
-            name: file.name,
-            mimeType: file.mimeType,
-            size: file.size ? parseInt(file.size) : 0,
-          }));
+          const images: DriveImageMetadata[] = (data.files || []).map(
+            (file: DriveImageMetadata & { size?: string }) => ({
+              id: file.id,
+              name: file.name,
+              mimeType: file.mimeType,
+              size: file.size ? parseInt(file.size) : 0,
+            })
+          );
 
           return {
             folderId,

@@ -4,6 +4,7 @@ import {
   createComponent,
   EnvironmentInjector,
   ApplicationRef,
+  inject,
 } from '@angular/core';
 import { ImageOverlayComponent } from '../image-overlay/image-overlay.component';
 
@@ -22,10 +23,8 @@ export interface OverlayConfig {
 export class OverlayService {
   private overlayRef: ComponentRef<ImageOverlayComponent> | null = null;
 
-  constructor(
-    private appRef: ApplicationRef,
-    private injector: EnvironmentInjector
-  ) {}
+  private appRef = inject(ApplicationRef);
+  private injector = inject(EnvironmentInjector);
 
   openImageOverlay(config: OverlayConfig): void {
     if (this.overlayRef) {

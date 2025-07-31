@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { MapService } from '../services/map.service';
 
 @Component({
@@ -9,7 +9,9 @@ import { MapService } from '../services/map.service';
   styleUrl: './hide-track-preview.component.scss',
 })
 export class HideTrackPreviewComponent {
-  constructor(public mapService: MapService) {
+  public mapService = inject(MapService);
+
+  constructor() {
     effect(() => {
       console.log('isShowingTrackOnMap', this.mapService.isShowingTrackOnMap());
       this.isVisible = this.mapService.isShowingTrackOnMap();

@@ -1,12 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Output,
-  AfterViewInit,
-  OnDestroy,
-  Input,
-} from '@angular/core';
+import { Component, EventEmitter, Output, AfterViewInit, OnDestroy, Input } from '@angular/core';
 
 const SCROLL_THRESHOLD = 15;
 

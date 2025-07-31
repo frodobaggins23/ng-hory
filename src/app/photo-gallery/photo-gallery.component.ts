@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subject, BehaviorSubject, of } from 'rxjs';
 import { takeUntil, catchError } from 'rxjs/operators';
@@ -20,10 +20,8 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
     ImageStateUtils.createInitialState()
   );
 
-  constructor(
-    private imageService: ImageService,
-    private overlayService: OverlayService
-  ) {}
+  private imageService = inject(ImageService);
+  private overlayService = inject(OverlayService);
 
   @Input() images: string[] = [];
   @Input() mountainName: string = '';
@@ -97,8 +95,8 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(result => {
-        const newState = (result as any).error
-          ? ImageStateUtils.createErrorState((result as any).error)
+        const newState = (result as ImageLoadResult & { error?: string }).error
+          ? ImageStateUtils.createErrorState((result as ImageLoadResult & { error: string }).error)
           : ImageStateUtils.createSuccessState(result);
 
         // Cache the state
@@ -144,5 +142,13 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
     const imageName = this.images[this.currentIndex];
     this.imageStates.delete(imageName); // Clear cached error state
     this.loadCurrentImage();
+  }
+
+  shouldShowImage(): boolean {
+    return !!(this.currentImageUrl && !this.isLoading && !this.hasError);
+  }
+
+  shouldShowCacheIndicator(): boolean {
+    return !!(this.currentImageState.fromCache && !this.isLoading && !this.hasError);
   }
 }

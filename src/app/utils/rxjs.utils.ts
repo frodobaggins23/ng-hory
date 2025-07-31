@@ -8,8 +8,11 @@ export class RxJSUtils {
   /**
    * Standardized error handling with optional fallback value
    */
-  static handleError<T>(errorMessage: string, fallbackValue?: T): (error: any) => Observable<T> {
-    return (error: any) => {
+  static handleError<T>(
+    errorMessage: string,
+    fallbackValue?: T
+  ): (error: unknown) => Observable<T> {
+    return (error: unknown) => {
       console.error(errorMessage, error);
 
       if (fallbackValue !== undefined) {
@@ -23,8 +26,8 @@ export class RxJSUtils {
   /**
    * Simple error logging that re-throws the error
    */
-  static logAndRethrow(errorMessage: string): (error: any) => Observable<never> {
-    return (error: any) => {
+  static logAndRethrow(errorMessage: string): (error: unknown) => Observable<never> {
+    return (error: unknown) => {
       console.error(errorMessage, error);
       return throwError(() => error);
     };
@@ -33,11 +36,11 @@ export class RxJSUtils {
   /**
    * Removes item from Map after operation completes or errors
    */
-  static cleanupMapEntry<K, V>(
+  static cleanupMapEntry<K, V, T>(
     map: Map<K, V>,
     key: K
-  ): (source: Observable<any>) => Observable<any> {
-    return (source: Observable<any>) =>
+  ): (source: Observable<T>) => Observable<T> {
+    return (source: Observable<T>) =>
       source.pipe(
         tap({
           complete: () => map.delete(key),

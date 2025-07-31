@@ -1,5 +1,13 @@
 // I was here
-import { Component, Input, SimpleChanges, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Input,
+  SimpleChanges,
+  OnDestroy,
+  OnInit,
+  OnChanges,
+  inject,
+} from '@angular/core';
 import { ImageService, ImageLoadResult } from '../../services/image.service';
 import { MountainStateService } from '../../services/mountain-state.service';
 import { OverlayService } from '../../services/overlay.service';
@@ -8,6 +16,7 @@ import { ExpandIconComponent } from '../expand-icon/expand-icon.component';
 import { ExpandContentComponent } from '../expand-content/expand-content.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Climb } from '../../../data/types';
 import { BlobUtils } from '../../utils';
 
 type Column = {
@@ -32,15 +41,13 @@ const COLUMNS: Column[] = [
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
-export class TableComponent implements OnDestroy {
+export class TableComponent implements OnDestroy, OnInit, OnChanges {
   private destroy$ = new Subject<void>();
   private thumbnailCache = new Map<number, { url: string; loading: boolean; error: boolean }>();
 
-  constructor(
-    private mountainStateService: MountainStateService,
-    public imageService: ImageService,
-    private overlayService: OverlayService
-  ) {}
+  private mountainStateService = inject(MountainStateService);
+  public imageService = inject(ImageService);
+  private overlayService = inject(OverlayService);
 
   @Input() mountainName: string = '';
   mountainDetail!: ReturnType<MountainStateService['getCurrentMountain']>;
@@ -91,6 +98,14 @@ export class TableComponent implements OnDestroy {
     return cached?.error || false;
   }
 
+  shouldShowThumbnailImage(climbId: number): boolean {
+    return !!this.getThumbnailUrl(climbId);
+  }
+
+  hasClimbImages(climb: { imgs?: string[] }): boolean {
+    return !!(climb.imgs && climb.imgs.length > 0);
+  }
+
   loadThumbnail(climbId: number) {
     const climb = this.mountainDetail.climbs?.find(c => c.id === climbId);
     if (!climb || !climb.imgs || climb.imgs.length === 0 || !this.mountainName) {
@@ -139,10 +154,13 @@ export class TableComponent implements OnDestroy {
     }
   }
 
-  private openImageOverlayWithNavigation(imageUrl: string, climb: any, initialIndex: number) {
+  private openImageOverlayWithNavigation(imageUrl: string, climb: Climb, initialIndex: number) {
+    if (!climb.imgs || climb.imgs.length === 0) return;
+
     let currentIndex = initialIndex;
 
     const navigateToImage = (index: number) => {
+      if (!climb.imgs) return;
       const imageName = climb.imgs[index];
       this.imageService
         .getImageUrl(this.mountainName, imageName)
@@ -160,10 +178,12 @@ export class TableComponent implements OnDestroy {
       images: climb.imgs,
       showNavigation: climb.imgs.length > 1,
       onNavigateNext: () => {
+        if (!climb.imgs) return;
         currentIndex = (currentIndex + 1) % climb.imgs.length;
         navigateToImage(currentIndex);
       },
       onNavigatePrev: () => {
+        if (!climb.imgs) return;
         currentIndex = (currentIndex - 1 + climb.imgs.length) % climb.imgs.length;
         navigateToImage(currentIndex);
       },

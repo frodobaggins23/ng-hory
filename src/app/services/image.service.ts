@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { map, switchMap, catchError, tap, share } from 'rxjs/operators';
 import { GoogleDriveService, DriveImageMetadata } from './google-drive.service';
@@ -20,10 +20,8 @@ export class ImageService {
   private pendingFolderRequests = new Map<string, Observable<DriveImageMetadata[]>>();
   private pendingImageRequests = new Map<string, Observable<ImageLoadResult>>();
 
-  constructor(
-    private driveService: GoogleDriveService,
-    private cacheService: ImageCacheService
-  ) {}
+  private driveService = inject(GoogleDriveService);
+  private cacheService = inject(ImageCacheService);
 
   /**
    * Get image URL for display - cache first, then Drive download

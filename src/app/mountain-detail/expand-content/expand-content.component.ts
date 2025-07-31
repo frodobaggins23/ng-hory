@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { MapService } from '../../services/map.service';
 import { Climb } from '../../../data/types';
 import { PhotoGalleryComponent } from '../../photo-gallery/photo-gallery.component';
@@ -13,7 +13,7 @@ import { ClimbDescriptionComponent } from '../climb-description/climb-descriptio
   styleUrl: './expand-content.component.scss',
 })
 export class ExpandContentComponent {
-  constructor(private mapService: MapService) {}
+  private mapService = inject(MapService);
 
   @Input() expanded: boolean = false;
   @Input() content!: Climb;

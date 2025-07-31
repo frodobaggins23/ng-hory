@@ -1,4 +1,4 @@
-import { Injectable, signal, Signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import * as L from 'leaflet';
 
 @Injectable({
@@ -59,7 +59,7 @@ export class MapService {
           current = target;
           clearInterval(interval);
         }
-        (layer as any).setStyle({ opacity: current });
+        (layer as L.Path).setStyle({ opacity: current });
       }, speed);
     });
   }

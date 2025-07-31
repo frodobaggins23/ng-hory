@@ -35,7 +35,7 @@
 
   <!-- Image Display -->
   <img
-    *ngIf="currentImageUrl && !isLoading && !hasError"
+    *ngIf="shouldShowImage()"
     [src]="currentImageUrl"
     alt="Photo gallery image"
     class="gallery-image"
@@ -43,7 +43,5 @@
   />
 
   <!-- Cache Indicator -->
-  <div *ngIf="currentImageState.fromCache && !isLoading && !hasError" class="cache-indicator">
-    📁 Cached
-  </div>
+  <div *ngIf="shouldShowCacheIndicator()" class="cache-indicator">📁 Cached</div>
 </div>

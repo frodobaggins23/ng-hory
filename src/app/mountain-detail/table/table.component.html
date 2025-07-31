@@ -18,7 +18,7 @@
       <tr>
         <td>{{ climb.date }}</td>
         <td class="desktop thumbnail-cell">
-          <ng-container *ngIf="climb.imgs && climb.imgs.length > 0">
+          <ng-container *ngIf="hasClimbImages(climb)">
             <!-- Loading State -->
             <div *ngIf="isThumbnailLoading(climb.id)" class="thumbnail-loading">
               <div class="thumbnail-spinner"></div>
@@ -35,7 +35,7 @@
 
             <!-- Thumbnail Image -->
             <img
-              *ngIf="getThumbnailUrl(climb.id)"
+              *ngIf="shouldShowThumbnailImage(climb.id)"
               [src]="getThumbnailUrl(climb.id)"
               alt="climb thumbnail"
               class="thumbnail-image"

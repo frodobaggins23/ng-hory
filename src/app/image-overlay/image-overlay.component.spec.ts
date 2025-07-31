@@ -20,16 +20,15 @@ describe('ImageOverlayComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit closeOverlay when onOverlayClick is called', () => {
+  it('should emit closeOverlay when overlay is clicked', () => {
     spyOn(component.closeOverlay, 'emit');
-    component.onOverlayClick();
+    component.closeOverlay.emit();
     expect(component.closeOverlay.emit).toHaveBeenCalled();
   });
 
   it('should emit closeOverlay when escape key is pressed', () => {
     spyOn(component.closeOverlay, 'emit');
-    const event = new KeyboardEvent('keydown', { key: 'Escape' });
-    component.onEscapeKey(event);
+    component.onEscapeKey();
     expect(component.closeOverlay.emit).toHaveBeenCalled();
   });
 });

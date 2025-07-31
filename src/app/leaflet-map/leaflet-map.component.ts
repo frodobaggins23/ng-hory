@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, computed, effect, signal } from '@angular/core';
+import { Component, AfterViewInit, computed, effect, signal, inject } from '@angular/core';
 import * as L from 'leaflet';
 import { SwitcherComponent } from '../switcher/switcher.component';
 import { MountainStateService } from '../services/mountain-state.service';
@@ -17,7 +17,7 @@ const MAPY_CZ_URL =
   styleUrls: ['./leaflet-map.component.scss'],
   imports: [SwitcherComponent, HideTrackPreviewComponent, MountainDetailComponent, CommonModule],
 })
-export class LeafletMapComponent implements OnInit, AfterViewInit {
+export class LeafletMapComponent implements AfterViewInit {
   mapInitialized = signal(false);
   mountainName = computed(() => this.mountainStateService.mountainName());
   mountainCoordinates = computed(() => this.mountainStateService.mountainCoordinates());
@@ -25,10 +25,10 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
   marker!: L.Circle;
   isMountainDetailVisible: boolean = false;
 
-  constructor(
-    private mountainStateService: MountainStateService,
-    private mapService: MapService
-  ) {
+  private mountainStateService = inject(MountainStateService);
+  private mapService = inject(MapService);
+
+  constructor() {
     effect(() => {
       if (this.mapInitialized()) {
         this.createMarker();
@@ -36,8 +36,6 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
-  ngOnInit() {}
 
   ngAfterViewInit() {
     this.mapService.initMap('map', this.mountainCoordinates(), 17, MAPY_CZ_URL);
