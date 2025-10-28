@@ -1,3 +1,4 @@
+import { ralsko01, ralsko02, ralsko03, ralsko04 } from '../tracks/ralsko';
 import { Climb } from '../types';
 
 export const climbsRalsko: Climb[] = [
@@ -16,6 +17,7 @@ export const climbsRalsko: Climb[] = [
     distance: '4.66 km',
     heartRate: '131 bpm',
     elevationGain: 542,
+    track: ralsko01 as GeoJSON.GeoJsonObject,
   },
   {
     id: 2,
@@ -26,5 +28,29 @@ export const climbsRalsko: Climb[] = [
     distance: '5.37 km',
     heartRate: '125 bpm',
     elevationGain: 538,
+    track: ralsko02 as GeoJSON.GeoJsonObject,
+  },
+  {
+    id: 3,
+    date: '2025-07-23',
+    imgs: [],
+    description: 'Letni výšlap známou trasou z Mimoně. Zpět novou cestou podél Ploučnice.',
+    duration: '01:15:54',
+    distance: '4.51km',
+    heartRate: '126 bpm',
+    elevationGain: 408,
+    track: ralsko03 as GeoJSON.GeoJsonObject,
+  },
+  {
+    id: 4,
+    date: '2025-10-25',
+    imgs: [],
+    description:
+      'Podzimní výstup na Ralsko. Barevné listí a klidná atmosféra. Stejná trasa jako v dubnu.',
+    duration: '01:11:50',
+    distance: '4.58km',
+    heartRate: '130 bpm',
+    elevationGain: 419,
+    track: ralsko04 as GeoJSON.GeoJsonObject,
   },
 ];
