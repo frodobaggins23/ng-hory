@@ -1,0 +1,25 @@
+{
+  "name": "file-server-middleware",
+  "version": "1.0.0",
+  "description": "Node.js middleware for serving protected files",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test utils.test.js"
+  },
+  "keywords": [
+    "file-server",
+    "middleware"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mime-types": "^2.1.35"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
