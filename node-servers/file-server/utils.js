@@ -64,6 +64,63 @@ export const isPathWithinDirectory = (filePath, baseDir) => {
 };
 
 /**
+ * Validates if an origin is allowed for CORS.
+ * Allows localhost (any port), kubac.website, and requests with no origin.
+ *
+ * @param {string|undefined} origin - The origin to validate
+ * @returns {boolean} - True if the origin is allowed, false otherwise
+ *
+ * @example
+ * isOriginAllowed('http://localhost:4200') // returns true
+ * isOriginAllowed('http://kubac.website') // returns true
+ * isOriginAllowed('http://evil.com') // returns false
+ * isOriginAllowed(undefined) // returns true (no origin)
+ */
+export const isOriginAllowed = origin => {
+  // Allow requests with no origin (like mobile apps or curl requests)
+  if (!origin) return true;
+
+  // Define allowed origins
+  const allowedOrigins = [
+    /^http:\/\/localhost(:\d+)?$/, // localhost with any port
+    /^http:\/\/127\.0\.0\.1(:\d+)?$/, // 127.0.0.1 with any port
+    'http://kubac.website',
+    'https://kubac.website',
+  ];
+
+  // Check if origin matches any allowed pattern
+  return allowedOrigins.some(allowed => {
+    if (typeof allowed === 'string') {
+      return origin === allowed;
+    }
+    // RegExp pattern
+    return allowed.test(origin);
+  });
+};
+
+/**
+ * Creates CORS options configuration for Express.
+ * Uses isOriginAllowed to validate origins.
+ *
+ * @returns {Object} - CORS options object for Express cors middleware
+ *
+ * @example
+ * import cors from 'cors';
+ * import { getCorsOptions } from './utils.js';
+ * app.use(cors(getCorsOptions()));
+ */
+export const getCorsOptions = () => ({
+  origin: (origin, callback) => {
+    if (isOriginAllowed(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+});
+
+/**
  * Lists files organized by directories.
  * Returns an array of objects where each object represents a directory and its files.
  * Root level files are included with the key 'root'.

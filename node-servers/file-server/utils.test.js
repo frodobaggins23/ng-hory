@@ -3,7 +3,13 @@ import assert from 'node:assert';
 import path from 'path';
 import fs from 'fs/promises';
 import { tmpdir } from 'os';
-import { sanitizePathComponent, isPathWithinDirectory, listFilesByDirectory } from './utils.js';
+import {
+  sanitizePathComponent,
+  isPathWithinDirectory,
+  listFilesByDirectory,
+  isOriginAllowed,
+  getCorsOptions,
+} from './utils.js';
 
 test('sanitizePathComponent - basic valid inputs', () => {
   assert.strictEqual(sanitizePathComponent('bezdez'), 'bezdez');
@@ -396,4 +402,128 @@ test('listFilesByDirectory - error handling: non-existent directory', async () =
   );
 
   await assert.rejects(async () => await listFilesByDirectory(nonExistentDir), { code: 'ENOENT' });
+});
+
+// ============================================================================
+// CORS Tests
+// ============================================================================
+
+test('isOriginAllowed - localhost origins: default port', () => {
+  assert.strictEqual(isOriginAllowed('http://localhost'), true);
+  assert.strictEqual(isOriginAllowed('http://127.0.0.1'), true);
+});
+
+test('isOriginAllowed - localhost origins: with port numbers', () => {
+  assert.strictEqual(isOriginAllowed('http://localhost:4200'), true);
+  assert.strictEqual(isOriginAllowed('http://localhost:3000'), true);
+  assert.strictEqual(isOriginAllowed('http://localhost:8080'), true);
+  assert.strictEqual(isOriginAllowed('http://127.0.0.1:4200'), true);
+  assert.strictEqual(isOriginAllowed('http://127.0.0.1:3000'), true);
+  assert.strictEqual(isOriginAllowed('http://127.0.0.1:8080'), true);
+});
+
+test('isOriginAllowed - kubac.website origins: http and https', () => {
+  assert.strictEqual(isOriginAllowed('http://kubac.website'), true);
+  assert.strictEqual(isOriginAllowed('https://kubac.website'), true);
+});
+
+test('isOriginAllowed - no origin: undefined, null, empty string', () => {
+  assert.strictEqual(isOriginAllowed(undefined), true);
+  assert.strictEqual(isOriginAllowed(null), true);
+  assert.strictEqual(isOriginAllowed(''), true);
+});
+
+test('isOriginAllowed - rejected origins: other domains', () => {
+  assert.strictEqual(isOriginAllowed('http://evil.com'), false);
+  assert.strictEqual(isOriginAllowed('https://evil.com'), false);
+  assert.strictEqual(isOriginAllowed('http://malicious.site'), false);
+  assert.strictEqual(isOriginAllowed('https://attacker.net'), false);
+});
+
+test('isOriginAllowed - rejected origins: localhost with https', () => {
+  assert.strictEqual(isOriginAllowed('https://localhost'), false);
+  assert.strictEqual(isOriginAllowed('https://localhost:4200'), false);
+  assert.strictEqual(isOriginAllowed('https://127.0.0.1'), false);
+});
+
+test('isOriginAllowed - rejected origins: subdomain variations', () => {
+  assert.strictEqual(isOriginAllowed('http://api.kubac.website'), false);
+  assert.strictEqual(isOriginAllowed('http://www.kubac.website'), false);
+  assert.strictEqual(isOriginAllowed('http://subdomain.kubac.website'), false);
+});
+
+test('isOriginAllowed - rejected origins: kubac.website with port', () => {
+  assert.strictEqual(isOriginAllowed('http://kubac.website:8080'), false);
+  assert.strictEqual(isOriginAllowed('https://kubac.website:443'), false);
+});
+
+test('isOriginAllowed - rejected origins: path traversal attempts', () => {
+  assert.strictEqual(isOriginAllowed('http://localhost/../evil.com'), false);
+  assert.strictEqual(isOriginAllowed('http://kubac.website/../../evil'), false);
+});
+
+test('isOriginAllowed - rejected origins: localhost variations', () => {
+  assert.strictEqual(isOriginAllowed('http://localhost.evil.com'), false);
+  assert.strictEqual(isOriginAllowed('http://127.0.0.1.evil.com'), false);
+  assert.strictEqual(isOriginAllowed('http://127.0.0.2'), false);
+  assert.strictEqual(isOriginAllowed('http://192.168.1.1'), false);
+});
+
+test('getCorsOptions - returns correct structure', () => {
+  const options = getCorsOptions();
+
+  assert.strictEqual(typeof options, 'object');
+  assert.strictEqual(typeof options.origin, 'function');
+  assert.strictEqual(options.credentials, true);
+});
+
+test('getCorsOptions - origin callback: allows valid origins', () => {
+  const options = getCorsOptions();
+  const validOrigins = [
+    'http://localhost:4200',
+    'http://127.0.0.1:3000',
+    'http://kubac.website',
+    'https://kubac.website',
+    undefined,
+  ];
+
+  validOrigins.forEach(origin => {
+    let callbackCalled = false;
+    let callbackError = null;
+    let callbackResult = null;
+
+    options.origin(origin, (err, result) => {
+      callbackCalled = true;
+      callbackError = err;
+      callbackResult = result;
+    });
+
+    assert.strictEqual(callbackCalled, true, `Callback should be called for origin: ${origin}`);
+    assert.strictEqual(callbackError, null, `No error expected for origin: ${origin}`);
+    assert.strictEqual(callbackResult, true, `Origin should be allowed: ${origin}`);
+  });
+});
+
+test('getCorsOptions - origin callback: rejects invalid origins', () => {
+  const options = getCorsOptions();
+  const invalidOrigins = [
+    'http://evil.com',
+    'https://malicious.site',
+    'http://api.kubac.website',
+    'https://localhost',
+  ];
+
+  invalidOrigins.forEach(origin => {
+    let callbackCalled = false;
+    let callbackError = null;
+
+    options.origin(origin, err => {
+      callbackCalled = true;
+      callbackError = err;
+    });
+
+    assert.strictEqual(callbackCalled, true, `Callback should be called for origin: ${origin}`);
+    assert.ok(callbackError instanceof Error, `Error expected for origin: ${origin}`);
+    assert.strictEqual(callbackError.message, 'Not allowed by CORS');
+  });
 });

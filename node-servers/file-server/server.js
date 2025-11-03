@@ -1,15 +1,24 @@
 import express from 'express';
+import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs/promises';
 import mime from 'mime-types';
-import { sanitizePathComponent, isPathWithinDirectory, listFilesByDirectory } from './utils.js';
+import {
+  sanitizePathComponent,
+  isPathWithinDirectory,
+  listFilesByDirectory,
+  getCorsOptions,
+} from './utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// CORS configuration - allow requests from localhost and kubac.website
+app.use(cors(getCorsOptions()));
 
 // Directory where protected files are stored (outside public web root)
 const FILES_DIR = path.join(__dirname, 'file-storage');
