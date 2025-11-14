@@ -124,7 +124,7 @@ export class TableComponent implements OnDestroy, OnInit, OnChanges {
     // Load image from Drive
     const imageName = climb.imgs[0];
     this.imageService
-      .getImageUrl(this.mountainName, imageName)
+      .getImageUrl(this.mountainName, imageName, this.mountainDetail.imgFolder)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (result: ImageLoadResult) => {
@@ -163,7 +163,7 @@ export class TableComponent implements OnDestroy, OnInit, OnChanges {
       if (!climb.imgs) return;
       const imageName = climb.imgs[index];
       this.imageService
-        .getImageUrl(this.mountainName, imageName)
+        .getImageUrl(this.mountainName, imageName, this.mountainDetail.imgFolder)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (result: ImageLoadResult) => {

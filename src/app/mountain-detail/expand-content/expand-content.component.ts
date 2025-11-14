@@ -18,6 +18,7 @@ export class ExpandContentComponent {
   @Input() expanded: boolean = false;
   @Input() content!: Climb;
   @Input() mountainName: string = '';
+  @Input() imgFolder: string = '';
 
   get images(): string[] {
     return this.content?.imgs || [];

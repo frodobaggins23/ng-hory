@@ -25,6 +25,7 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
 
   @Input() images: string[] = [];
   @Input() mountainName: string = '';
+  @Input() imgFolder: string = '';
   currentIndex = 0;
 
   ngOnInit() {
@@ -82,7 +83,7 @@ export class PhotoGalleryComponent implements OnInit, OnDestroy {
 
     // Load image from Drive
     this.imageService
-      .getImageUrl(this.mountainName, imageName)
+      .getImageUrl(this.mountainName, imageName, this.imgFolder)
       .pipe(
         takeUntil(this.destroy$),
         catchError(error => {

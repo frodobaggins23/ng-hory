@@ -1,10 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { map, switchMap, catchError, tap, share } from 'rxjs/operators';
-import { GoogleDriveService, DriveImageMetadata } from './google-drive.service';
+import { switchMap, catchError, map, share } from 'rxjs/operators';
 import { ImageCacheService } from './image-cache.service';
-import { mountains } from '../../data/mountains';
 import { MountainUtils, RxJSUtils, BlobUtils } from '../utils';
+import { environment } from '../../environments/environment';
 
 export interface ImageLoadResult {
   url: string;
@@ -16,17 +15,18 @@ export interface ImageLoadResult {
   providedIn: 'root',
 })
 export class ImageService {
-  private folderImageCache = new Map<string, DriveImageMetadata[]>();
-  private pendingFolderRequests = new Map<string, Observable<DriveImageMetadata[]>>();
   private pendingImageRequests = new Map<string, Observable<ImageLoadResult>>();
 
-  private driveService = inject(GoogleDriveService);
   private cacheService = inject(ImageCacheService);
 
   /**
-   * Get image URL for display - cache first, then Drive download
+   * Get image URL for display - cache first, then file server download
    */
-  getImageUrl(mountainName: string, imageName: string): Observable<ImageLoadResult> {
+  getImageUrl(
+    mountainName: string,
+    imageName: string,
+    imgFolder: string
+  ): Observable<ImageLoadResult> {
     const imageKey = MountainUtils.createImageKey(mountainName, imageName);
     const mountainId = MountainUtils.normalizeMountainName(mountainName);
 
@@ -49,8 +49,12 @@ export class ImageService {
           return pendingRequest;
         }
 
-        // Not in cache - download from Drive
-        const downloadRequest$ = this.downloadAndCacheImage(mountainName, imageName).pipe(
+        // Not in cache - download from file server
+        const downloadRequest$ = this.downloadAndCacheImage(
+          mountainName,
+          imageName,
+          imgFolder
+        ).pipe(
           RxJSUtils.cleanupMapEntry(this.pendingImageRequests, imageKey),
           share() // Share the Observable to prevent multiple downloads
         );
@@ -67,109 +71,48 @@ export class ImageService {
   }
 
   /**
-   * Preload images for a mountain (inspect folder and cache metadata)
-   */
-  preloadMountainImages(mountainName: string): Observable<DriveImageMetadata[]> {
-    const mountain = mountains.find(m => m.name === mountainName);
-    if (!mountain?.driveFolderId) {
-      return throwError(
-        () => new Error(`No Drive folder configured for mountain: ${mountainName}`)
-      );
-    }
-
-    // Check if already cached
-    const cached = this.folderImageCache.get(mountainName);
-    if (cached) {
-      return of(cached);
-    }
-
-    // Check if request is already pending
-    const pending = this.pendingFolderRequests.get(mountainName);
-    if (pending) {
-      return pending;
-    }
-
-    // Create new request and cache it
-    const request$ = this.driveService.inspectFolder(mountain.driveFolderId).pipe(
-      tap(result => {
-        // Cache the metadata
-        this.folderImageCache.set(mountainName, result.images);
-      }),
-      map(result => result.images),
-      RxJSUtils.cleanupMapEntry(this.pendingFolderRequests, mountainName),
-      catchError(RxJSUtils.logAndRethrow('Error preloading mountain images')),
-      share() // Share the Observable to prevent multiple API calls
-    );
-
-    // Cache the pending request
-    this.pendingFolderRequests.set(mountainName, request$);
-    return request$;
-  }
-
-  /**
-   * Get all available images for a mountain
-   */
-  getMountainImages(mountainName: string): Observable<string[]> {
-    return this.preloadMountainImages(mountainName).pipe(
-      map(images => images.map(img => img.name))
-    );
-  }
-
-  /**
-   * Download image from Drive and store in cache
+   * Download image from file server and store in cache
    */
   private downloadAndCacheImage(
     mountainName: string,
-    imageName: string
+    imageName: string,
+    imgFolder: string
   ): Observable<ImageLoadResult> {
-    const mountain = mountains.find(m => m.name === mountainName);
-    if (!mountain?.driveFolderId) {
-      return throwError(
-        () =>
-          new Error(`Drive folder not configured for ${mountainName}. Please check mountain data.`)
-      );
-    }
+    const mountainId = MountainUtils.normalizeMountainName(mountainName);
 
-    // Get folder metadata first
-    return this.preloadMountainImages(mountainName).pipe(
-      switchMap(images => {
-        const imageMetadata = this.driveService.findImageByName(images, imageName);
-        if (!imageMetadata) {
-          return throwError(
-            () => new Error(`Image '${imageName}' not found in ${mountainName} Drive folder`)
-          );
-        }
+    // Construct file server URL using imgFolder
+    const url = `${environment.fileServerHost}/api/get-file?folder=${encodeURIComponent(imgFolder)}&filename=${encodeURIComponent(imageName)}`;
 
-        // Download the image
-        return this.driveService.downloadImage(imageMetadata.id).pipe(
-          switchMap(blob => {
-            const mountainId = MountainUtils.normalizeMountainName(mountainName);
-
-            // Store in cache
-            return this.cacheService.storeImage(mountainId, imageName, blob, imageMetadata.id).pipe(
-              map(() => ({
-                url: BlobUtils.createBlobUrl(blob),
-                fromCache: false,
-                size: blob.size,
-              }))
-            );
-          }),
-          catchError(error => {
-            console.error(`Failed to download image ${imageName} for ${mountainName}:`, error);
-            return throwError(
-              () => new Error(`Download failed: ${error.message || 'Network error'}`)
-            );
-          })
+    // Download the image from file server
+    return new Observable<Blob>(observer => {
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+          return response.blob();
+        })
+        .then(blob => {
+          observer.next(blob);
+          observer.complete();
+        })
+        .catch(error => {
+          observer.error(error);
+        });
+    }).pipe(
+      switchMap(blob => {
+        // Store in cache
+        return this.cacheService.storeImage(mountainId, imageName, blob).pipe(
+          map(() => ({
+            url: BlobUtils.createBlobUrl(blob),
+            fromCache: false,
+            size: blob.size,
+          }))
         );
       }),
       catchError(error => {
-        console.error(`Error accessing ${mountainName} Drive folder:`, error);
-        return throwError(
-          () =>
-            new Error(
-              `Drive folder access failed: ${error.message || 'Check API key and permissions'}`
-            )
-        );
+        console.error(`Failed to download image ${imageName} for ${mountainName}:`, error);
+        return throwError(() => new Error(`Download failed: ${error.message || 'Network error'}`));
       })
     );
   }
@@ -186,15 +129,5 @@ export class ImageService {
    */
   clearCache() {
     return this.cacheService.clearCache();
-  }
-
-  /**
-   * Legacy CDN URL method - temporary for compatibility
-   * @deprecated Use getImageUrl() instead
-   */
-  getCdnUrl(imageName: string): string {
-    // Temporary fallback to avoid TypeScript errors
-    console.warn('getCdnUrl is deprecated, use getImageUrl() instead');
-    return `https://via.placeholder.com/400x300?text=${encodeURIComponent(imageName)}`;
   }
 }

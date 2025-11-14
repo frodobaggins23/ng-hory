@@ -12,7 +12,6 @@ export interface CachedImage {
   size: number; // bytes
   lastAccessed: Date;
   downloadDate: Date;
-  driveFileId: string;
 }
 
 export interface CacheStats {
@@ -92,12 +91,7 @@ export class ImageCacheService {
   /**
    * Store image in cache with LRU eviction
    */
-  storeImage(
-    mountainId: string,
-    imageName: string,
-    blob: Blob,
-    driveFileId: string
-  ): Observable<void> {
+  storeImage(mountainId: string, imageName: string, blob: Blob): Observable<void> {
     const key = `${mountainId}:${imageName}`;
 
     if (blob.size > this.MAX_SIZE_PER_IMAGE) {
@@ -118,7 +112,6 @@ export class ImageCacheService {
           size: blob.size,
           lastAccessed: new Date(),
           downloadDate: new Date(),
-          driveFileId,
         };
 
         return from(

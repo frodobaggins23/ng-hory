@@ -3,9 +3,8 @@ require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 
-const apiKey = process.env.API_KEY || "";
-const cdnFolder = process.env.CDN_FOLDER || "";
-const googleDriveApiKey = process.env.GOOGLE_DRIVE_API_KEY || "";
+const mapApiKey = process.env.MAP_API_KEY || "";
+const fileServerHost = process.env.FILE_SERVER_HOST || "";
 
 const envFiles = [
   path.join(__dirname, "../src/environments/environment.ts"),
@@ -15,9 +14,8 @@ const envFiles = [
 envFiles.forEach((file) => {
   if (fs.existsSync(file)) {
     let content = fs.readFileSync(file, "utf8");
-    content = content.replace(/apiKey: '.*'/, `apiKey: '${apiKey}'`);
-    content = content.replace(/cdnFolder: '.*'/, `cdnFolder: '${cdnFolder}'`);
-    content = content.replace(/googleDriveApiKey: '.*'/, `googleDriveApiKey: '${googleDriveApiKey}'`);
+    content = content.replace(/mapApiKey: '.*'/, `mapApiKey: '${mapApiKey}'`);
+    content = content.replace(/fileServerHost: '.*'/, `fileServerHost: '${fileServerHost}'`);
     fs.writeFileSync(file, content, "utf8");
     console.log(`Injected secrets into ${file}`);
   }
