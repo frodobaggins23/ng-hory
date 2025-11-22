@@ -5,7 +5,7 @@ export const climbsJested: Climb[] = [
   {
     id: 1,
     date: '2025-02-08',
-    imgs: ['jested01_01.jpg', 'jested01_02.jpg', 'jested01_03.jpg'],
+    imgs: ['jested01_01.webp', 'jested01_02.webp', 'jested01_03.webp'],
     description: 'Zimní výstup, s nesmeky a hůlkami. Není moc sněhu, ale je namrzlo.',
     duration: '01:47:06',
     distance: '5.87 km',
@@ -16,7 +16,7 @@ export const climbsJested: Climb[] = [
   {
     id: 2,
     date: '2025-04-28',
-    imgs: ['jested02_01.jpg', 'jested02_02.jpg', 'jested02_03.jpg', 'jested02_04.jpg'],
+    imgs: ['jested02_01.webp', 'jested02_02.webp', 'jested02_03.webp', 'jested02_04.webp'],
     description: 'Jarní výšlap. Slunečné počasí, všude se to zelená. Ideální podmínky.',
     duration: '01:33:31',
     distance: '5.56 km',

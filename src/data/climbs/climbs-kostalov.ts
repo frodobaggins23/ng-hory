@@ -6,11 +6,11 @@ export const climbsKostalov: Climb[] = [
     id: 1,
     date: '2025-05-24',
     imgs: [
-      'kostalov01_01.jpg',
-      'kostalov01_02.jpg',
-      'kostalov01_03.jpg',
-      'kostalov01_04.jpg',
-      'kostalov01_05.jpg',
+      'kostalov01_01.webp',
+      'kostalov01_02.webp',
+      'kostalov01_03.webp',
+      'kostalov01_04.webp',
+      'kostalov01_05.webp',
     ],
     description:
       'Prvovýstup na zříceninu hradu. Vybrána trasa s největším převýšením. Krásné výhledy na okolní krajinu.',
