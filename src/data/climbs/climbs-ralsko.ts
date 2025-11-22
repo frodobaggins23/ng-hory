@@ -33,7 +33,7 @@ export const climbsRalsko: Climb[] = [
   {
     id: 3,
     date: '2025-07-23',
-    imgs: [],
+    imgs: ['ralsko03_01.webp', 'ralsko03_02.webp'],
     description: 'Letni výšlap známou trasou z Mimoně. Zpět novou cestou podél Ploučnice.',
     duration: '01:15:54',
     distance: '4.51km',
@@ -44,9 +44,8 @@ export const climbsRalsko: Climb[] = [
   {
     id: 4,
     date: '2025-10-25',
-    imgs: [],
-    description:
-      'Podzimní výstup na Ralsko. Barevné listí a klidná atmosféra. Stejná trasa jako v dubnu.',
+    imgs: ['ralsko04_01.webp', 'ralsko04_02.webp', 'ralsko04_03.webp', 'ralsko04_04.webp'],
+    description: 'Podzimní výstup na Ralsko. Barevné listí a klidná atmosféra.',
     duration: '01:11:50',
     distance: '4.58km',
     heartRate: '130 bpm',

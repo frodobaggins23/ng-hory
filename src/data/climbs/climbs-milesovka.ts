@@ -34,7 +34,7 @@ export const climbsMilesovka: Climb[] = [
   {
     id: 3,
     date: '2025-10-11 ',
-    imgs: [],
+    imgs: ['milesovka03_01.webp'],
     description:
       'Podzimní výstup na Milešovku. Barevné listí a klidná atmosféra. Stejná trasa jako v květnu.',
     duration: '01:22:44',

@@ -7,6 +7,9 @@ import { climbsLipskaHora } from './climbs/climbs-lipska-hora';
 import { climbsRalsko } from './climbs/climbs-ralsko';
 import { climbsBlanik } from './climbs/climbs-blanik';
 import { climbsOstry } from './climbs/climbs-ostry';
+import { climbsBezdez } from './climbs/climbs-bezdez';
+import { climbsRonov } from './climbs/climbs-ronov';
+import { climbsRip } from './climbs/climbs-rip';
 
 export const mountains: Mountain[] = [
   {
@@ -49,12 +52,30 @@ export const mountains: Mountain[] = [
     name: 'Lipská hora',
     coordinates: [50.5124383, 13.9128083],
     climbs: climbsLipskaHora,
-    imgFolder: 'lipska-hora',
+    imgFolder: 'lipska_hora',
   },
   {
     name: 'Ostrý',
     coordinates: [50.5313833, 13.9514528],
     climbs: climbsOstry,
     imgFolder: 'ostry',
+  },
+  {
+    name: 'Bezděz',
+    coordinates: [50.5390411, 14.7198908],
+    climbs: climbsBezdez,
+    imgFolder: 'bezdez',
+  },
+  {
+    name: 'Ronov',
+    coordinates: [50.6203203, 14.4145292],
+    climbs: climbsRonov,
+    imgFolder: 'ronov',
+  },
+  {
+    name: 'Říp',
+    coordinates: [50.3865333, 14.2896225],
+    climbs: climbsRip,
+    imgFolder: 'rip',
   },
 ];

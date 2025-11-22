@@ -23,7 +23,7 @@ export const climbsKostalov: Climb[] = [
   {
     id: 2,
     date: '2025-10-19',
-    imgs: [],
+    imgs: ['kostalov02_01.webp', 'kostalov02_02.webp'],
     description: 'Kratší výstup s Evčou a s Eliškou. Eliščin první kopec!',
     duration: '0:52:44',
     distance: '1.98km',
