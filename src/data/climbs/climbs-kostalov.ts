@@ -20,4 +20,15 @@ export const climbsKostalov: Climb[] = [
     elevationGain: 298,
     track: kostalov01 as GeoJSON.GeoJsonObject,
   },
+  {
+    id: 2,
+    date: '2025-10-19',
+    imgs: [],
+    description: 'Kratší výstup s Evčou a s Eliškou. Eliščin první kopec!',
+    duration: '0:52:44',
+    distance: '1.98km',
+    heartRate: '97 bpm',
+    elevationGain: 107,
+    track: kostalov01 as GeoJSON.GeoJsonObject,
+  },
 ];

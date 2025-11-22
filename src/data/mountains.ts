@@ -6,6 +6,7 @@ import { climbsMilesovka } from './climbs/climbs-milesovka';
 import { climbsLipskaHora } from './climbs/climbs-lipska-hora';
 import { climbsRalsko } from './climbs/climbs-ralsko';
 import { climbsBlanik } from './climbs/climbs-blanik';
+import { climbsOstry } from './climbs/climbs-ostry';
 
 export const mountains: Mountain[] = [
   {
@@ -49,5 +50,11 @@ export const mountains: Mountain[] = [
     coordinates: [50.5124383, 13.9128083],
     climbs: climbsLipskaHora,
     imgFolder: 'lipska-hora',
+  },
+  {
+    name: 'Ostrý',
+    coordinates: [50.5313833, 13.9514528],
+    climbs: climbsOstry,
+    imgFolder: 'ostry',
   },
 ];

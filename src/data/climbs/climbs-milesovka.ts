@@ -31,4 +31,16 @@ export const climbsMilesovka: Climb[] = [
     elevationGain: 639,
     track: milesovka02 as GeoJSON.GeoJsonObject,
   },
+  {
+    id: 3,
+    date: '2025-10-11 ',
+    imgs: [],
+    description:
+      'Podzimní výstup na Milešovku. Barevné listí a klidná atmosféra. Stejná trasa jako v květnu.',
+    duration: '01:22:44',
+    distance: '4.66 km',
+    heartRate: '129 bpm',
+    elevationGain: 525,
+    track: milesovka02 as GeoJSON.GeoJsonObject,
+  },
 ];
