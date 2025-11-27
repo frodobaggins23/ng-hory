@@ -14,8 +14,8 @@ export const climbsLipskaHora: Climb[] = [
     description:
       'Prvovýstup na vrchol Lipské hory. Vyhlídka nahoře byla úchvatná. Když jsem tam dorazil, spontálně jsem udělal wow.',
     duration: 2343,  // 0:39:03,
-    distance: '2.03 km',
-    heartRate: '147 bpm',
+    distance: 2030,
+    heartRate: 147,
     elevationGain: 321,
     track: lipskaHora01 as GeoJSON.GeoJsonObject,
   },

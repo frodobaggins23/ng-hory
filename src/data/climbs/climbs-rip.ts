@@ -7,8 +7,8 @@ export const climbsRip: Climb[] = [
     imgs: ['rip01_01.webp', 'rip01_02.webp', 'rip01_03.webp'],
     description: 'Úplně první výšlap tohoto projektu! Byla zima a brutalně to klouzalo.',
     duration: 1774,  // 0:29:34,
-    distance: '2.10 km',
-    heartRate: '133 bpm',
+    distance: 2100,
+    heartRate: 133,
     elevationGain: 203,
   },
   {
@@ -17,8 +17,8 @@ export const climbsRip: Climb[] = [
     imgs: ['rip02_01.webp', 'rip02_02.webp'],
     description: 'Letní výšlap na Říp. Cestou za babičkou.',
     duration: 1816,  // 0:30:16,
-    distance: '2.18 km',
-    heartRate: '136 bpm',
+    distance: 2180,
+    heartRate: 136,
     elevationGain: 203,
   },
 ];

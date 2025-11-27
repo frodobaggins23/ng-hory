@@ -13,8 +13,8 @@ export const climbsRonov: Climb[] = [
     ],
     description: 'První výšlap na Ronov. Pekelné vedro a cesta hodně zarostlá.',
     duration: 3337,  // 0:55:37,
-    distance: '3.23 km',
-    heartRate: '142 bpm',
+    distance: 3230,
+    heartRate: 142,
     elevationGain: 271,
   },
 ];

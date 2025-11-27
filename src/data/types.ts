@@ -10,9 +10,13 @@ export type Climb = {
   date: string;
   imgs?: string[];
   description: string;
+  /** Duration in seconds */
   duration: number;
-  distance: string;
-  heartRate: string;
+  /** Distance in meters */
+  distance: number;
+  /** Heart rate in beats per minute */
+  heartRate: number;
+  /** Elevation in meters */
   elevationGain: number;
   track?: GeoJSON.GeoJsonObject;
 };

@@ -19,6 +19,10 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Climb } from '../../../data/types';
 import { BlobUtils } from '../../utils';
+import { ElevationPipe } from '../../pipes/elevation.pipe';
+import { DistancePipe } from '../../pipes/distance.pipe';
+import { HeartRatePipe } from '../../pipes/heartRate.pipe';
+import { CzechDatePipe } from '../../pipes/czech-date.pipe';
 
 type Column = {
   name: string;
@@ -38,7 +42,16 @@ const COLUMNS: Column[] = [
 
 @Component({
   selector: 'app-mountain-detail-table',
-  imports: [CommonModule, ExpandIconComponent, ExpandContentComponent, DurationPipe],
+  imports: [
+    CommonModule,
+    ExpandIconComponent,
+    ExpandContentComponent,
+    DurationPipe,
+    ElevationPipe,
+    DistancePipe,
+    HeartRatePipe,
+    CzechDatePipe,
+  ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })

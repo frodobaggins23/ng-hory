@@ -8,8 +8,8 @@ export const climbsOstry: Climb[] = [
     description:
       'Prvovýstup na Ostrý. Krásná vyhlídka z vrcholu. Je tam dokonce lavička, odkud se dá koukat na Milešovku.',
     duration: 2250,  // 0:37:30,
-    distance: '2.26 km',
-    heartRate: '142 bpm',
+    distance: 2260,
+    heartRate: 142,
     elevationGain: 227,
   },
 ];

@@ -50,8 +50,8 @@ function parseActivityCsv(csvPath: string, id: number, date: string, description
     date,
     description,
     duration: data['Čas'] ? durationToSeconds(data['Čas']) : 0,
-    distance: `${data['Vzdálenost'] || 0} km`,
-    heartRate: `${data['Průměrný ST'] || 0} bpm`,
+    distance: parseFloat(data['Vzdálenost'] || '0') * 1000,
+    heartRate: parseInt(data['Průměrný ST'] || '0', 10),
     elevationGain: parseInt(data['Výstup'] || '0', 10),
   };
 

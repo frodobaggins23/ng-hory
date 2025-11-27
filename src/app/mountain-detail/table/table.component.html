@@ -16,7 +16,7 @@
   <tbody>
     <ng-container *ngFor="let climb of mountainDetail.climbs">
       <tr>
-        <td>{{ climb.date }}</td>
+        <td>{{ climb.date | czechDate }}</td>
         <td class="desktop thumbnail-cell">
           <ng-container *ngIf="hasClimbImages(climb)">
             <!-- Loading State -->
@@ -44,9 +44,9 @@
           </ng-container>
         </td>
         <td class="large">{{ climb.description }}</td>
-        <td class="desktop">{{ climb.distance }}</td>
-        <td class="desktop">{{ climb.elevationGain }}</td>
-        <td class="desktop">{{ climb.heartRate }}</td>
+        <td class="desktop">{{ climb.distance | distance }}</td>
+        <td class="desktop">{{ climb.elevationGain | elevation }}</td>
+        <td class="desktop">{{ climb.heartRate | heartRate }}</td>
         <td>{{ climb.duration | duration }}</td>
         <td>
           <app-mountain-detail-expand-icon
