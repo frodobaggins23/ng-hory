@@ -44,7 +44,7 @@ Thumbs.db
 
 # tracks temp files
 tracks-tmp
-.claude/custom_hook_scripts/tmp_files
+climbs-tmp
 
 # logs
 .claude/custom_hook_scripts/logs
@@ -55,3 +55,4 @@ src/environments/environment.development.ts
 
 # AI
 !.claude/settings.local.json
+.claude/custom_hook_scripts/tmp_files

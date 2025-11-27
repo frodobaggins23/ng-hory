@@ -12,7 +12,8 @@
     "lint:fix": "eslint \"src/**/*.{ts,html}\" --fix",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "tracks:prepare": "bash ./scripts/prepare-tracks.sh"
+    "prepare:tracks": "bash ./scripts/prepare-tracks.sh",
+    "prepare:climb": "tsx ./scripts/prepare-climb.ts"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +29,7 @@
     "leaflet": "^1.9.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "tsx": "^4.20.6",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
