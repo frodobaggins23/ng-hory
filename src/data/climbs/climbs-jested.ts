@@ -24,4 +24,14 @@ export const climbsJested: Climb[] = [
     elevationGain: 742,
     track: jested02 as GeoJSON.GeoJsonObject,
   },
+  {
+    id: 3,
+    date: '2025-11-23',
+    description:
+      'Spíš výlet, než klasický výstup. Procházka po hřebeni se zastávkou na krásné výhlídce Červený kámen',
+    duration: 16979,
+    distance: 17710,
+    heartRate: 126,
+    elevationGain: 757,
+  },
 ];
