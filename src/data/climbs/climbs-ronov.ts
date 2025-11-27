@@ -12,7 +12,7 @@ export const climbsRonov: Climb[] = [
       'ronov01_05.webp',
     ],
     description: 'První výšlap na Ronov. Pekelné vedro a cesta hodně zarostlá.',
-    duration: '0:55:37',
+    duration: 3337,  // 0:55:37,
     distance: '3.23 km',
     heartRate: '142 bpm',
     elevationGain: 271,

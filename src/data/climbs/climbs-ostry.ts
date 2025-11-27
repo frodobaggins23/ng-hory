@@ -7,7 +7,7 @@ export const climbsOstry: Climb[] = [
     imgs: ['ostry01_01.webp', 'ostry01_02.webp', 'ostry01_03.webp'],
     description:
       'Prvovýstup na Ostrý. Krásná vyhlídka z vrcholu. Je tam dokonce lavička, odkud se dá koukat na Milešovku.',
-    duration: '0:37:30',
+    duration: 2250,  // 0:37:30,
     distance: '2.26 km',
     heartRate: '142 bpm',
     elevationGain: 227,

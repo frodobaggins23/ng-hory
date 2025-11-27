@@ -13,7 +13,7 @@ export const climbsLipskaHora: Climb[] = [
     ],
     description:
       'Prvovýstup na vrchol Lipské hory. Vyhlídka nahoře byla úchvatná. Když jsem tam dorazil, spontálně jsem udělal wow.',
-    duration: '0:39:03',
+    duration: 2343,  // 0:39:03,
     distance: '2.03 km',
     heartRate: '147 bpm',
     elevationGain: 321,

@@ -47,7 +47,7 @@
         <td class="desktop">{{ climb.distance }}</td>
         <td class="desktop">{{ climb.elevationGain }}</td>
         <td class="desktop">{{ climb.heartRate }}</td>
-        <td>{{ climb.duration }}</td>
+        <td>{{ climb.duration | duration }}</td>
         <td>
           <app-mountain-detail-expand-icon
             [isExpanded]="expandedColumn === climb.id"

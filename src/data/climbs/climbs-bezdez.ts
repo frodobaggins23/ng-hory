@@ -12,7 +12,7 @@ export const climbsBezdez: Climb[] = [
       'bezdez01_05.webp',
     ],
     description: 'První výšlap na Bezděz. Spojený s prohlídkou hradu.',
-    duration: '0:21:22',
+    duration: 1282,  // 0:21:22,
     distance: '1.31 km',
     heartRate: '141 bpm',
     elevationGain: 184,

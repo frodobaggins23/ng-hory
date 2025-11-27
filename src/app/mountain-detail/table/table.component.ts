@@ -14,6 +14,7 @@ import { OverlayService } from '../../services/overlay.service';
 import { CommonModule } from '@angular/common';
 import { ExpandIconComponent } from '../expand-icon/expand-icon.component';
 import { ExpandContentComponent } from '../expand-content/expand-content.component';
+import { DurationPipe } from '../../pipes/duration.pipe';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Climb } from '../../../data/types';
@@ -37,7 +38,7 @@ const COLUMNS: Column[] = [
 
 @Component({
   selector: 'app-mountain-detail-table',
-  imports: [CommonModule, ExpandIconComponent, ExpandContentComponent],
+  imports: [CommonModule, ExpandIconComponent, ExpandContentComponent, DurationPipe],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })

@@ -14,7 +14,7 @@ export const climbsLovos: Climb[] = [
       'lovos01_06.webp',
     ],
     description: 'Zimní výstup na Lovoš. Bez nesmeků to nešlo. Sníh a led na vrcholu.',
-    duration: '01:38:17',
+    duration: 5897,  // 01:38:17,
     distance: '5.18 km',
     heartRate: '124 bpm',
     elevationGain: 633,

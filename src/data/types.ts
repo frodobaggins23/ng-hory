@@ -10,7 +10,7 @@ export type Climb = {
   date: string;
   imgs?: string[];
   description: string;
-  duration: string;
+  duration: number;
   distance: string;
   heartRate: string;
   elevationGain: number;

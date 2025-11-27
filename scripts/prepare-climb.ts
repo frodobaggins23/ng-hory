@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import type { Climb } from '../src/data/types';
+import { durationToSeconds } from '../src/app/utils/duration.utils';
 
 function parseCsvLine(line: string): string[] {
   const values: string[] = [];
@@ -40,11 +41,15 @@ function parseActivityCsv(csvPath: string, id: number, date: string, description
     data[key] = summaryLine[index] || '';
   });
 
+  console.info('Duration in Human Readbable Format:', data['Čas'] ?? '-');
+  console.info('Copy data below to climb data file');
+  console.info('-----------------------------');
+
   const climb: Climb = {
     id,
     date,
     description,
-    duration: data['Čas'] || '',
+    duration: data['Čas'] ? durationToSeconds(data['Čas']) : 0,
     distance: `${data['Vzdálenost'] || 0} km`,
     heartRate: `${data['Průměrný ST'] || 0} bpm`,
     elevationGain: parseInt(data['Výstup'] || '0', 10),
