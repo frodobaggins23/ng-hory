@@ -3,19 +3,7 @@
     <!-- Logo Section -->
     <div class="nav-logo">
       <div class="logo-icon">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path [attr.d]="getIcon('mountain')"></path>
-        </svg>
+        <app-icon icon="mountain" stroke="primary-light" [size]="25" />
       </div>
       <span class="logo-text">Moje Hory</span>
     </div>
@@ -29,19 +17,7 @@
         class="nav-tab"
         [attr.aria-current]="activePage === item.id ? 'page' : null"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path [attr.d]="getIcon(item.icon)"></path>
-        </svg>
+        <app-icon [icon]="item.icon" stroke="primary-dark" [size]="16" />
         <span>{{ item.label }}</span>
       </button>
     </div>

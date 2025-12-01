@@ -1,6 +1,7 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, OnDestroy } from '@angular/core';
 import { IconName, IconService } from '../../icon.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 type IconColor = 'primary-light' | 'primary-dark' | 'accent-light' | 'accent-dark' | 'none';
 
@@ -10,7 +11,7 @@ type IconColor = 'primary-light' | 'primary-dark' | 'accent-light' | 'accent-dar
   templateUrl: './icon.component.html',
   styleUrl: './icon.component.scss',
 })
-export class IconComponent implements OnInit {
+export class IconComponent implements OnInit, OnDestroy {
   @Input() icon: IconName = 'home';
   @Input() fill: IconColor = 'none';
   @Input() stroke: IconColor = 'none';
@@ -18,6 +19,7 @@ export class IconComponent implements OnInit {
   @Input() size: number = 24;
   @Input() rounded: boolean = false;
 
+  private subscription?: Subscription;
   iconService = inject(IconService);
   domSanitizer = inject(DomSanitizer);
 
@@ -26,9 +28,13 @@ export class IconComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.iconService.getSvg(this.icon).subscribe((svgContent: string) => {
+    this.subscription = this.iconService.getSvg(this.icon).subscribe((svgContent: string) => {
       this.sanitizedSvg = this.domSanitizer.bypassSecurityTrustHtml(svgContent);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 
   public getColor(color: IconColor): string {
@@ -45,5 +51,9 @@ export class IconComponent implements OnInit {
       default:
         return 'transparent';
     }
+  }
+
+  public hasVisibleBackground(): boolean {
+    return this.background !== 'none';
   }
 }
