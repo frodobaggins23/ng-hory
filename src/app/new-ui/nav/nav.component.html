@@ -1,0 +1,49 @@
+<nav class="nav-container">
+  <div class="nav-content">
+    <!-- Logo Section -->
+    <div class="nav-logo">
+      <div class="logo-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path [attr.d]="getIcon('mountain')"></path>
+        </svg>
+      </div>
+      <span class="logo-text">Moje Hory</span>
+    </div>
+
+    <!-- Navigation Items -->
+    <div class="nav-tabs">
+      <button
+        *ngFor="let item of navItems"
+        (click)="navigate(item.id, item.route)"
+        [class.active]="activePage === item.id"
+        class="nav-tab"
+        [attr.aria-current]="activePage === item.id ? 'page' : null"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path [attr.d]="getIcon(item.icon)"></path>
+        </svg>
+        <span>{{ item.label }}</span>
+      </button>
+    </div>
+  </div>
+</nav>
