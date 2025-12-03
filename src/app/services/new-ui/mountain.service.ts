@@ -10,14 +10,15 @@ type MountainMapPoint = {
   providedIn: 'root',
 })
 export class MountainService {
-  allMountainPoints: MountainMapPoint[] = [];
-  allCoordinates: L.LatLngExpression[] = [];
+  allMountainPoints: MountainMapPoint[];
+  allCoordinates: L.LatLngExpression[];
 
   constructor() {
-    mountains.map(({ name, coordinates }) => {
-      this.allMountainPoints.push({ name, coordinates });
-      this.allCoordinates.push(coordinates);
-    });
+    this.allMountainPoints = mountains.map(({ name, coordinates }) => ({
+      name,
+      coordinates,
+    }));
+    this.allCoordinates = mountains.map(({ coordinates }) => coordinates);
   }
 
   getAllMountainPoints(): MountainMapPoint[] {

@@ -5,11 +5,7 @@ const CONFIG = {
 };
 
 export class MapMarkerUtil {
-  private svgContent: string;
-
-  constructor(svgContent: string) {
-    this.svgContent = svgContent;
-  }
+  constructor(private svgContent: string) {}
 
   public getStyledIcon(): string {
     const svgWithWhiteFill = this.svgContent

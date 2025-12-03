@@ -7,14 +7,10 @@ const CONFIG = {
 };
 
 export class MapLegendUtil {
-  private svgIcon: string;
-
-  constructor(private trendingIcon: string) {
-    this.svgIcon = trendingIcon;
-  }
+  constructor(private trendingIcon: string) {}
 
   private getStyledIcon(): string {
-    return this.svgIcon
+    return this.trendingIcon
       .replace(
         'fill="var(--icon-fill, currentColor)"',
         `fill="${CONFIG.fill}" class="marker-icon-fill"`
