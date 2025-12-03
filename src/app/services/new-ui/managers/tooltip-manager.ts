@@ -1,0 +1,41 @@
+import * as L from 'leaflet';
+
+export class TooltipManager {
+  private tooltipDiv: HTMLDivElement | null = null;
+
+  constructor(private map: L.Map) {
+    this.createTooltip();
+  }
+
+  private createTooltip(): void {
+    this.tooltipDiv = L.DomUtil.create('div', 'mountain-tooltip');
+    this.tooltipDiv.style.position = 'absolute';
+    this.tooltipDiv.style.display = 'none';
+    this.tooltipDiv.style.pointerEvents = 'none';
+    this.tooltipDiv.style.zIndex = '1000';
+    this.map.getContainer().appendChild(this.tooltipDiv);
+  }
+
+  show(latlng: L.LatLng, text: string): void {
+    if (!this.tooltipDiv) return;
+
+    const point = this.map.latLngToContainerPoint(latlng);
+    this.tooltipDiv.innerHTML = text;
+    this.tooltipDiv.style.left = point.x + 10 + 'px';
+    this.tooltipDiv.style.top = point.y - 30 + 'px';
+    this.tooltipDiv.style.display = 'block';
+  }
+
+  hide(): void {
+    if (this.tooltipDiv) {
+      this.tooltipDiv.style.display = 'none';
+    }
+  }
+
+  destroy(): void {
+    if (this.tooltipDiv && this.tooltipDiv.parentNode) {
+      this.tooltipDiv.parentNode.removeChild(this.tooltipDiv);
+      this.tooltipDiv = null;
+    }
+  }
+}

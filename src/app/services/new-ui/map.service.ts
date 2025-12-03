@@ -1,10 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import * as L from 'leaflet';
-import { forkJoin } from 'rxjs';
 import { MountainService } from './mountain.service';
 import { IconService } from '../../icon.service';
-import { MapMarkerUtil } from '../../utils/map-marker.util';
 import { MapLegendUtil } from '../../utils/map-legend.util';
+import { TooltipManager } from './managers/tooltip-manager';
+import { MarkerSelectionManager } from './managers/marker-selection-manager';
+import { IconLoader } from './managers/icon-loader';
+import { MapMarkerFactory } from '../../utils/map-marker-factory';
 
 @Injectable({
   providedIn: 'root',
@@ -14,46 +16,36 @@ export class MapService {
 
   private map!: L.Map;
   private mountainsLayer: L.LayerGroup = L.layerGroup();
-  private mountainIconSvg: string = '';
-  private trendingUpIconSvg: string = '';
-  private iconsLoaded = false;
-  private selectedMarker: L.Marker | null = null;
-  private tooltipDiv: HTMLDivElement | null = null;
+
+  private tooltipManager!: TooltipManager;
+  private selectionManager = new MarkerSelectionManager();
+  private iconLoader: IconLoader;
+  private markerFactory!: MapMarkerFactory;
 
   mountainService = inject(MountainService);
   iconService = inject(IconService);
 
-  constructor() {}
+  constructor() {
+    this.iconLoader = new IconLoader(this.iconService);
+  }
 
   async initMap(mapId: string, baseMapUrl: string) {
     const bounds = this.getDefaultBounds();
-    this.map = L.map(mapId, { layers: [L.tileLayer(baseMapUrl), this.mountainsLayer] }).fitBounds(
-      bounds,
-      { padding: [20, 20] }
-    );
+    this.map = L.map(mapId, {
+      layers: [L.tileLayer(baseMapUrl), this.mountainsLayer],
+    }).fitBounds(bounds, { padding: [20, 20] });
 
-    await this.loadIcons();
-    this.createLegend();
-    this.createTooltip();
-    this.populateWithMountainMarkers();
-  }
+    const icons = await this.iconLoader.load();
 
-  private loadIcons(): Promise<void> {
-    if (this.iconsLoaded) {
-      return Promise.resolve();
-    }
-
-    return new Promise(resolve => {
-      forkJoin({
-        mountain: this.iconService.getSvg('mountain'),
-        trendingUp: this.iconService.getSvg('trending-up'),
-      }).subscribe(icons => {
-        this.mountainIconSvg = icons.mountain;
-        this.trendingUpIconSvg = icons.trendingUp;
-        this.iconsLoaded = true;
-        resolve();
-      });
+    this.tooltipManager = new TooltipManager(this.map);
+    this.markerFactory = new MapMarkerFactory(icons.mountain, {
+      onMouseOver: (latlng, name) => this.tooltipManager.show(latlng, name),
+      onMouseOut: () => this.tooltipManager.hide(),
+      onClick: marker => this.selectionManager.select(marker),
     });
+
+    this.createLegend(icons.trendingUp);
+    this.populateWithMountainMarkers();
   }
 
   getDefaultBounds(): L.LatLngBounds {
@@ -61,83 +53,12 @@ export class MapService {
     return L.latLngBounds(coordinates as L.LatLngExpression[]);
   }
 
-  private createTooltip(): void {
-    this.tooltipDiv = L.DomUtil.create('div', 'mountain-tooltip');
-    this.tooltipDiv.style.position = 'absolute';
-    this.tooltipDiv.style.display = 'none';
-    this.tooltipDiv.style.pointerEvents = 'none';
-    this.tooltipDiv.style.zIndex = '1000';
-    this.map.getContainer().appendChild(this.tooltipDiv);
-  }
-
-  private showTooltip(latlng: L.LatLng, text: string): void {
-    if (!this.tooltipDiv) return;
-
-    const point = this.map.latLngToContainerPoint(latlng);
-    this.tooltipDiv.innerHTML = text;
-    this.tooltipDiv.style.left = point.x + 10 + 'px';
-    this.tooltipDiv.style.top = point.y - 30 + 'px';
-    this.tooltipDiv.style.display = 'block';
-  }
-
-  private hideTooltip(): void {
-    if (this.tooltipDiv) {
-      this.tooltipDiv.style.display = 'none';
-    }
-  }
-
-  createMountainMarker(coordinates: L.LatLngExpression, name: string): L.Marker {
-    const styledIconHtml = new MapMarkerUtil(this.mountainIconSvg).getStyledIcon();
-    const icon = L.divIcon({
-      className: 'custom-mountain-marker',
-      html: styledIconHtml,
-      iconSize: [40, 40],
-      iconAnchor: [20, 20],
-      popupAnchor: [0, -20],
-    });
-
-    const marker = L.marker(coordinates, { icon });
-
-    marker.on('mouseover', e => {
-      this.showTooltip(e.latlng, name);
-    });
-
-    marker.on('mouseout', () => {
-      this.hideTooltip();
-    });
-
-    marker.on('click', () => {
-      this.selectMarker(marker);
-    });
-
-    return marker;
-  }
-
-  private selectMarker(marker: L.Marker): void {
-    const selector = '.marker-circle';
-    const className = 'selected';
-    if (this.selectedMarker) {
-      const prevElement = this.selectedMarker.getElement();
-      if (prevElement) {
-        const prevCircle = prevElement.querySelector(selector);
-        prevCircle?.classList.remove(className);
-      }
-    }
-
-    const element = marker.getElement();
-    if (element) {
-      const circle = element.querySelector(selector);
-      circle?.classList.add(className);
-      this.selectedMarker = marker;
-    }
-  }
-
-  private createLegend(): void {
+  private createLegend(trendingUpIconSvg: string): void {
     const legend = new L.Control({ position: 'topright' });
 
     legend.onAdd = () => {
       const div = L.DomUtil.create('div', 'map-legend');
-      div.innerHTML = new MapLegendUtil(this.trendingUpIconSvg).getHtml();
+      div.innerHTML = new MapLegendUtil(trendingUpIconSvg).getHtml();
       return div;
     };
     legend.addTo(this.map);
@@ -150,7 +71,7 @@ export class MapService {
   async populateWithMountainMarkers() {
     const mountainPoints = this.mountainService.getAllMountainPoints();
     mountainPoints.forEach(({ name, coordinates }) => {
-      const marker = this.createMountainMarker(coordinates, name);
+      const marker = this.markerFactory.createMountainMarker(coordinates, name);
       marker.addTo(this.mountainsLayer);
     });
   }
