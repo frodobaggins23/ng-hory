@@ -4,6 +4,7 @@ import { forkJoin } from 'rxjs';
 import { MountainService } from './mountain.service';
 import { IconService } from '../../icon.service';
 import { MapMarkerUtil } from '../../utils/map-marker.util';
+import { MapLegendUtil } from '../../utils/map-legend.util';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +16,20 @@ export class MapService {
   private mountainIconSvg: string = '';
   private trendingUpIconSvg: string = '';
   private iconsLoaded = false;
+  private selectedMarker: L.Marker | null = null;
 
   mountainService = inject(MountainService);
   iconService = inject(IconService);
 
   constructor() {}
+
+  async initMap(mapId: string, baseMapUrl: string) {
+    const bounds = this.getDefaultBounds();
+    this.map = L.map(mapId, { layers: [] }).fitBounds(bounds, { padding: [20, 20] });
+    L.tileLayer(baseMapUrl).addTo(this.map);
+    await this.loadIcons();
+    this.createLegend().addTo(this.map);
+  }
 
   private loadIcons(): Promise<void> {
     if (this.iconsLoaded) {
@@ -39,13 +49,6 @@ export class MapService {
     });
   }
 
-  async initMap(mapId: string, baseMapUrl: string) {
-    const bounds = this.getDefaultBounds();
-    this.map = L.map(mapId, { layers: [] }).fitBounds(bounds, { padding: [20, 20] });
-    L.tileLayer(baseMapUrl).addTo(this.map);
-    await this.loadIcons();
-  }
-
   getDefaultBounds(): L.LatLngBounds {
     const coordinates = this.mountainService.getAllMountainPoints();
     return L.latLngBounds(coordinates as L.LatLngExpression[]);
@@ -61,7 +64,43 @@ export class MapService {
       popupAnchor: [0, -20],
     });
 
-    return L.marker(coordinates, { icon });
+    const marker = L.marker(coordinates, { icon });
+
+    marker.on('click', () => {
+      this.selectMarker(marker);
+    });
+
+    return marker;
+  }
+
+  private selectMarker(marker: L.Marker): void {
+    const selector = '.marker-circle';
+    const className = 'selected';
+    if (this.selectedMarker) {
+      const prevElement = this.selectedMarker.getElement();
+      if (prevElement) {
+        const prevCircle = prevElement.querySelector(selector);
+        prevCircle?.classList.remove(className);
+      }
+    }
+
+    const element = marker.getElement();
+    if (element) {
+      const circle = element.querySelector(selector);
+      circle?.classList.add(className);
+      this.selectedMarker = marker;
+    }
+  }
+
+  private createLegend(): L.Control {
+    const legend = new L.Control({ position: 'topright' });
+
+    legend.onAdd = () => {
+      const div = L.DomUtil.create('div', 'map-legend');
+      div.innerHTML = new MapLegendUtil(this.trendingUpIconSvg).getHtml();
+      return div;
+    };
+    return legend;
   }
 
   addMarker(marker: L.Circle) {
