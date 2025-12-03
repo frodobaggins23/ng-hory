@@ -1,0 +1,26 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <div class="mountain-icon">
+      <app-icon icon="mountain" [size]="48" stroke="accent-dark" />
+    </div>
+    <button class="close-button" (click)="onClose()" aria-label="Close">
+      <app-icon icon="x" [size]="18" stroke="text-muted" />
+    </button>
+  </div>
+  <div class="dialog-content">
+    <div class="mountain-info">
+      <h2 class="mountain-name">{{ title }}</h2>
+      <p class="mountain-subtitle">{{ subtitle }}</p>
+    </div>
+    <div class="statistics-grid">
+      <div class="stat-card" *ngFor="let stat of statistics">
+        <div class="stat-value">{{ stat.value }}</div>
+        <div class="stat-label">{{ stat.label }}</div>
+      </div>
+    </div>
+    <button class="action-button" (click)="onActionClick()">
+      {{ actionButtonText }}
+      <app-icon icon="chevron-right" [size]="20" stroke="primary-light" />
+    </button>
+  </div>
+</div>

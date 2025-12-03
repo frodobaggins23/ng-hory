@@ -3,7 +3,13 @@ import { IconName, IconService } from '../../icon.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 
-type IconColor = 'primary-light' | 'primary-dark' | 'accent-light' | 'accent-dark' | 'none';
+type IconColor =
+  | 'primary-light'
+  | 'primary-dark'
+  | 'accent-light'
+  | 'accent-dark'
+  | 'text-muted'
+  | 'none';
 
 @Component({
   selector: 'app-icon',
@@ -40,13 +46,15 @@ export class IconComponent implements OnInit, OnDestroy {
   public getColor(color: IconColor): string {
     switch (color) {
       case 'primary-light':
-        return '#fff7ed';
+        return 'var(--color-primary-light)';
       case 'primary-dark':
-        return '#ea580c';
+        return 'var(--color-primary-dark)';
       case 'accent-light':
-        return '#eab308';
+        return 'var(--color-accent-light)';
       case 'accent-dark':
-        return '#ca8a04';
+        return 'var(--color-accent-dark)';
+      case 'text-muted':
+        return 'var(--color-text-muted)';
       case 'none':
       default:
         return 'transparent';

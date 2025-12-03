@@ -8,7 +8,7 @@
   --color-orange-100: #ffedd5;
 
   --color-amber-500: #eab308;
-  --color-amber-600: #ca8a04;
+  --color-amber-600: #fdba74;
   --color-amber-400: #facc15;
 
   // Neutral Base (Stone)
@@ -52,5 +52,9 @@
 
   // Gradients
   --gradient-primary: linear-gradient(to right, var(--color-orange-500), var(--color-amber-600));
-  --gradient-orange-to-amber: linear-gradient(135deg, var(--color-orange-500), var(--color-amber-600));
+  --gradient-orange-to-amber: linear-gradient(
+    135deg,
+    var(--color-orange-500),
+    var(--color-amber-600)
+  );
 }

@@ -1,1 +1,9 @@
 <div id="map" class="leaflet-map"></div>
+<app-mountain-dialog
+  *ngIf="showDialog"
+  [title]="mountainDialogData.mountain.name"
+  [subtitle]="mountainDialogData.subtitle"
+  [statistics]="mountainDialogData.statistics"
+  (closeOutput)="handleDialogClose()"
+  (actionClickOutput)="handleDialogAction()"
+></app-mountain-dialog>
