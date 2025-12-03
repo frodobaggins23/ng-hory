@@ -22,18 +22,19 @@ import { climbsOstry } from './climbs-ostry';
 import { climbsRalsko } from './climbs-ralsko';
 import { climbsRip } from './climbs-rip';
 import { climbsRonov } from './climbs-ronov';
-import { Climb } from '../types';
 
-export const allClimbs: Climb[] = [
-  ...climbsBezdez,
-  ...climbsBlanik,
-  ...climbsKostalov,
-  ...climbsJested,
-  ...climbsLipskaHora,
-  ...climbsLovos,
-  ...climbsMilesovka,
-  ...climbsOstry,
-  ...climbsRalsko,
-  ...climbsRip,
-  ...climbsRonov,
-];
+import { Climb, MountainName } from '../types';
+
+export const allClimbsMap: Record<MountainName, Climb[]> = {
+  Bezděz: climbsBezdez,
+  Blaník: climbsBlanik,
+  Koštálov: climbsKostalov,
+  Ještěd: climbsJested,
+  'Lipská hora': climbsLipskaHora,
+  Lovoš: climbsLovos,
+  Milešovka: climbsMilesovka,
+  Ostrý: climbsOstry,
+  Ralsko: climbsRalsko,
+  Říp: climbsRip,
+  Ronov: climbsRonov,
+};

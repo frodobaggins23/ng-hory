@@ -16,13 +16,13 @@ export class TooltipManager {
     this.map.getContainer().appendChild(this.tooltipDiv);
   }
 
-  show(latlng: L.LatLng, text: string): void {
+  show(latlng: L.LatLng, mountainName: string, altitude: string): void {
     if (!this.tooltipDiv) return;
 
     const point = this.map.latLngToContainerPoint(latlng);
-    this.tooltipDiv.innerHTML = text;
-    this.tooltipDiv.style.left = point.x + 10 + 'px';
-    this.tooltipDiv.style.top = point.y - 30 + 'px';
+    this.tooltipDiv.innerHTML = `<p><strong>${mountainName}</strong><p/><p> ${altitude}</p>`;
+    this.tooltipDiv.style.left = point.x + 25 + 'px';
+    this.tooltipDiv.style.top = point.y - 25 + 'px';
     this.tooltipDiv.style.display = 'block';
   }
 

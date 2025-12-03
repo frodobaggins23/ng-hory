@@ -1,10 +1,11 @@
 import * as L from 'leaflet';
 import { MapMarkerUtil } from './map-marker.util';
+import { MountainName } from '../../data/types';
 
 export interface MarkerCallbacks {
-  onMouseOver: (latlng: L.LatLng, name: string) => void;
+  onMouseOver: (latlng: L.LatLng, name: string, altitude: string) => void;
   onMouseOut: () => void;
-  onClick: (marker: L.Marker) => void;
+  onClick: (marker: L.Marker, name: MountainName) => void;
 }
 
 export class MapMarkerFactory {
@@ -13,7 +14,11 @@ export class MapMarkerFactory {
     private callbacks: MarkerCallbacks
   ) {}
 
-  createMountainMarker(coordinates: L.LatLngExpression, name: string): L.Marker {
+  createMountainMarker(
+    coordinates: L.LatLngExpression,
+    name: MountainName,
+    altitude: string
+  ): L.Marker {
     const styledIconHtml = new MapMarkerUtil(this.mountainIconSvg).getStyledIcon();
     const icon = L.divIcon({
       className: 'custom-mountain-marker',
@@ -26,7 +31,7 @@ export class MapMarkerFactory {
     const marker = L.marker(coordinates, { icon });
 
     marker.on('mouseover', e => {
-      this.callbacks.onMouseOver(e.latlng, name);
+      this.callbacks.onMouseOver(e.latlng, name, altitude);
     });
 
     marker.on('mouseout', () => {
@@ -34,7 +39,7 @@ export class MapMarkerFactory {
     });
 
     marker.on('click', () => {
-      this.callbacks.onClick(marker);
+      this.callbacks.onClick(marker, name);
     });
 
     return marker;

@@ -1,5 +1,20 @@
+export type MountainName =
+  | 'Bezděz'
+  | 'Blaník'
+  | 'Koštálov'
+  | 'Ještěd'
+  | 'Lipská hora'
+  | 'Lovoš'
+  | 'Milešovka'
+  | 'Ostrý'
+  | 'Ralsko'
+  | 'Říp'
+  | 'Ronov';
+
 export type Mountain = {
-  name: string;
+  name: MountainName;
+  location?: string;
+  altitude?: number;
   coordinates: L.LatLngTuple;
   climbs?: Climb[];
   imgFolder: string;

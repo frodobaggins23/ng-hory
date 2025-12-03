@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 
 export interface MountainStatistic {
-  value: string | number;
+  getValue: () => string;
   label: string;
-  icon?: string;
 }
 
 @Component({

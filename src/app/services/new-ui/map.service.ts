@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
 import { MountainService } from './mountain.service';
 import { IconService } from '../../icon.service';
@@ -8,11 +8,13 @@ import { MarkerSelectionManager } from './managers/marker-selection-manager';
 import { IconLoader } from './managers/icon-loader';
 import { MapMarkerFactory } from '../../utils/map-marker-factory';
 import { StatisticsService } from '../../new-ui/statistics.service';
+import { Subject } from 'rxjs';
+import { MountainName } from '../../../data/types';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MapService {
+export class MapService implements OnDestroy {
   zoomLevel: number = 20;
 
   private map!: L.Map;
@@ -22,6 +24,9 @@ export class MapService {
   private selectionManager = new MarkerSelectionManager();
   private iconLoader: IconLoader;
   private markerFactory!: MapMarkerFactory;
+  private selectedMountainMarkerSubject = new Subject<MountainName>();
+
+  selectedMountainMarker$ = this.selectedMountainMarkerSubject.asObservable();
 
   mountainService = inject(MountainService);
   iconService = inject(IconService);
@@ -29,6 +34,13 @@ export class MapService {
 
   constructor() {
     this.iconLoader = new IconLoader(this.iconService);
+  }
+
+  ngOnDestroy(): void {
+    this.selectedMountainMarkerSubject.complete();
+    if (this.map) {
+      this.map.remove();
+    }
   }
 
   async initMap(mapId: string, baseMapUrl: string) {
@@ -41,9 +53,12 @@ export class MapService {
 
     this.tooltipManager = new TooltipManager(this.map);
     this.markerFactory = new MapMarkerFactory(icons.mountain, {
-      onMouseOver: (latlng, name) => this.tooltipManager.show(latlng, name),
+      onMouseOver: (latlng, name, altitude) => this.tooltipManager.show(latlng, name, altitude),
       onMouseOut: () => this.tooltipManager.hide(),
-      onClick: marker => this.selectionManager.select(marker),
+      onClick: (marker, name) => {
+        this.selectionManager.select(marker);
+        this.selectedMountainMarkerSubject.next(name);
+      },
     });
 
     this.createLegend(icons.trendingUp);
@@ -77,8 +92,12 @@ export class MapService {
 
   async populateWithMountainMarkers() {
     const mountainPoints = this.mountainService.getAllMountainPoints();
-    mountainPoints.forEach(({ name, coordinates }) => {
-      const marker = this.markerFactory.createMountainMarker(coordinates, name);
+    mountainPoints.forEach(({ name, coordinates, altitude }) => {
+      const marker = this.markerFactory.createMountainMarker(
+        coordinates,
+        name,
+        `${altitude} m.n.m`
+      );
       marker.addTo(this.mountainsLayer);
     });
   }
