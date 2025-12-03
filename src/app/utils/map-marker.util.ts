@@ -1,0 +1,48 @@
+const CONFIG = {
+  size: 18,
+  fill: 'none',
+  stroke: 'white',
+  background: 'var(--color-primary-dark)',
+  hover: 'var(--color-stone-500)',
+};
+
+export class MapMarkerUtil {
+  private svgContent: string;
+
+  constructor(svgContent: string) {
+    this.svgContent = svgContent;
+  }
+
+  public getStyledIcon(): string {
+    const svgWithWhiteFill = this.svgContent
+      .replace(
+        'fill="var(--icon-fill, currentColor)"',
+        `fill="${CONFIG.fill}" class="marker-icon-fill"`
+      )
+      .replace('stroke="var(--icon-stroke, none)"', `stroke="${CONFIG.stroke}"`)
+      .replace('width="24"', `width="${CONFIG.size}"`)
+      .replace('height="24"', `height="${CONFIG.size}"`);
+
+    return `
+      <style>
+        .marker-circle:hover .marker-icon-fill {
+          fill: ${CONFIG.hover} !important;
+        }
+      </style>
+      <div class="marker-circle" style="
+        width: ${CONFIG.size * 2}px;
+        height: ${CONFIG.size * 2}px;
+        border-radius: 50%;
+        border: ${CONFIG.size / 4}px solid ${CONFIG.stroke};
+        background-color: ${CONFIG.background};
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+      ">
+        ${svgWithWhiteFill}
+      </div>
+    `;
+  }
+}
