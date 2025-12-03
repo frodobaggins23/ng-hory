@@ -10,6 +10,16 @@
   width: 100%;
 }
 
+::ng-deep .mountain-tooltip {
+  background: var(--color-white);
+  color: var(--color-text-primary);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
 ::ng-deep .marker-circle {
   border-radius: 50%;
   border-color: white;
@@ -21,7 +31,7 @@
   cursor: pointer;
   position: relative;
 
-  &:hover .marker-icon-fill {
+  &.selected .marker-icon-fill {
     fill: var(--color-stone-500) !important;
   }
 

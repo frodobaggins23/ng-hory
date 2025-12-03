@@ -2,8 +2,6 @@ const CONFIG = {
   size: 18,
   fill: 'none',
   stroke: 'white',
-  background: 'var(--color-primary-dark)',
-  hover: 'var(--color-stone-500)',
 };
 
 export class MapMarkerUtil {

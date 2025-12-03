@@ -1,19 +1,30 @@
 import { Injectable } from '@angular/core';
 import { mountains } from '../../../data';
 
+type MountainMapPoint = {
+  name: string;
+  coordinates: L.LatLngExpression;
+};
+
 @Injectable({
   providedIn: 'root',
 })
 export class MountainService {
-  allMountainPoints: L.LatLngExpression[] = [];
+  allMountainPoints: MountainMapPoint[] = [];
+  allCoordinates: L.LatLngExpression[] = [];
 
   constructor() {
-    mountains.map(mountain => {
-      this.allMountainPoints.push(mountain.coordinates);
+    mountains.map(({ name, coordinates }) => {
+      this.allMountainPoints.push({ name, coordinates });
+      this.allCoordinates.push(coordinates);
     });
   }
 
-  getAllMountainPoints(): L.LatLngExpression[] {
+  getAllMountainPoints(): MountainMapPoint[] {
     return this.allMountainPoints;
+  }
+
+  getAllCoordinates(): L.LatLngExpression[] {
+    return this.allCoordinates;
   }
 }
