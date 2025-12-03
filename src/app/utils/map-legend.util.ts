@@ -6,11 +6,17 @@ const CONFIG = {
   hover: 'var(--color-stone-500)',
 };
 
+type Params = {
+  icon: string;
+  mountainCount: number;
+  climbCount: number;
+};
+
 export class MapLegendUtil {
-  constructor(private trendingIcon: string) {}
+  constructor(private params: Params) {}
 
   private getStyledIcon(): string {
-    return this.trendingIcon
+    return this.params.icon
       .replace(
         'fill="var(--icon-fill, currentColor)"',
         `fill="${CONFIG.fill}" class="marker-icon-fill"`
@@ -24,11 +30,11 @@ export class MapLegendUtil {
     return `
       <div class="legend-item">
         <span class="legend-dot"></span>
-        <span class="legend-text">11 hor</span>
+        <span class="legend-text">${this.params.mountainCount} hor</span>
       </div>
       <div class="legend-item">
         <span class="legend-icon">${this.getStyledIcon()}</span>
-        <span class="legend-text">24 výstupů</span>
+        <span class="legend-text">${this.params.climbCount} výstupů</span>
       </div>
     `;
   }

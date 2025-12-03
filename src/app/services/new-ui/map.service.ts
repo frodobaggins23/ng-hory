@@ -7,6 +7,7 @@ import { TooltipManager } from './managers/tooltip-manager';
 import { MarkerSelectionManager } from './managers/marker-selection-manager';
 import { IconLoader } from './managers/icon-loader';
 import { MapMarkerFactory } from '../../utils/map-marker-factory';
+import { StatisticsService } from '../../new-ui/statistics.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ export class MapService {
 
   mountainService = inject(MountainService);
   iconService = inject(IconService);
+  statsService = inject(StatisticsService);
 
   constructor() {
     this.iconLoader = new IconLoader(this.iconService);
@@ -55,10 +57,15 @@ export class MapService {
 
   private createLegend(trendingUpIconSvg: string): void {
     const legend = new L.Control({ position: 'topright' });
+    const { mountainCount, climbCount } = this.statsService.getBasicStats();
 
     legend.onAdd = () => {
       const div = L.DomUtil.create('div', 'map-legend');
-      div.innerHTML = new MapLegendUtil(trendingUpIconSvg).getHtml();
+      div.innerHTML = new MapLegendUtil({
+        icon: trendingUpIconSvg,
+        mountainCount,
+        climbCount,
+      }).getHtml();
       return div;
     };
     legend.addTo(this.map);
