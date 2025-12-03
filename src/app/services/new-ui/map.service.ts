@@ -30,8 +30,9 @@ export class MapService {
 
     L.tileLayer(baseMapUrl).addTo(this.map);
     await this.loadIcons();
-    this.createLegend().addTo(this.map);
+    this.createLegend();
     this.createTooltip();
+    this.populateWithMountainMarkers();
   }
 
   private loadIcons(): Promise<void> {
@@ -128,7 +129,7 @@ export class MapService {
     }
   }
 
-  private createLegend(): L.Control {
+  private createLegend(): void {
     const legend = new L.Control({ position: 'topright' });
 
     legend.onAdd = () => {
@@ -136,7 +137,7 @@ export class MapService {
       div.innerHTML = new MapLegendUtil(this.trendingUpIconSvg).getHtml();
       return div;
     };
-    return legend;
+    legend.addTo(this.map);
   }
 
   addMarker(marker: L.Circle) {
