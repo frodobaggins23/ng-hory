@@ -17,6 +17,5 @@ export class MainMapComponent implements AfterViewInit {
 
   async ngAfterViewInit() {
     await this.mapService.initMap('map', MAPY_CZ_URL);
-    this.mapService.populateWithMountainMarkers();
   }
 }

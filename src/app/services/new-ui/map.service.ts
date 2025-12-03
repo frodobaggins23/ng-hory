@@ -13,6 +13,7 @@ export class MapService {
   zoomLevel: number = 20;
 
   private map!: L.Map;
+  private mountainsLayer: L.LayerGroup = L.layerGroup();
   private mountainIconSvg: string = '';
   private trendingUpIconSvg: string = '';
   private iconsLoaded = false;
@@ -26,9 +27,11 @@ export class MapService {
 
   async initMap(mapId: string, baseMapUrl: string) {
     const bounds = this.getDefaultBounds();
-    this.map = L.map(mapId, { layers: [] }).fitBounds(bounds, { padding: [20, 20] });
+    this.map = L.map(mapId, { layers: [L.tileLayer(baseMapUrl), this.mountainsLayer] }).fitBounds(
+      bounds,
+      { padding: [20, 20] }
+    );
 
-    L.tileLayer(baseMapUrl).addTo(this.map);
     await this.loadIcons();
     this.createLegend();
     this.createTooltip();
@@ -148,7 +151,7 @@ export class MapService {
     const mountainPoints = this.mountainService.getAllMountainPoints();
     mountainPoints.forEach(({ name, coordinates }) => {
       const marker = this.createMountainMarker(coordinates, name);
-      marker.addTo(this.map);
+      marker.addTo(this.mountainsLayer);
     });
   }
 }
