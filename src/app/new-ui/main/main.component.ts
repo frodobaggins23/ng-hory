@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavComponent } from '../nav/nav.component';
-import { MainMapComponent } from '../main-map/main-map.component';
+import { MainMapComponent } from './map/main-map.component';
 
 @Component({
   selector: 'app-main',
