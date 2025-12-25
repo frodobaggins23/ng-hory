@@ -3,11 +3,13 @@ import { IconName, IconService } from '../../icon.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 
-type IconColor =
+export type IconColor =
   | 'primary-light'
   | 'primary-dark'
   | 'accent-light'
   | 'accent-dark'
+  | 'text-primary'
+  | 'text-secondary'
   | 'text-muted'
   | 'none';
 
@@ -53,6 +55,10 @@ export class IconComponent implements OnInit, OnDestroy {
         return 'var(--color-accent-light)';
       case 'accent-dark':
         return 'var(--color-accent-dark)';
+      case 'text-primary':
+        return 'var(--color-text-primary)';
+      case 'text-secondary':
+        return 'var(--color-text-secondary)';
       case 'text-muted':
         return 'var(--color-text-muted)';
       case 'none':

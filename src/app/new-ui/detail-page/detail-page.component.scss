@@ -1,0 +1,37 @@
+.detail-page {
+  background-color: var(--color-bg-secondary);
+  width: 100%;
+  min-height: 80vh;
+}
+
+.stats-section {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+
+  @media (min-width: 640px) {
+    padding: 2rem 1.5rem;
+  }
+}
+
+.stats-container {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  @media (min-width: 640px) {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    padding-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

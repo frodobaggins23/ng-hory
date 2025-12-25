@@ -56,3 +56,4 @@ src/environments/environment.development.ts
 # AI
 !.claude/settings.local.json
 .claude/custom_hook_scripts/tmp_files
+.playwright-mcp

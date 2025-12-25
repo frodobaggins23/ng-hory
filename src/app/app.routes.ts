@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { MainComponent } from './new-ui/main/main.component';
 import { MainComponent as MainComponentOld } from './main/main.component';
+import { DetailPageComponent } from './new-ui/detail-page/detail-page.component';
 
 export const routes: Routes = [
   {
@@ -10,5 +11,9 @@ export const routes: Routes = [
   {
     path: 'new',
     component: MainComponent,
+  },
+  {
+    path: 'new/detail',
+    component: DetailPageComponent,
   },
 ];
