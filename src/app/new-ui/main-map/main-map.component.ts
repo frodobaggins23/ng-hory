@@ -8,7 +8,7 @@ import {
   MountainDialogComponent,
   MountainStatistic,
 } from '../mountain-dialog/mountain-dialog.component';
-import { StatisticsService } from '../statistics.service';
+import { StatisticsService } from '../../services/new-ui/statistics.service';
 import { MountainName } from '../../../data/types';
 import { MountainService } from '../../services/new-ui/mountain.service';
 

@@ -7,7 +7,7 @@ import { TooltipManager } from './managers/tooltip-manager';
 import { MarkerSelectionManager } from './managers/marker-selection-manager';
 import { IconLoader } from './managers/icon-loader';
 import { MapMarkerFactory } from '../../utils/map-marker-factory';
-import { StatisticsService } from '../../new-ui/statistics.service';
+import { StatisticsService } from './statistics.service';
 import { Subject } from 'rxjs';
 import { MountainName } from '../../../data/types';
 
