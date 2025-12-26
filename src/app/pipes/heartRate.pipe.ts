@@ -12,6 +12,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class HeartRatePipe implements PipeTransform {
   transform(heartRate: number): string {
-    return `${heartRate} bpm`;
+    return `${Math.floor(heartRate)} bpm`;
   }
 }

@@ -6,11 +6,13 @@
         <app-icon [icon]="'map-pin'" [size]="16" [stroke]="'primary-dark'"></app-icon>
         Liberecký kraj
       </p>
-      <h1 class="mountain-hero__name">Ještěd</h1>
+      <h1 class="mountain-hero__name">{{ mountainStateService.mountainName() }}</h1>
       <p class="mountain-hero__details">1012 m n. m. • Ještědsko-kozákovský hřbet</p>
     </div>
     <div class="mountain-hero__badge">
-      <span class="mountain-hero__badge-count">3</span>
+      <span class="mountain-hero__badge-count">{{
+        statisticsService.getStatsForMountain(mountainStateService.mountainName()).totalClimbs
+      }}</span>
       <span class="mountain-hero__badge-label">výstupů</span>
     </div>
   </div>

@@ -1,21 +1,19 @@
 <nav class="nav-container">
   <div class="nav-content">
-    <!-- Logo Section -->
-    <div class="nav-logo">
+    <div class="nav-logo" (click)="navigate('home')">
       <div class="logo-icon">
         <app-icon icon="mountain" stroke="primary-light" [size]="25" />
       </div>
       <span class="logo-text">Moje Hory</span>
     </div>
 
-    <!-- Navigation Items -->
     <div class="nav-tabs">
       <button
         *ngFor="let item of navItems"
-        (click)="navigate(item.id, item.route)"
-        [class.active]="activePage === item.id"
+        (click)="navigate(item.id)"
+        [class.active]="activePage() === item.id"
         class="nav-tab"
-        [attr.aria-current]="activePage === item.id ? 'page' : null"
+        [attr.aria-current]="activePage() === item.id ? 'page' : null"
       >
         <app-icon [icon]="item.icon" stroke="primary-dark" [size]="16" />
         <span>{{ item.label }}</span>

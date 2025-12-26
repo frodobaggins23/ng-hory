@@ -11,6 +11,8 @@ import {
 import { StatisticsService } from '../../../services/new-ui/statistics.service';
 import { MountainName } from '../../../../data/types';
 import { MountainService } from '../../../services/new-ui/mountain.service';
+import { MountainStateService } from '../../../services/mountain-state.service';
+import { Router } from '@angular/router';
 
 const MAPY_CZ_URL =
   'https://api.mapy.cz/v1/maptiles/outdoor/256/{z}/{x}/{y}?apikey=' + environment.mapApiKey;
@@ -26,11 +28,13 @@ export class MainMapComponent implements AfterViewInit {
   mapService = inject(MapService);
   statisticsService = inject(StatisticsService);
   mountainService = inject(MountainService);
+  mountainStateService = inject(MountainStateService);
+  router = inject(Router);
 
   showDialog: boolean = false;
 
   dialogParams = {
-    selectedMountain: '',
+    selectedMountain: '' as MountainName,
     subtitle: '',
     totalClimbs: 0,
     totalElevationGain: 0,
@@ -77,6 +81,8 @@ export class MainMapComponent implements AfterViewInit {
   }
 
   handleDialogAction() {
-    console.log('TODO: Action button clicked');
+    this.mountainStateService.setMountainByName(this.dialogParams.selectedMountain);
+    this.showDialog = false;
+    this.router.navigate(['/new/detail']);
   }
 }

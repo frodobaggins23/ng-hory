@@ -6,21 +6,31 @@
     <div class="stats-container">
       <app-stats-card
         icon="arrow-up"
-        label="Převýšení"
-        value="2,256 m"
+        label="Celkové převýšení"
+        value="{{ this.currentMountainStats.totalElevationGain | elevation }}"
         color="orange"
       ></app-stats-card>
 
       <app-stats-card
         icon="footprints"
-        label="Vzdálenost"
-        value="29.2 km"
+        label="Celková vzdálenost"
+        value="{{ this.currentMountainStats.totalDistance | distance }}"
         color="amber"
       ></app-stats-card>
 
-      <app-stats-card icon="clock" label="Čas" value="8:03:36" color="stone"></app-stats-card>
+      <app-stats-card
+        icon="clock"
+        label="Celkový čas"
+        value="{{ this.currentMountainStats.totalDuration | duration }}"
+        color="stone"
+      ></app-stats-card>
 
-      <app-stats-card icon="heart" label="Prům. tep" value="134 bpm" color="rose"></app-stats-card>
+      <app-stats-card
+        icon="heart"
+        label="Průměrný tep"
+        value="{{ this.currentMountainStats.avgHeartRate | heartRate }}"
+        color="rose"
+      ></app-stats-card>
     </div>
   </section>
 </div>

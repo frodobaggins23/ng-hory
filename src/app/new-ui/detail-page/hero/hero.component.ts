@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { IconComponent } from '../../icon/icon.component';
+import { MountainStateService } from '../../../services/mountain-state.service';
+import { StatisticsService } from '../../../services/new-ui/statistics.service';
 
 @Component({
   selector: 'app-detail-page-hero',
@@ -7,4 +9,7 @@ import { IconComponent } from '../../icon/icon.component';
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss',
 })
-export class HeroComponent {}
+export class HeroComponent {
+  public mountainStateService = inject(MountainStateService);
+  public statisticsService = inject(StatisticsService);
+}

@@ -1,10 +1,10 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject, computed } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
-import { NavService } from '../../nav.service';
+import { filter, map, startWith } from 'rxjs';
 import { IconComponent } from '../icon/icon.component';
 import { IconName } from '../../icon.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 interface NavItem {
   id: 'home' | 'mountain' | 'stats';
@@ -20,34 +20,36 @@ interface NavItem {
   standalone: true,
   imports: [CommonModule, IconComponent, IconComponent],
 })
-export class NavComponent implements OnInit, OnDestroy {
-  activePage: 'home' | 'mountain' | 'stats' = 'home';
+export class NavComponent {
+  constructor() {}
 
   navItems: NavItem[] = [
-    { id: 'home', icon: 'home', label: 'Mapa', route: '/home' },
-    { id: 'mountain', icon: 'map-pin', label: 'Hora', route: '/mountain' },
+    { id: 'home', icon: 'home', label: 'Mapa', route: '/new' },
+    { id: 'mountain', icon: 'map-pin', label: 'Hora', route: '/new/detail' },
     { id: 'stats', icon: 'bar-chart-3', label: 'Statistiky', route: '/stats' },
   ];
 
-  navService = inject(NavService);
   router = inject(Router);
 
-  private subscription?: Subscription;
+  private currentUrl = toSignal(
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(event => (event as NavigationEnd).urlAfterRedirects),
+      startWith(this.router.url)
+    ),
+    { initialValue: this.router.url }
+  );
 
-  constructor() {}
+  activePage = computed(() => {
+    const url = this.currentUrl();
+    const matchedItem = this.navItems.find(item => url === item.route);
+    return matchedItem?.id ?? 'home';
+  });
 
-  ngOnInit(): void {
-    this.subscription = this.navService.activePage$.subscribe(page => {
-      this.activePage = page;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-  }
-
-  navigate(pageId: NavItem['id'], route: string): void {
-    this.navService.setActivePage(pageId);
-    this.router.navigate([route]);
+  navigate(pageId: NavItem['id']): void {
+    const route = this.navItems.find(item => item.id === pageId)?.route;
+    if (route) {
+      this.router.navigate([route]);
+    }
   }
 }

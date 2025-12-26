@@ -3,9 +3,17 @@ import { mountains } from '../../../data';
 import { allClimbsMap } from '../../../data/climbs';
 import { MountainName } from '../../../data/types';
 
-type BasicStats = {
+export type BasicStats = {
   mountainCount: number;
   climbCount: number;
+};
+
+export type MountainStats = {
+  totalClimbs: number;
+  totalDistance: number;
+  totalElevationGain: number;
+  totalDuration: number;
+  avgHeartRate: number;
 };
 
 @Injectable({
@@ -35,18 +43,21 @@ export class StatisticsService {
     return this.basicStats;
   }
 
-  getStatsForMountain(mountainName: MountainName) {
+  getStatsForMountain(mountainName: MountainName): MountainStats {
     const climbs = allClimbsMap[mountainName] || [];
     const totalClimbs = climbs.length;
     const totalDistance = climbs.reduce((sum, climb) => sum + climb.distance, 0);
     const totalElevationGain = climbs.reduce((sum, climb) => sum + climb.elevationGain, 0);
     const totalDuration = climbs.reduce((sum, climb) => sum + climb.duration, 0);
+    const avgHeartRate =
+      climbs.reduce((sum, climb) => sum + (climb.heartRate || 0), 0) / climbs.length || 0;
 
     return {
       totalClimbs,
       totalDistance,
       totalElevationGain,
       totalDuration,
+      avgHeartRate,
     };
   }
 }
