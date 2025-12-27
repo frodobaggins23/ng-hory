@@ -1,0 +1,19 @@
+@if (thumbnailUrl) {
+  <img [src]="thumbnailUrl" class="thumbnail-image" alt="Climb thumbnail" />
+} @else {
+  <div class="empty-photo">
+    <app-icon icon="camera" [size]="48" stroke="stone-200"></app-icon>
+  </div>
+}
+
+@if (climb.imgs && climb.imgs.length > 0) {
+  <app-climb-item-badge variant="imgs" [count]="climb.imgs.length"></app-climb-item-badge>
+}
+
+@if (climb.track) {
+  <app-climb-item-badge variant="gps"></app-climb-item-badge>
+}
+
+@if (isNewest) {
+  <app-climb-item-badge variant="newest" [isDesktop]="false"></app-climb-item-badge>
+}

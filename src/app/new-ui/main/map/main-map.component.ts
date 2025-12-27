@@ -2,7 +2,7 @@ import { AfterViewInit, Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 
-import { environment } from '../../../../environments/environment';
+import { MAPY_CZ_URL } from '../../../constants';
 import { MapService } from '../../../services/new-ui/map.service';
 import {
   MountainDialogComponent,
@@ -13,9 +13,6 @@ import { MountainName } from '../../../../data/types';
 import { MountainService } from '../../../services/new-ui/mountain.service';
 import { MountainStateService } from '../../../services/mountain-state.service';
 import { Router } from '@angular/router';
-
-const MAPY_CZ_URL =
-  'https://api.mapy.cz/v1/maptiles/outdoor/256/{z}/{x}/{y}?apikey=' + environment.mapApiKey;
 
 @Component({
   selector: 'app-main-map',

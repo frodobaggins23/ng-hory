@@ -1,0 +1,18 @@
+<section class="climb-history-section">
+  <div class="climb-history-container">
+    <h2 class="section-title">
+      <app-icon icon="calendar" [size]="20" class="title-icon" stroke="text-muted"></app-icon>
+      Historie výstupů
+    </h2>
+
+    <div class="climbs-list">
+      <app-climb-item
+        *ngFor="let climb of climbs; let i = index"
+        [climb]="climb"
+        [isNewest]="i === 0"
+        [mountainName]="mountainName"
+        [imgFolder]="imgFolder"
+      ></app-climb-item>
+    </div>
+  </div>
+</section>

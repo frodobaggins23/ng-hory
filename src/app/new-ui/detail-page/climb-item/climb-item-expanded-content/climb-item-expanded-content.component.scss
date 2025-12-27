@@ -1,0 +1,43 @@
+:host {
+  display: grid;
+  gap: 1rem;
+  padding: 0 1rem 1.25rem 1rem;
+  animation: slideDown 0.3s ease-out;
+
+  @media (min-width: 640px) {
+    padding: 0 1.25rem 1.5rem 1.25rem;
+  }
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--color-stone-200);
+  margin-bottom: 1.25rem;
+}
+
+.detail-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-stone-500);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.full-description {
+  color: var(--color-stone-600);
+  font-size: 0.9375rem;
+  line-height: 1.5rem;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

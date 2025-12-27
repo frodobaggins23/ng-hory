@@ -1,0 +1,20 @@
+<div
+  class="badge"
+  [ngClass]="{
+    'badge-imgs': variant === 'imgs',
+    'badge-gps': variant === 'gps',
+    'badge-newest': variant === 'newest',
+    'desktop-only': isDesktop,
+    'mobile-only': !isDesktop && variant === 'newest',
+  }"
+>
+  @if (variant === 'imgs') {
+    <app-icon icon="camera" [size]="12" stroke="white"></app-icon>
+    <span>{{ count }}</span>
+  } @else if (variant === 'gps') {
+    <app-icon icon="map" [size]="12" stroke="white"></app-icon>
+    <span>GPS</span>
+  } @else if (variant === 'newest') {
+    <span>Nejnovější</span>
+  }
+</div>

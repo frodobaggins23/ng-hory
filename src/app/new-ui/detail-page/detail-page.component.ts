@@ -8,6 +8,8 @@ import { DistancePipe } from '../../pipes/distance.pipe';
 import { DurationPipe } from '../../pipes/duration.pipe';
 import { HeartRatePipe } from '../../pipes/heartRate.pipe';
 import { ElevationPipe } from '../../pipes/elevation.pipe';
+import { ClimbHistoryComponent } from './climb-history/climb-history.component';
+import { Climb } from '../../../data/types';
 
 @Component({
   selector: 'app-detail-page',
@@ -19,6 +21,7 @@ import { ElevationPipe } from '../../pipes/elevation.pipe';
     DurationPipe,
     HeartRatePipe,
     ElevationPipe,
+    ClimbHistoryComponent,
   ],
   templateUrl: './detail-page.component.html',
   styleUrl: './detail-page.component.scss',
@@ -34,10 +37,17 @@ export class DetailPageComponent {
     totalClimbs: 0,
   };
 
+  public currentMountainClimbs: Climb[] = [];
+  public currentMountainName: string = '';
+  public currentImgFolder: string = '';
+
   constructor() {
     effect(() => {
-      const mountainName = this.mountainStateService.mountainName();
-      this.currentMountainStats = this.statisticsService.getStatsForMountain(mountainName);
+      const mountain = this.mountainStateService.getCurrentMountain();
+      this.currentMountainName = mountain.name;
+      this.currentImgFolder = mountain.imgFolder;
+      this.currentMountainStats = this.statisticsService.getStatsForMountain(mountain.name);
+      this.currentMountainClimbs = [...(mountain.climbs || [])].reverse();
     });
   }
 }

@@ -1,0 +1,21 @@
+<div class="divider"></div>
+
+<div class="description-section">
+  <h3 class="detail-title">Popis</h3>
+  <p class="full-description">{{ climb.description }}</p>
+</div>
+
+@if (climb.imgs && climb.imgs.length > 0) {
+  <app-climb-gallery
+    [images]="climb.imgs"
+    [mountainName]="mountainName"
+    [imgFolder]="imgFolder"
+  ></app-climb-gallery>
+}
+
+@if (climb.track) {
+  <div class="map-placeholder">
+    <h3 class="detail-title">GPS Trasa</h3>
+    <app-track-map [track]="climb.track" [climbId]="climb.id"></app-track-map>
+  </div>
+}

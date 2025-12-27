@@ -1,0 +1,45 @@
+.climb-history-section {
+  padding-bottom: 3rem;
+}
+
+.climb-history-container {
+  max-width: 64rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  @media (min-width: 640px) {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-stone-800);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  @media (min-width: 640px) {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .title-icon {
+    color: var(--color-orange-500);
+  }
+}
+
+.climbs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  @media (min-width: 640px) {
+    gap: 1rem;
+  }
+}

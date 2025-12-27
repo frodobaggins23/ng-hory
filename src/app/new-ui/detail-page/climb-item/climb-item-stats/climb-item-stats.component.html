@@ -1,0 +1,17 @@
+<span class="stat">
+  <app-icon icon="clock" [size]="16" class="stat-icon" stroke="text-muted"></app-icon>
+  {{ climb.duration | duration }}
+</span>
+<span class="stat">
+  <app-icon icon="footprints" [size]="16" class="stat-icon" stroke="accent-dark"></app-icon>
+  {{ climb.distance | distance }}
+</span>
+<span class="stat">
+  <app-icon icon="arrow-up" [size]="16" class="stat-icon" stroke="primary-dark"></app-icon>
+  {{ climb.elevationGain | elevation }}
+</span>
+<span class="stat">
+  <app-icon icon="heart" [size]="16" class="stat-icon" stroke="rose"></app-icon>
+  {{ climb.heartRate | heartRate }}
+</span>
+

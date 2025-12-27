@@ -1,0 +1,24 @@
+<div class="climb-item group" [class.expanded]="expanded" (click)="toggleExpand()">
+  <div class="flex-container">
+    <app-climb-item-main-photo
+      [thumbnailUrl]="thumbnailUrl()"
+      [climb]="climb"
+      [isNewest]="isNewest"
+    ></app-climb-item-main-photo>
+
+    <app-climb-item-collapsed-content
+      [climb]="climb"
+      [isNewest]="isNewest"
+      [expanded]="expanded"
+    ></app-climb-item-collapsed-content>
+  </div>
+
+  @if (expanded) {
+    <app-climb-item-expanded-content
+      (click)="$event.stopPropagation()"
+      [climb]="climb"
+      [mountainName]="mountainName"
+      [imgFolder]="imgFolder"
+    ></app-climb-item-expanded-content>
+  }
+</div>

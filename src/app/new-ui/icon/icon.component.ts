@@ -11,6 +11,9 @@ export type IconColor =
   | 'text-primary'
   | 'text-secondary'
   | 'text-muted'
+  | 'stone-200'
+  | 'white'
+  | 'rose'
   | 'none';
 
 @Component({
@@ -61,9 +64,16 @@ export class IconComponent implements OnInit, OnDestroy {
         return 'var(--color-text-secondary)';
       case 'text-muted':
         return 'var(--color-text-muted)';
+      case 'stone-200':
+        return 'var(--color-stone-200)';
+      case 'white':
+        return 'var(--color-white)';
+      case 'rose':
+        return 'var(--color-rose-500)';
       case 'none':
-      default:
         return 'transparent';
+      default:
+        return 'currentColor';
     }
   }
 

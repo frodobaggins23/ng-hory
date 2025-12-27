@@ -14,7 +14,7 @@ export const climbsKostalov: Climb[] = [
     ],
     description:
       'Prvovýstup na zříceninu hradu. Vybrána trasa s největším převýšením. Krásné výhledy na okolní krajinu.',
-    duration: 2279,  // 0:37:59,
+    duration: 2279, // 0:37:59,
     distance: 2410,
     heartRate: 130,
     elevationGain: 298,
@@ -25,10 +25,9 @@ export const climbsKostalov: Climb[] = [
     date: '2025-10-19',
     imgs: ['kostalov02_01.webp', 'kostalov02_02.webp'],
     description: 'Kratší výstup s Evčou a s Eliškou. Eliščin první kopec!',
-    duration: 3164,  // 0:52:44,
+    duration: 3164, // 0:52:44,
     distance: 1980,
     heartRate: 97,
     elevationGain: 107,
-    track: kostalov01 as GeoJSON.GeoJsonObject,
   },
 ];

@@ -1,0 +1,22 @@
+<div class="header">
+  <div class="title-container">
+    <div class="date-row">
+      <span class="date">{{ climb.date | czechDate }}</span>
+      @if (isNewest) {
+        <app-climb-item-badge variant="newest" [isDesktop]="true"></app-climb-item-badge>
+      }
+    </div>
+    <p class="description" [class.expanded]="expanded">
+      {{ !expanded ? climb.description : '' }}
+    </p>
+  </div>
+  <app-icon
+    [icon]="expanded ? 'x' : 'chevron-right'"
+    [size]="20"
+    class="chevron"
+    [class.rotated]="expanded"
+    stroke="text-muted"
+  ></app-icon>
+</div>
+
+<app-climb-item-stats [climb]="climb"></app-climb-item-stats>
