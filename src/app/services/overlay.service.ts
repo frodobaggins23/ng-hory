@@ -6,7 +6,7 @@ import {
   ApplicationRef,
   inject,
 } from '@angular/core';
-import { ImageOverlayComponent } from '../image-overlay/image-overlay.component';
+import { ImageOverlayComponent } from '../components/image-overlay/image-overlay.component';
 
 export interface OverlayConfig {
   imageUrl: string;

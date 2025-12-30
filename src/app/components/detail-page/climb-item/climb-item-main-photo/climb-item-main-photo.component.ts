@@ -18,4 +18,3 @@ export class ClimbItemMainPhotoComponent {
   @Input() climb!: Climb;
   @Input() isNewest: boolean = false;
 }
-

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { MainComponent } from './new-ui/main/main.component';
-import { DetailPageComponent } from './new-ui/detail-page/detail-page.component';
+import { MainComponent } from './components/main/main.component';
+import { DetailPageComponent } from './components/detail-page/detail-page.component';
 
 export const routes: Routes = [
   {

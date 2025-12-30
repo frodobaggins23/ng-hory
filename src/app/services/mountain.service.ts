@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { mountains } from '../../../data';
-import { MountainName } from '../../../data/types';
+import { mountains } from '../../data';
+import { MountainName } from '../../data/types';
 
 type MountainMapPoint = {
   name: MountainName;

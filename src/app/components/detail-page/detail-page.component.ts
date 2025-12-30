@@ -2,7 +2,7 @@ import { Component, effect, inject } from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { HeroComponent } from './hero/hero.component';
 import { StatsCardComponent } from './stats-card/stats-card.component';
-import { MountainStats, StatisticsService } from '../../services/new-ui/statistics.service';
+import { MountainStats, StatisticsService } from '../../services/statistics.service';
 import { MountainStateService } from '../../services/mountain-state.service';
 import { DistancePipe } from '../../pipes/distance.pipe';
 import { DurationPipe } from '../../pipes/duration.pipe';

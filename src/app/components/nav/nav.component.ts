@@ -3,7 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter, map, startWith } from 'rxjs';
 import { IconComponent } from '../icon/icon.component';
-import { IconName } from '../../icon.service';
+import { IconName } from '../../services/icon.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 interface NavItem {

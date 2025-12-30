@@ -1,15 +1,15 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
 import { MountainService } from './mountain.service';
-import { IconService } from '../../icon.service';
-import { MapLegendUtil } from '../../utils/map-legend.util';
+import { IconService } from './icon.service';
+import { MapLegendUtil } from '../utils/map-legend.util';
 import { TooltipManager } from './managers/tooltip-manager';
 import { MarkerSelectionManager } from './managers/marker-selection-manager';
 import { IconLoader } from './managers/icon-loader';
-import { MapMarkerFactory } from '../../utils/map-marker-factory';
+import { MapMarkerFactory } from '../utils/map-marker-factory';
 import { StatisticsService } from './statistics.service';
 import { Subject } from 'rxjs';
-import { MountainName } from '../../../data/types';
+import { MountainName } from '../../data/types';
 
 @Injectable({
   providedIn: 'root',

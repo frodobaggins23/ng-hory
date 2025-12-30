@@ -1,5 +1,5 @@
 import { forkJoin } from 'rxjs';
-import { IconService } from '../../../icon.service';
+import { IconService } from '../icon.service';
 
 export interface LoadedIcons {
   mountain: string;

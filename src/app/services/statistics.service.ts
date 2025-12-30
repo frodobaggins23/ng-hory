@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { mountains } from '../../../data';
-import { allClimbsMap } from '../../../data/climbs';
-import { MountainName } from '../../../data/types';
+import { mountains } from '../../data';
+import { allClimbsMap } from '../../data/climbs';
+import { MountainName } from '../../data/types';
 
 export type BasicStats = {
   mountainCount: number;

@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy, ViewContainerRef, ComponentRef } from '@angular/core';
 import * as L from 'leaflet';
-import { TrackMapLegendComponent } from '../../new-ui/detail-page/track-map/track-map-legend/track-map-legend.component';
+import { TrackMapLegendComponent } from '../components/detail-page/track-map/track-map-legend/track-map-legend.component';
 
 @Injectable()
 export class MapTrackService implements OnDestroy {

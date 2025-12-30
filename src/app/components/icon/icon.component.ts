@@ -1,5 +1,5 @@
 import { Component, inject, Input, OnInit, OnDestroy } from '@angular/core';
-import { IconName, IconService } from '../../icon.service';
+import { IconName, IconService } from '../../services/icon.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 

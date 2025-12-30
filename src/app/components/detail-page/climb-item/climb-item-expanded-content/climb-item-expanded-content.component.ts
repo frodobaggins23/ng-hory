@@ -18,4 +18,3 @@ export class ClimbItemExpandedContentComponent {
   @Input() mountainName: string = '';
   @Input() imgFolder: string = '';
 }
-

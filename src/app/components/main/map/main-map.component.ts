@@ -3,14 +3,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 
 import { MAPY_CZ_URL } from '../../../constants';
-import { MapService } from '../../../services/new-ui/map.service';
+import { MapService } from '../../../services/map.service';
 import {
   MountainDialogComponent,
   MountainStatistic,
 } from '../mountain-dialog/mountain-dialog.component';
-import { StatisticsService } from '../../../services/new-ui/statistics.service';
+import { StatisticsService } from '../../../services/statistics.service';
 import { MountainName } from '../../../../data/types';
-import { MountainService } from '../../../services/new-ui/mountain.service';
+import { MountainService } from '../../../services/mountain.service';
 import { MountainStateService } from '../../../services/mountain-state.service';
 import { Router } from '@angular/router';
 

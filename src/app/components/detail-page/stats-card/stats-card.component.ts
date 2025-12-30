@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { IconColor, IconComponent } from '../../icon/icon.component';
-import { IconName } from '../../../icon.service';
+import { IconName } from '../../../services/icon.service';
 
 type CardColor = 'orange' | 'amber' | 'stone' | 'rose';
 

@@ -8,7 +8,7 @@ import {
   inject,
   ViewContainerRef,
 } from '@angular/core';
-import { MapTrackService } from '../../../services/new-ui/map-track.service';
+import { MapTrackService } from '../../../services/map-track.service';
 import { MAPY_CZ_URL } from '../../../constants';
 
 @Component({
