@@ -1,9 +1,0 @@
-<div class="detail-container" *ngIf="!mapService.isShowingTrackOnMap()">
-  <div class="close-button" (click)="handleClose()">
-    <img src="/img/icons/close.svg" class="icon" alt="Close Icon" />
-  </div>
-  <h2 class="mountain-name">
-    {{ mountainStateService.mountainName() }}
-  </h2>
-  <app-mountain-detail-table [mountainName]="mountainStateService.mountainName()" />
-</div>

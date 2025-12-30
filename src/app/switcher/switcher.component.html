@@ -1,7 +1,0 @@
-<div class="switcher" *ngIf="!mapService.isShowingTrackOnMap()">
-  <button class="arrow left" (click)="setPreviousMountainName()">&larr;</button>
-  <div class="toolbar" (click)="handleClick()">
-    {{ mountainStateService.mountainName() }}
-  </div>
-  <button class="arrow right" (click)="setNextMountainName()">&rarr;</button>
-</div>
