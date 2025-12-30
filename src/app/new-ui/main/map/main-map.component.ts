@@ -80,6 +80,6 @@ export class MainMapComponent implements AfterViewInit {
   handleDialogAction() {
     this.mountainStateService.setMountainByName(this.dialogParams.selectedMountain);
     this.showDialog = false;
-    this.router.navigate(['/new/detail']);
+    this.router.navigate(['/detail']);
   }
 }

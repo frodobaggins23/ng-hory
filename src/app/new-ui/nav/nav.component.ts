@@ -24,8 +24,8 @@ export class NavComponent {
   constructor() {}
 
   navItems: NavItem[] = [
-    { id: 'home', icon: 'home', label: 'Mapa', route: '/new' },
-    { id: 'mountain', icon: 'map-pin', label: 'Hora', route: '/new/detail' },
+    { id: 'home', icon: 'home', label: 'Mapa', route: '/' },
+    { id: 'mountain', icon: 'map-pin', label: 'Hora', route: '/detail' },
     { id: 'stats', icon: 'bar-chart-3', label: 'Statistiky', route: '/stats' },
   ];
 
