@@ -1,11 +1,40 @@
 <div class="climb-gallery">
-  <h3 class="detail-title">Galerie ({{ images.length }})</h3>
-  <div class="gallery-container">
-    <app-photo-gallery
-      [images]="images"
-      [mountainName]="mountainName"
-      [imgFolder]="imgFolder"
-    ></app-photo-gallery>
+  <div class="gallery-header">
+    <h3 class="detail-title">Galerie ({{ images.length }})</h3>
+    <div class="scroll-controls" *ngIf="showLeftArrow || showRightArrow">
+      <button 
+        class="scroll-button" 
+        [class.hidden]="!showLeftArrow"
+        (click)="scroll('left')" 
+        aria-label="Scroll left"
+      >
+        <app-icon icon="chevron-right" class="rotate-180" [size]="16" stroke="text-secondary"></app-icon>
+      </button>
+      <button 
+        class="scroll-button" 
+        [class.hidden]="!showRightArrow"
+        (click)="scroll('right')" 
+        aria-label="Scroll right"
+      >
+        <app-icon icon="chevron-right" [size]="16" stroke="text-secondary"></app-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="gallery-scroll-container" #scrollContainer (scroll)="updateArrowVisibility()">
+    <div class="gallery-frames">
+      @for (imageName of images; track imageName; let i = $index) {
+        <div class="frame-item" (click)="openPreview(i)">
+          @if (loadedImages.get(imageName)) {
+            <img [src]="loadedImages.get(imageName)" alt="Gallery image" class="frame-image" />
+          } @else {
+            <div class="frame-placeholder">
+              <div class="loading-spinner"></div>
+            </div>
+          }
+        </div>
+      }
+    </div>
   </div>
 </div>
 
