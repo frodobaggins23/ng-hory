@@ -25,6 +25,14 @@ function parseCsvLine(line: string): string[] {
   return values;
 }
 
+function normalizeDurationString(duration: string): string {
+  const parts = duration.split(':').map(part => part.trim());
+  while (parts.length < 3) {
+    parts.unshift('0');
+  }
+  return parts.join(':');
+}
+
 function parseActivityCsv(csvPath: string, id: number, date: string, description: string): Climb {
   const content = fs.readFileSync(csvPath, 'utf-8');
   const lines = content.trim().split('\n');
@@ -41,7 +49,9 @@ function parseActivityCsv(csvPath: string, id: number, date: string, description
     data[key] = summaryLine[index] || '';
   });
 
-  console.info('Duration in Human Readbable Format:', data['Čas'] ?? '-');
+  const normalizedDuration = normalizeDurationString(data['Čas'] || '0:00:00');
+
+  console.info('Duration in Human Readbable Format:', normalizedDuration);
   console.info('Copy data below to climb data file');
   console.info('-----------------------------');
 
@@ -49,7 +59,7 @@ function parseActivityCsv(csvPath: string, id: number, date: string, description
     id,
     date,
     description,
-    duration: data['Čas'] ? durationToSeconds(data['Čas']) : 0,
+    duration: durationToSeconds(normalizedDuration),
     distance: parseFloat(data['Vzdálenost'] || '0') * 1000,
     heartRate: parseInt(data['Průměrný ST'] || '0', 10),
     elevationGain: parseInt(data['Výstup'] || '0', 10),

@@ -9,6 +9,7 @@ RALSKO_DIR="${TRACKS_ROOT_DIR}/ralsko"
 MILESOVKA_DIR="${TRACKS_ROOT_DIR}/milesovka"
 KOSTALOV_DIR="${TRACKS_ROOT_DIR}/kostalov"
 LIPSKA_HORA_DIR="${TRACKS_ROOT_DIR}/lipska_hora"
+RIP_DIR="${TRACKS_ROOT_DIR}/rip"
 
 MOUNTAINS=(
     "BLANIK"
@@ -18,6 +19,7 @@ MOUNTAINS=(
     "MILESOVKA"
     "KOSTALOV"
     "LIPSKA_HORA"
+    "RIP"
 )
 
 if [ ! -d "./tracks" ]; then
