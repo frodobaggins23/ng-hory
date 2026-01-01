@@ -16,15 +16,4 @@ export class MountainUtils {
     const mountainId = this.normalizeMountainName(mountainName);
     return `${mountainId}:${imageName}`;
   }
-
-  /**
-   * Parses a composite image key back to components
-   */
-  static parseImageKey(key: string): { mountainId: string; imageName: string } {
-    const [mountainId, ...imageNameParts] = key.split(':');
-    return {
-      mountainId,
-      imageName: imageNameParts.join(':'), // Handle image names with colons
-    };
-  }
 }

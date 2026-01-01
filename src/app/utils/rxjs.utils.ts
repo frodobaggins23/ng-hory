@@ -1,28 +1,10 @@
-import { Observable, throwError, of } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 /**
  * Utility functions for common RxJS patterns
  */
 export class RxJSUtils {
-  /**
-   * Standardized error handling with optional fallback value
-   */
-  static handleError<T>(
-    errorMessage: string,
-    fallbackValue?: T
-  ): (error: unknown) => Observable<T> {
-    return (error: unknown) => {
-      console.error(errorMessage, error);
-
-      if (fallbackValue !== undefined) {
-        return of(fallbackValue);
-      }
-
-      return throwError(() => error);
-    };
-  }
-
   /**
    * Simple error logging that re-throws the error
    */
@@ -47,23 +29,5 @@ export class RxJSUtils {
           error: () => map.delete(key),
         })
       );
-  }
-
-  /**
-   * Logs performance timing for operations
-   */
-  static measurePerformance<T>(operationName: string): (source: Observable<T>) => Observable<T> {
-    return (source: Observable<T>) => {
-      const startTime = performance.now();
-
-      return source.pipe(
-        tap({
-          next: () => {
-            const duration = performance.now() - startTime;
-            console.log(`📊 ${operationName}: ${duration.toFixed(2)}ms`);
-          },
-        })
-      );
-    };
   }
 }
