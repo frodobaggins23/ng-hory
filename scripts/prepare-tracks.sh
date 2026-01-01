@@ -3,6 +3,7 @@ SOURCE_FILES_DIR='./tracks-tmp'
 
 TRACKS_ROOT_DIR='./src/data/tracks'
 BLANIK_DIR="${TRACKS_ROOT_DIR}/blanik"
+BABKA_DIR="${TRACKS_ROOT_DIR}/babka"
 JESTED_DIR="${TRACKS_ROOT_DIR}/jested"
 LOVOS_DIR="${TRACKS_ROOT_DIR}/lovos"
 RALSKO_DIR="${TRACKS_ROOT_DIR}/ralsko"
@@ -13,6 +14,7 @@ RIP_DIR="${TRACKS_ROOT_DIR}/rip"
 
 MOUNTAINS=(
     "BLANIK"
+    "BABKA"
     "JESTED"
     "LOVOS"
     "RALSKO"

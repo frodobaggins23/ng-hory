@@ -1,4 +1,5 @@
 export type MountainName =
+  | 'Babka'
   | 'Bezděz'
   | 'Blaník'
   | 'Koštálov'

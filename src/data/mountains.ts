@@ -1,4 +1,5 @@
 import { Mountain } from './types';
+import { climbsBabka } from './climbs/climbs-babka';
 import { climbsKostalov } from './climbs/climbs-kostalov';
 import { climbsJested } from './climbs/climbs-jested';
 import { climbsLovos } from './climbs/climbs-lovos';
@@ -12,6 +13,14 @@ import { climbsRonov } from './climbs/climbs-ronov';
 import { climbsRip } from './climbs/climbs-rip';
 
 export const mountains: Mountain[] = [
+  {
+    name: 'Babka',
+    location: 'Středočeský kraj',
+    altitude: 506,
+    coordinates: [49.8914769, 14.23623],
+    climbs: climbsBabka,
+    imgFolder: 'babka',
+  },
   {
     name: 'Ještěd',
     location: 'Liberecký kraj',
