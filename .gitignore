@@ -42,9 +42,10 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# tracks temp files
-tracks-tmp
-climbs-tmp
+# temp files
+.tracks-tmp
+.climbs-tmp
+.images-tmp
 
 # logs
 .claude/custom_hook_scripts/logs

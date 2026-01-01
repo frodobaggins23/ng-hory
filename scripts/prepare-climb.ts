@@ -33,7 +33,13 @@ function normalizeDurationString(duration: string): string {
   return parts.join(':');
 }
 
-function parseActivityCsv(csvPath: string, id: number, date: string, description: string): Climb {
+function parseActivityCsv(
+  csvPath: string,
+  id: number,
+  date: string,
+  description: string,
+  parseLineNumber?: number
+): Climb {
   const content = fs.readFileSync(csvPath, 'utf-8');
   const lines = content.trim().split('\n');
 
@@ -42,11 +48,15 @@ function parseActivityCsv(csvPath: string, id: number, date: string, description
   }
 
   const header = parseCsvLine(lines[0]);
-  const summaryLine = parseCsvLine(lines[lines.length - 1]);
+  const summaryLine = lines[lines.length - 1];
+
+  const dataLine = parseLineNumber
+    ? parseCsvLine(lines[parseLineNumber])
+    : parseCsvLine(summaryLine);
 
   const data: Record<string, string> = {};
   header.forEach((key, index) => {
-    data[key] = summaryLine[index] || '';
+    data[key] = dataLine[index] || '';
   });
 
   const normalizedDuration = normalizeDurationString(data['Čas'] || '0:00:00');
@@ -98,14 +108,15 @@ function main() {
 
   if (args.length < 1) {
     console.error('Declare source file');
-    console.error('Usage: tsx prepare-climb.ts <csv-file> <description?>');
+    console.error('Usage: tsx prepare-climb.ts <csv-file> <description?> <parse-line-number?>');
     console.error(
-      'Example: tsx prepare-climb.ts activities_data/jested03_2025_02_01.csv "Winter climb"'
+      'Example: tsx prepare-climb.ts activities_data/jested03_2025_02_01.csv "Winter climb" 2'
     );
     process.exit(1);
   }
 
-  const [csvFile, description] = args;
+  const [csvFile, description, parseLineNumberStr] = args;
+  const parseLineNumber = parseLineNumberStr ? parseInt(parseLineNumberStr, 10) : undefined;
 
   const { id, date } = getParamsFromCsvFilename(csvFile);
 
@@ -125,7 +136,8 @@ function main() {
       csvPath,
       idWithFallback,
       dateWithFallback,
-      descriptionWithFallback
+      descriptionWithFallback,
+      parseLineNumber
     );
     console.log(JSON.stringify(climb, null, 2));
   } catch (error) {

@@ -1,5 +1,5 @@
 import { Climb } from '../types';
-import { jested01, jested02 } from '../tracks/jested';
+import { jested01, jested02, jested03 } from '../tracks/jested';
 
 export const climbsJested: Climb[] = [
   {
@@ -27,11 +27,20 @@ export const climbsJested: Climb[] = [
   {
     id: 3,
     date: '2025-11-23',
+    imgs: [
+      'jested03_01.webp',
+      'jested03_02.webp',
+      'jested03_03.webp',
+      'jested03_04.webp',
+      'jested03_05.webp',
+      'jested03_06.webp',
+    ],
     description:
       'Spíš výlet, než klasický výstup. Procházka po hřebeni se zastávkou na krásné výhlídce Červený kámen',
     duration: 16979,
     distance: 17710,
     heartRate: 126,
     elevationGain: 757,
+    track: jested03 as GeoJSON.GeoJsonObject,
   },
 ];

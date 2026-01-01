@@ -1,5 +1,5 @@
 import { Climb } from '../types';
-import { rip03 } from '../tracks/rip/';
+import { rip03, rip02 } from '../tracks/rip/';
 
 export const climbsRip: Climb[] = [
   {
@@ -21,10 +21,12 @@ export const climbsRip: Climb[] = [
     distance: 2180,
     heartRate: 136,
     elevationGain: 203,
+    track: rip02 as GeoJSON.GeoJsonObject,
   },
   {
     id: 3,
     date: '2025-12-29',
+    imgs: ['rip03_01.webp', 'rip03_02.webp', 'rip03_03.webp', 'rip03_04.webp'],
     description:
       'Opět cestou za babičkou. Tentokrát s tátou. Pohodové tempo. Poslední výšlap v roce 2025.',
     duration: 2513, // 0:41:53,

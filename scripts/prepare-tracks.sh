@@ -1,5 +1,5 @@
 
-SOURCE_FILES_DIR='./tracks-tmp'
+SOURCE_FILES_DIR='./.tracks-tmp'
 
 TRACKS_ROOT_DIR='./src/data/tracks'
 BLANIK_DIR="${TRACKS_ROOT_DIR}/blanik"

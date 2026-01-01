@@ -13,7 +13,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "prepare:tracks": "bash ./scripts/prepare-tracks.sh",
-    "prepare:climb": "tsx ./scripts/prepare-climb.ts"
+    "prepare:climb": "tsx ./scripts/prepare-climb.ts",
+    "prepare:images": "bash ./scripts/prepare-images.sh"
   },
   "private": true,
   "dependencies": {

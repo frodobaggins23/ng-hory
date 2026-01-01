@@ -1,3 +1,22 @@
 import { Climb } from '../types';
+import { babka01 } from '../tracks/babka/';
 
-export const climbsBabka: Climb[] = [];
+export const climbsBabka: Climb[] = [
+  {
+    id: 1,
+    date: '2025-12-20',
+    imgs: [
+      'babka01_01.webp',
+      'babka01_02.webp',
+      'babka01_03.webp',
+      'babka01_04.webp',
+      'babka01_05.webp',
+    ],
+    description: 'Výstup na Babku v rámci výletu po okolí Skalky. Bylo úžasné mlhavé počasí.',
+    duration: 2874, // 0:47:54
+    distance: 2960,
+    heartRate: 123,
+    elevationGain: 282,
+    track: babka01 as GeoJSON.GeoJsonObject,
+  },
+];
