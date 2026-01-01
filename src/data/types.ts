@@ -14,8 +14,9 @@ export type MountainName =
 
 export type Mountain = {
   name: MountainName;
-  location?: string;
-  altitude?: number;
+  description: string;
+  location: string;
+  altitude: number;
   coordinates: L.LatLngTuple;
   climbs?: Climb[];
   imgFolder: string;

@@ -4,11 +4,11 @@
     <div class="mountain-hero__info">
       <p class="mountain-hero__region">
         <app-icon [icon]="'map-pin'" [size]="16" [stroke]="'primary-dark'"></app-icon>
-        Liberecký kraj
+        {{ mountainDetails.location }}
       </p>
       <h1 class="mountain-hero__name">{{ mountainDetails.name }}</h1>
       <p class="mountain-hero__details">
-        {{ mountainDetails.location }} • {{ mountainDetails.altitude }}
+        {{ mountainDetails.description }} • {{ mountainDetails.altitude }}
       </p>
     </div>
     <div class="mountain-hero__badge">

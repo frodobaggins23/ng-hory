@@ -19,6 +19,7 @@ export class HeroComponent {
     name: '' as MountainName,
     location: '',
     altitude: '',
+    description: '',
   };
 
   constructor() {

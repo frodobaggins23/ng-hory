@@ -15,6 +15,7 @@ import { climbsRip } from './climbs/climbs-rip';
 export const mountains: Mountain[] = [
   {
     name: 'Babka',
+    description: 'Krásný vrcholek v brdských lesích',
     location: 'Středočeský kraj',
     altitude: 506,
     coordinates: [49.8914769, 14.23623],
@@ -23,6 +24,7 @@ export const mountains: Mountain[] = [
   },
   {
     name: 'Ještěd',
+    description: 'Dominanta Liberce s unikátní televizní věží',
     location: 'Liberecký kraj',
     altitude: 1012,
     coordinates: [50.7326181, 14.9850481],
@@ -31,6 +33,7 @@ export const mountains: Mountain[] = [
   },
   {
     name: 'Lovoš',
+    description: 'Můj oblíbený kopec s krásnými výhledy na České středohoří',
     location: 'Ústecký kraj',
     altitude: 573,
     coordinates: [50.5276125, 14.01802],
@@ -39,6 +42,7 @@ export const mountains: Mountain[] = [
   },
   {
     name: 'Milešovka',
+    description: 'Nejvyšší hora Českého středohoří',
     location: 'Ústecký kraj',
     altitude: 837,
     coordinates: [50.554905, 13.9310911],
@@ -47,6 +51,7 @@ export const mountains: Mountain[] = [
   },
   {
     name: 'Ralsko',
+    description: 'Parádní kopec se zříceninou hradu na vrcholu',
     location: 'Liberecký kraj',
     altitude: 698,
     coordinates: [50.6741994, 14.7659739],
@@ -55,6 +60,7 @@ export const mountains: Mountain[] = [
   },
   {
     name: 'Blaník',
+    description: 'Legendární hora spojená s českými pověstmi',
     location: 'Středočeský kraj',
     altitude: 638,
     coordinates: [49.6418089, 14.8736789],
@@ -63,6 +69,7 @@ export const mountains: Mountain[] = [
   },
   {
     name: 'Koštálov',
+    description: 'Takový nenápadný kopec, s dechberoucími výhledy',
     location: 'Ústecký kraj',
     altitude: 494,
     coordinates: [50.4902408, 13.9847233],
@@ -71,6 +78,7 @@ export const mountains: Mountain[] = [
   },
   {
     name: 'Lipská hora',
+    description: 'Asi nejlepší výhledy v Českém středohoří',
     location: 'Ústecký kraj',
     altitude: 698,
     coordinates: [50.5124383, 13.9128083],
@@ -79,6 +87,7 @@ export const mountains: Mountain[] = [
   },
   {
     name: 'Ostrý',
+    description: 'Skalnatý vrchol s nádhernými výhledy na Milešovku',
     location: 'Ústecký kraj',
     altitude: 553,
     coordinates: [50.5313833, 13.9514528],
@@ -87,6 +96,7 @@ export const mountains: Mountain[] = [
   },
   {
     name: 'Bezděz',
+    description: 'Historický hrad na vrcholu kopce s panoramatickými výhledy',
     location: 'Liberecký kraj',
     altitude: 606,
     coordinates: [50.5390411, 14.7198908],
@@ -95,6 +105,7 @@ export const mountains: Mountain[] = [
   },
   {
     name: 'Ronov',
+    description: 'Kopec se zříceninou hradu na vrcholu',
     location: 'Liberecký kraj',
     altitude: 552,
     coordinates: [50.6203203, 14.4145292],
@@ -103,6 +114,7 @@ export const mountains: Mountain[] = [
   },
   {
     name: 'Říp',
+    description: 'Tenhle kopec je pro mě návrat do dětství',
     location: 'Středočeský kraj',
     altitude: 460,
     coordinates: [50.3865333, 14.2896225],
