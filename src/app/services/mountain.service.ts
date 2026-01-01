@@ -9,7 +9,7 @@ type MountainMapPoint = {
   location?: string;
 };
 
-type MountainDetails = {
+export type MountainDetails = {
   name: MountainName;
   location: string;
   altitude: string;

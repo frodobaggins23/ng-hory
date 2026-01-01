@@ -6,8 +6,10 @@
         <app-icon [icon]="'map-pin'" [size]="16" [stroke]="'primary-dark'"></app-icon>
         Liberecký kraj
       </p>
-      <h1 class="mountain-hero__name">{{ mountainStateService.mountainName() }}</h1>
-      <p class="mountain-hero__details">1012 m n. m. • Ještědsko-kozákovský hřbet</p>
+      <h1 class="mountain-hero__name">{{ mountainDetails.name }}</h1>
+      <p class="mountain-hero__details">
+        {{ mountainDetails.location }} • {{ mountainDetails.altitude }}
+      </p>
     </div>
     <div class="mountain-hero__badge">
       <span class="mountain-hero__badge-count">{{
