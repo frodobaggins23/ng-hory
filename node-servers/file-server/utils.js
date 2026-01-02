@@ -1,5 +1,7 @@
 import path from 'path';
 import fs from 'fs/promises';
+import jwt from 'jsonwebtoken';
+import mime from 'mime-types';
 
 /**
  * Sanitizes a path component to prevent path traversal attacks.
@@ -119,6 +121,65 @@ export const getCorsOptions = () => ({
   },
   credentials: true,
 });
+
+/**
+ * Verifies a JWT token from the Authorization header.
+ * Expects header format: "Bearer <token>"
+ * Returns the decoded token payload if valid, null if invalid or missing.
+ *
+ * @param {Object} req - Express request object
+ * @returns {Object|null} - Decoded token payload if valid, null otherwise
+ *
+ * @example
+ * const decoded = verifyToken(req);
+ * if (decoded && decoded.status === 'unlocked') {
+ *   // Token is valid and gallery is unlocked
+ * }
+ */
+export const verifyToken = req => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return null;
+    }
+
+    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+    // eslint-disable-next-line no-undef
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY || 'your-secret-key');
+    return decoded;
+  } catch {
+    return null;
+  }
+};
+
+/**
+ * Serves a file as a response with appropriate headers.
+ * Sets Content-Type, Content-Length, and Content-Disposition headers.
+ *
+ * @param {string} filePath - The absolute path to the file
+ * @param {string} filename - The filename to use in the response
+ * @param {Object} res - Express response object
+ * @returns {Promise<void>}
+ *
+ * @example
+ * await serveFile('/path/to/file.jpg', 'file.jpg', res);
+ */
+export const serveFile = async (filePath, filename, res) => {
+  // Get file stats
+  const stats = await fs.stat(filePath);
+
+  // Determine content type
+  const mimeType = mime.lookup(filePath) || 'application/octet-stream';
+
+  // Set headers
+  res.setHeader('Content-Type', mimeType);
+  res.setHeader('Content-Length', stats.size);
+  res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+
+  // Stream the file
+  const fileStream = await fs.readFile(filePath);
+  res.send(fileStream);
+};
 
 /**
  * Lists files organized by directories.

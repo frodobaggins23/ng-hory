@@ -3,12 +3,15 @@ import assert from 'node:assert';
 import path from 'path';
 import fs from 'fs/promises';
 import { tmpdir } from 'os';
+import jwt from 'jsonwebtoken';
 import {
   sanitizePathComponent,
   isPathWithinDirectory,
   listFilesByDirectory,
   isOriginAllowed,
   getCorsOptions,
+  verifyToken,
+  serveFile,
 } from './utils.js';
 
 test('sanitizePathComponent - basic valid inputs', () => {
@@ -525,5 +528,181 @@ test('getCorsOptions - origin callback: rejects invalid origins', () => {
     assert.strictEqual(callbackCalled, true, `Callback should be called for origin: ${origin}`);
     assert.ok(callbackError instanceof Error, `Error expected for origin: ${origin}`);
     assert.strictEqual(callbackError.message, 'Not allowed by CORS');
+  });
+});
+
+// ============================================================================
+// Token Verification Tests
+// ============================================================================
+
+test('verifyToken - valid token with Bearer prefix', () => {
+  const secret = 'test-secret-key';
+  const token = jwt.sign({ status: 'unlocked' }, secret);
+  const req = {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  };
+
+  // Mock process.env for this test
+  const originalEnv = process.env.JWT_SECRET_KEY;
+  process.env.JWT_SECRET_KEY = secret;
+
+  const decoded = verifyToken(req);
+  assert.ok(decoded);
+  assert.strictEqual(decoded.status, 'unlocked');
+
+  process.env.JWT_SECRET_KEY = originalEnv;
+});
+
+test('verifyToken - missing authorization header', () => {
+  const req = {
+    headers: {},
+  };
+
+  const decoded = verifyToken(req);
+  assert.strictEqual(decoded, null);
+});
+
+test('verifyToken - missing Bearer prefix', () => {
+  const secret = 'test-secret-key';
+  const token = jwt.sign({ status: 'unlocked' }, secret);
+  const req = {
+    headers: {
+      authorization: token,
+    },
+  };
+
+  const decoded = verifyToken(req);
+  assert.strictEqual(decoded, null);
+});
+
+test('verifyToken - invalid token signature', () => {
+  const req = {
+    headers: {
+      authorization: 'Bearer invalid.token.here',
+    },
+  };
+
+  const decoded = verifyToken(req);
+  assert.strictEqual(decoded, null);
+});
+
+test('verifyToken - expired token', () => {
+  const secret = 'test-secret-key';
+  const token = jwt.sign({ status: 'unlocked' }, secret, { expiresIn: '-1h' });
+  const req = {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  };
+
+  const originalEnv = process.env.JWT_SECRET_KEY;
+  process.env.JWT_SECRET_KEY = secret;
+
+  const decoded = verifyToken(req);
+  assert.strictEqual(decoded, null);
+
+  process.env.JWT_SECRET_KEY = originalEnv;
+});
+
+test('verifyToken - wrong secret key', () => {
+  const secret1 = 'secret-key-1';
+  const secret2 = 'secret-key-2';
+  const token = jwt.sign({ status: 'unlocked' }, secret1);
+  const req = {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  };
+
+  const originalEnv = process.env.JWT_SECRET_KEY;
+  process.env.JWT_SECRET_KEY = secret2;
+
+  const decoded = verifyToken(req);
+  assert.strictEqual(decoded, null);
+
+  process.env.JWT_SECRET_KEY = originalEnv;
+});
+
+// ============================================================================
+// File Serving Tests
+// ============================================================================
+
+test('serveFile - serves file with correct headers', async () => {
+  const testDir = path.join(tmpdir(), `serve-file-test-${Date.now()}-${Math.random()}`);
+  await fs.mkdir(testDir, { recursive: true });
+
+  try {
+    const testFile = path.join(testDir, 'test.txt');
+    const fileContent = 'Hello, World!';
+    await fs.writeFile(testFile, fileContent);
+
+    // Mock Express response object
+    const res = {
+      headersSent: false,
+      headers: {},
+      setHeader(key, value) {
+        this.headers[key] = value;
+      },
+      send(data) {
+        this.headersSent = true;
+        this.body = data;
+      },
+    };
+
+    await serveFile(testFile, 'test.txt', res);
+
+    assert.ok(res.headersSent);
+    assert.ok(res.headers['Content-Type']);
+    assert.ok(res.headers['Content-Length']);
+    assert.strictEqual(res.headers['Content-Disposition'], 'inline; filename="test.txt"');
+  } finally {
+    await fs.rm(testDir, { recursive: true, force: true });
+  }
+});
+
+test('serveFile - handles different file types', async () => {
+  const testDir = path.join(tmpdir(), `serve-file-test-${Date.now()}-${Math.random()}`);
+  await fs.mkdir(testDir, { recursive: true });
+
+  try {
+    const jpgFile = path.join(testDir, 'test.jpg');
+    await fs.writeFile(jpgFile, 'fake image data');
+
+    const res = {
+      headersSent: false,
+      headers: {},
+      setHeader(key, value) {
+        this.headers[key] = value;
+      },
+      send() {
+        this.headersSent = true;
+      },
+    };
+
+    await serveFile(jpgFile, 'test.jpg', res);
+
+    assert.ok(res.headers['Content-Type']);
+    assert.ok(
+      res.headers['Content-Type'].includes('image'),
+      `Expected image MIME type, got ${res.headers['Content-Type']}`
+    );
+  } finally {
+    await fs.rm(testDir, { recursive: true, force: true });
+  }
+});
+
+test('serveFile - non-existent file throws error', async () => {
+  const res = {
+    headers: {},
+    setHeader() {},
+    send() {},
+  };
+
+  const nonExistentPath = path.join(tmpdir(), 'this-file-does-not-exist.txt');
+
+  await assert.rejects(async () => {
+    await serveFile(nonExistentPath, 'file.txt', res);
   });
 });
