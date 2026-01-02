@@ -1,4 +1,12 @@
-import { Component, inject, Input, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnInit,
+  OnDestroy,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { IconName, IconService } from '../../services/icon.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
@@ -22,7 +30,7 @@ export type IconColor =
   templateUrl: './icon.component.html',
   styleUrl: './icon.component.scss',
 })
-export class IconComponent implements OnInit, OnDestroy {
+export class IconComponent implements OnInit, OnDestroy, OnChanges {
   @Input() icon: IconName = 'home';
   @Input() fill: IconColor = 'none';
   @Input() stroke: IconColor = 'none';
@@ -39,13 +47,24 @@ export class IconComponent implements OnInit, OnDestroy {
   constructor() {}
 
   ngOnInit() {
-    this.subscription = this.iconService.getSvg(this.icon).subscribe((svgContent: string) => {
-      this.sanitizedSvg = this.domSanitizer.bypassSecurityTrustHtml(svgContent);
-    });
+    this.loadIcon();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['icon'] && !changes['icon'].firstChange) {
+      this.loadIcon();
+    }
   }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+  }
+
+  private loadIcon(): void {
+    this.subscription?.unsubscribe();
+    this.subscription = this.iconService.getSvg(this.icon).subscribe((svgContent: string) => {
+      this.sanitizedSvg = this.domSanitizer.bypassSecurityTrustHtml(svgContent);
+    });
   }
 
   public getColor(color: IconColor): string {

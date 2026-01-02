@@ -1,0 +1,32 @@
+<div class="unlock-gallery-container">
+  <div
+    class="icon-button"
+    (click)="onIconClick()"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+  >
+    <app-icon
+      [icon]="isLocked() ? 'lock' : 'unlock'"
+      stroke="primary-dark"
+      fill="none"
+      [size]="32"
+    ></app-icon>
+  </div>
+
+  <div class="hover-tooltip" *ngIf="isHovering()">
+    <span>Zadejte heslo pro odemčení fotek v galeriích</span>
+  </div>
+
+  <div class="password-input-container" *ngIf="showPasswordInput()">
+    <input
+      type="password"
+      class="password-input"
+      [(ngModel)]="password"
+      placeholder="Heslo"
+      (keyup.enter)="onSubmitPassword()"
+    />
+    <button class="submit-button" (click)="onSubmitPassword()" [disabled]="!password()">
+      <app-icon icon="chevron-right" fill="none" stroke="primary-light" [size]="20"></app-icon>
+    </button>
+  </div>
+</div>
