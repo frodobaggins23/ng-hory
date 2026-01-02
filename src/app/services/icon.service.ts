@@ -12,10 +12,12 @@ export type IconName =
   | 'footprints'
   | 'heart'
   | 'home'
+  | 'lock'
   | 'map-pin'
   | 'map'
   | 'mountain'
   | 'trending-up'
+  | 'unlock'
   | 'x';
 
 @Injectable({
@@ -32,12 +34,10 @@ export class IconService {
     if (icon) {
       return of(icon);
     }
-    return this.httpClient
-      .get(`/new-ui/assets/icons/${iconName}.svg`, { responseType: 'text' })
-      .pipe(
-        tap((svgContent: string) => {
-          this.svgCache.set(iconName, svgContent);
-        })
-      );
+    return this.httpClient.get(`/assets/icons/${iconName}.svg`, { responseType: 'text' }).pipe(
+      tap((svgContent: string) => {
+        this.svgCache.set(iconName, svgContent);
+      })
+    );
   }
 }
