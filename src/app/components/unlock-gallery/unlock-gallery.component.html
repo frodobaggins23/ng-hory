@@ -7,7 +7,7 @@
   >
     <app-icon
       [icon]="isLocked() ? 'lock' : 'unlock'"
-      stroke="primary-dark"
+      [stroke]="isSubmitting() ? 'text-muted' : 'primary-dark'"
       fill="none"
       [size]="32"
     ></app-icon>

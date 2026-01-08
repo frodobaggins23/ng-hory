@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, of, tap } from 'rxjs';
+import { RequestService } from '../request.service';
 
 export type IconName =
   | 'arrow-up'
@@ -25,7 +25,7 @@ export type IconName =
 })
 export class IconService {
   private svgCache: Map<IconName, string> = new Map();
-  private httpClient = inject(HttpClient);
+  private requestService = inject(RequestService);
 
   constructor() {}
 
@@ -34,10 +34,17 @@ export class IconService {
     if (icon) {
       return of(icon);
     }
-    return this.httpClient.get(`/assets/icons/${iconName}.svg`, { responseType: 'text' }).pipe(
-      tap((svgContent: string) => {
-        this.svgCache.set(iconName, svgContent);
+    return this.requestService
+      .request({
+        method: 'get',
+        path: `/assets/icons/${iconName}.svg`,
+        responseType: 'text',
+        doNotAuthorize: true,
       })
-    );
+      .pipe(
+        tap((svgContent: string) => {
+          this.svgCache.set(iconName, svgContent);
+        })
+      ) as Observable<string>;
   }
 }

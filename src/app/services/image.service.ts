@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { switchMap, catchError, map, share } from 'rxjs/operators';
 import { ImageCacheService } from './image-cache.service';
+import { RequestService } from '../request.service';
 import { MountainUtils, RxJSUtils, BlobUtils } from '../utils';
 import { environment } from '../../environments/environment';
 
@@ -18,6 +19,7 @@ export class ImageService {
   private pendingImageRequests = new Map<string, Observable<ImageLoadResult>>();
 
   private cacheService = inject(ImageCacheService);
+  private requestService = inject(RequestService);
 
   /**
    * Get image URL for display - cache first, then file server download
@@ -84,37 +86,30 @@ export class ImageService {
     const url = `${environment.fileServerHost}/api/get-file?folder=${encodeURIComponent(imgFolder)}&filename=${encodeURIComponent(imageName)}`;
 
     // Download the image from file server
-    return new Observable<Blob>(observer => {
-      fetch(url)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-          }
-          return response.blob();
-        })
-        .then(blob => {
-          observer.next(blob);
-          observer.complete();
-        })
-        .catch(error => {
-          observer.error(error);
-        });
-    }).pipe(
-      switchMap(blob => {
-        // Store in cache
-        return this.cacheService.storeImage(mountainId, imageName, blob).pipe(
-          map(() => ({
-            url: BlobUtils.createBlobUrl(blob),
-            fromCache: false,
-            size: blob.size,
-          }))
-        );
-      }),
-      catchError(error => {
-        console.error(`Failed to download image ${imageName} for ${mountainName}:`, error);
-        return throwError(() => new Error(`Download failed: ${error.message || 'Network error'}`));
+    return this.requestService
+      .request({
+        method: 'get',
+        path: url,
+        responseType: 'blob',
       })
-    );
+      .pipe(
+        switchMap((blob: Blob) => {
+          // Store in cache
+          return this.cacheService.storeImage(mountainId, imageName, blob).pipe(
+            map(() => ({
+              url: BlobUtils.createBlobUrl(blob),
+              fromCache: false,
+              size: blob.size,
+            }))
+          );
+        }),
+        catchError(error => {
+          console.error(`Failed to download image ${imageName} for ${mountainName}:`, error);
+          return throwError(
+            () => new Error(`Download failed: ${error.message || 'Network error'}`)
+          );
+        })
+      );
   }
 
   /**
