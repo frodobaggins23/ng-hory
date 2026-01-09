@@ -5,7 +5,7 @@
     "ng": "ng",
     "prebuild": "node ./scripts/inject-env.js",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --base-href=/hory/",
     "format": "prettier --write \"src/**/*.{ts,html,scss,css,json}\"",
     "format:check": "prettier --check \"src/**/*.{ts,html,scss,css,json}\"",
     "lint": "eslint \"src/**/*.{ts,html}\"",
