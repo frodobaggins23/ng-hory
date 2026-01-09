@@ -6,8 +6,6 @@ const path = require('path');
 const mapApiKey = process.env.API_KEY || '';
 const fileServerHost = process.env.FILE_SERVER_HOST || '';
 
-console.log('mapApiKey:', mapApiKey);
-
 const envFiles = [
   path.join(__dirname, '../src/environments/environment.ts'),
   path.join(__dirname, '../src/environments/environment.prod.ts'),

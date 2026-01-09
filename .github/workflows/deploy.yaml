@@ -1,0 +1,29 @@
+on: workflow_dispatch
+name: 🚀 Deploy website
+env:
+  API_KEY: ${{ secrets.API_KEY }}
+  FILE_SERVER_HOST: https://kubac.website
+  SSHPASS: ${{ secrets.FTP_PASSWORD }}
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v6
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: 🔨 Build Project
+        run: |
+          npm install
+          npm run build
+
+      - name: 📂 Sync files via SFTP
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p 21098 ftp.kubac.website >> ~/.ssh/known_hosts 2>/dev/null
+          sshpass -e scp -v -P 21098 -r dist/kubacovy-hory-ng/browser/* kubawqik@ftp.kubac.website:public_html/hory/
