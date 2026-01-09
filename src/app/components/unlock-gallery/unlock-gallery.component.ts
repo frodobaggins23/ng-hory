@@ -68,7 +68,9 @@ export class UnlockGalleryComponent {
   }
 
   goToHomeAndRefresh(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/']).then(() => {
+      window.location.reload();
+    });
   }
 
   onIconClick(): void {

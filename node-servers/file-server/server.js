@@ -114,6 +114,13 @@ app.post('/api/unlock-gallery', (req, res) => {
   }
 });
 
+app.get('/api/verify-token', (req, res) => {
+  {
+    const tokenValid = verifyToken(req);
+    res.json({ valid: tokenValid });
+  }
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });

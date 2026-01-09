@@ -128,7 +128,7 @@ export const getCorsOptions = () => ({
  * Returns the decoded token payload if valid, null if invalid or missing.
  *
  * @param {Object} req - Express request object
- * @returns {Object|null} - Decoded token payload if valid, null otherwise
+ * @returns {boolean} - True if token is valid, false otherwise
  *
  * @example
  * const decoded = verifyToken(req);
@@ -146,9 +146,9 @@ export const verifyToken = req => {
     const token = authHeader.substring(7); // Remove 'Bearer ' prefix
     // eslint-disable-next-line no-undef
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY || 'your-secret-key');
-    return decoded;
+    return !!decoded;
   } catch {
-    return null;
+    return false;
   }
 };
 
