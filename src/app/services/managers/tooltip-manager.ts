@@ -1,14 +1,14 @@
-import * as L from 'leaflet';
+import { Map, DomUtil, LatLng } from 'leaflet';
 
 export class TooltipManager {
   private tooltipDiv: HTMLDivElement | null = null;
 
-  constructor(private map: L.Map) {
+  constructor(private map: Map) {
     this.createTooltip();
   }
 
   private createTooltip(): void {
-    this.tooltipDiv = L.DomUtil.create('div', 'mountain-tooltip');
+    this.tooltipDiv = DomUtil.create('div', 'mountain-tooltip');
     this.tooltipDiv.style.position = 'absolute';
     this.tooltipDiv.style.display = 'none';
     this.tooltipDiv.style.pointerEvents = 'none';
@@ -16,7 +16,7 @@ export class TooltipManager {
     this.map.getContainer().appendChild(this.tooltipDiv);
   }
 
-  show(latlng: L.LatLng, mountainName: string, altitude: string): void {
+  show(latlng: LatLng, mountainName: string, altitude: string): void {
     if (!this.tooltipDiv) return;
 
     const point = this.map.latLngToContainerPoint(latlng);

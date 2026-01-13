@@ -1,11 +1,11 @@
 import { Injectable, OnDestroy, ViewContainerRef, ComponentRef } from '@angular/core';
-import * as L from 'leaflet';
+import { Map, GeoJSON, Control, CircleMarker, TileLayer, DomUtil, Polyline, LatLng } from 'leaflet';
 import { TrackMapLegendComponent } from '../components/detail-page/track-map/track-map-legend/track-map-legend.component';
 
 @Injectable()
 export class MapTrackService implements OnDestroy {
-  private map: L.Map | null = null;
-  private track: L.GeoJSON | null = null;
+  private map: Map | null = null;
+  private track: GeoJSON | null = null;
   private legendComponentRef: ComponentRef<TrackMapLegendComponent> | null = null;
 
   ngOnDestroy(): void {
@@ -13,9 +13,9 @@ export class MapTrackService implements OnDestroy {
     this.destroyLegend();
   }
 
-  initMap(container: HTMLElement, baseMapUrl: string): L.Map {
-    this.map = L.map(container, {
-      layers: [L.tileLayer(baseMapUrl)],
+  initMap(container: HTMLElement, baseMapUrl: string): Map {
+    this.map = new Map(container, {
+      layers: [new TileLayer(baseMapUrl)],
       zoomControl: true,
       attributionControl: false,
     });
@@ -29,7 +29,7 @@ export class MapTrackService implements OnDestroy {
       return;
     }
 
-    this.track = L.geoJSON(geoData, {
+    this.track = new GeoJSON(geoData, {
       style: {
         opacity: 1,
         color: 'var(--color-orange-500)', // orange-500 to match the original design
@@ -54,10 +54,10 @@ export class MapTrackService implements OnDestroy {
 
     this.destroyLegend();
 
-    const legend = new L.Control({ position: 'bottomright' });
+    const legend = new Control({ position: 'bottomright' });
 
     legend.onAdd = () => {
-      const div = L.DomUtil.create('div', 'track-map-legend-container');
+      const div = DomUtil.create('div', 'track-map-legend-container');
 
       this.legendComponentRef = viewContainerRef.createComponent(TrackMapLegendComponent);
       div.appendChild(this.legendComponentRef.location.nativeElement);
@@ -79,17 +79,17 @@ export class MapTrackService implements OnDestroy {
     if (!this.map || !this.track) return;
 
     const layers = this.track.getLayers();
-    const polylines = layers.filter(l => l instanceof L.Polyline) as L.Polyline[];
+    const polylines = layers.filter(l => l instanceof Polyline) as Polyline[];
 
     if (polylines.length === 0) return;
 
     // Helper to get first/last LatLng from potentially nested arrays (MultiLineString)
-    type LatLngNested = L.LatLng | LatLngNested[];
+    type LatLngNested = LatLng | LatLngNested[];
 
-    const getFirstPoint = (coords: LatLngNested): L.LatLng =>
+    const getFirstPoint = (coords: LatLngNested): LatLng =>
       Array.isArray(coords) ? getFirstPoint(coords[0]) : coords;
 
-    const getLastPoint = (coords: LatLngNested): L.LatLng =>
+    const getLastPoint = (coords: LatLngNested): LatLng =>
       Array.isArray(coords) ? getLastPoint(coords[coords.length - 1]) : coords;
 
     const firstPolyline = polylines[0];
@@ -99,7 +99,7 @@ export class MapTrackService implements OnDestroy {
     const endLatLng = getLastPoint(lastPolyline.getLatLngs() as LatLngNested);
 
     // Start marker (green)
-    L.circleMarker(startLatLng, {
+    new CircleMarker(startLatLng, {
       radius: 6,
       fillColor: 'var(--color-green-500)',
       color: 'var(--color-white)',
@@ -108,7 +108,7 @@ export class MapTrackService implements OnDestroy {
     }).addTo(this.map);
 
     // End marker (red)
-    L.circleMarker(endLatLng, {
+    new CircleMarker(endLatLng, {
       radius: 6,
       fillColor: 'var(--color-red-500)',
       color: 'var(--color-white)',

@@ -1,11 +1,11 @@
-import * as L from 'leaflet';
+import { Marker } from 'leaflet';
 
 export class MarkerSelectionManager {
-  private selectedMarker: L.Marker | null = null;
+  private selectedMarker: Marker | null = null;
   private readonly selector = '.marker-circle';
   private readonly selectedClassName = 'selected';
 
-  select(marker: L.Marker): void {
+  select(marker: Marker): void {
     this.clearSelection();
 
     const element = marker.getElement();
@@ -27,7 +27,7 @@ export class MarkerSelectionManager {
     }
   }
 
-  getSelected(): L.Marker | null {
+  getSelected(): Marker | null {
     return this.selectedMarker;
   }
 }

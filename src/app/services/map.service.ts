@@ -1,5 +1,5 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
-import * as L from 'leaflet';
+import { Map, TileLayer, LayerGroup, LatLngBounds, Control, DomUtil, Circle } from 'leaflet';
 import { MountainService } from './mountain.service';
 import { IconService } from './icon.service';
 import { MapLegendUtil } from '../utils/map-legend.util';
@@ -17,8 +17,8 @@ import { MountainName } from '../../data/types';
 export class MapService implements OnDestroy {
   zoomLevel: number = 20;
 
-  private map!: L.Map;
-  private mountainsLayer: L.LayerGroup = L.layerGroup();
+  private map!: Map;
+  private mountainsLayer: LayerGroup = new LayerGroup();
 
   private tooltipManager!: TooltipManager;
   private selectionManager = new MarkerSelectionManager();
@@ -45,8 +45,8 @@ export class MapService implements OnDestroy {
 
   async initMap(mapId: string, baseMapUrl: string) {
     const bounds = this.getDefaultBounds();
-    this.map = L.map(mapId, {
-      layers: [L.tileLayer(baseMapUrl), this.mountainsLayer],
+    this.map = new Map(mapId, {
+      layers: [new TileLayer(baseMapUrl), this.mountainsLayer],
     }).fitBounds(bounds, { padding: [20, 20] });
 
     const icons = await this.iconLoader.load();
@@ -65,17 +65,17 @@ export class MapService implements OnDestroy {
     this.populateWithMountainMarkers();
   }
 
-  getDefaultBounds(): L.LatLngBounds {
+  getDefaultBounds(): LatLngBounds {
     const coordinates = this.mountainService.getAllCoordinates();
-    return L.latLngBounds(coordinates as L.LatLngExpression[]);
+    return new LatLngBounds(coordinates as Array<[number, number]>);
   }
 
   private createLegend(trendingUpIconSvg: string): void {
-    const legend = new L.Control({ position: 'topright' });
+    const legend = new Control({ position: 'topright' });
     const { mountainCount, climbCount } = this.statsService.getBasicStats();
 
     legend.onAdd = () => {
-      const div = L.DomUtil.create('div', 'map-legend');
+      const div = DomUtil.create('div', 'map-legend');
       div.innerHTML = new MapLegendUtil({
         icon: trendingUpIconSvg,
         mountainCount,
@@ -86,7 +86,7 @@ export class MapService implements OnDestroy {
     legend.addTo(this.map);
   }
 
-  addMarker(marker: L.Circle) {
+  addMarker(marker: Circle) {
     marker.addTo(this.map);
   }
 
