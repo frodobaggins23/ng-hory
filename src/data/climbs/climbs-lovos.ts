@@ -1,5 +1,4 @@
 import { Climb } from '../types';
-import { lovos01 } from '../tracks/lovos';
 
 export const climbsLovos: Climb[] = [
   {
@@ -14,10 +13,10 @@ export const climbsLovos: Climb[] = [
       'lovos01_06.webp',
     ],
     description: 'Zimní výstup na Lovoš. Bez nesmeků to nešlo. Sníh a led na vrcholu.',
-    duration: 5897,  // 01:38:17,
+    duration: 5897, // 01:38:17,
     distance: 5180,
     heartRate: 124,
     elevationGain: 633,
-    track: lovos01 as GeoJSON.GeoJsonObject,
+    trackPath: './assets/tracks/lovos/lovos01.json',
   },
 ];

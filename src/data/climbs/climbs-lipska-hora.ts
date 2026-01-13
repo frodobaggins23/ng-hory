@@ -1,4 +1,3 @@
-import { lipskaHora01 } from '../tracks/lipska_hora';
 import { Climb } from '../types';
 
 export const climbsLipskaHora: Climb[] = [
@@ -13,10 +12,10 @@ export const climbsLipskaHora: Climb[] = [
     ],
     description:
       'Prvovýstup na vrchol Lipské hory. Vyhlídka nahoře byla úchvatná. Když jsem tam dorazil, spontálně jsem udělal wow.',
-    duration: 2343,  // 0:39:03,
+    duration: 2343, // 0:39:03,
     distance: 2030,
     heartRate: 147,
     elevationGain: 321,
-    track: lipskaHora01 as GeoJSON.GeoJsonObject,
+    trackPath: './assets/tracks/lipska_hora/lipska_hora01.json',
   },
 ];

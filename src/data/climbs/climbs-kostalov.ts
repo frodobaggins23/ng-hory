@@ -1,4 +1,3 @@
-import { kostalov01 } from '../tracks/kostalov';
 import { Climb } from '../types';
 
 export const climbsKostalov: Climb[] = [
@@ -18,7 +17,7 @@ export const climbsKostalov: Climb[] = [
     distance: 2410,
     heartRate: 130,
     elevationGain: 298,
-    track: kostalov01 as GeoJSON.GeoJsonObject,
+    trackPath: './assets/tracks/kostalov/kostalov01.json',
   },
   {
     id: 2,

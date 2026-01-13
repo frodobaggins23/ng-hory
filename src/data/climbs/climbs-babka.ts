@@ -1,5 +1,4 @@
 import { Climb } from '../types';
-import { babka01 } from '../tracks/babka/';
 
 export const climbsBabka: Climb[] = [
   {
@@ -17,6 +16,6 @@ export const climbsBabka: Climb[] = [
     distance: 2960,
     heartRate: 123,
     elevationGain: 282,
-    track: babka01 as GeoJSON.GeoJsonObject,
+    trackPath: './assets/tracks/babka/babka01.json',
   },
 ];

@@ -35,5 +35,5 @@ export type Climb = {
   heartRate: number;
   /** Elevation in meters */
   elevationGain: number;
-  track?: GeoJSON.GeoJsonObject;
+  trackPath?: string;
 };

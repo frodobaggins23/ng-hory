@@ -13,9 +13,9 @@
   ></app-climb-gallery>
 }
 
-@if (climb.track) {
+@if (trackData) {
   <div class="map-placeholder">
     <h3 class="detail-title">GPS Trasa</h3>
-    <app-track-map [track]="climb.track" [climbId]="climb.id"></app-track-map>
+    <app-track-map [track]="trackData" [climbId]="climb.id"></app-track-map>
   </div>
 }

@@ -1,5 +1,4 @@
 import { Climb } from '../types';
-import { jested01, jested02, jested03 } from '../tracks/jested';
 
 export const climbsJested: Climb[] = [
   {
@@ -11,7 +10,7 @@ export const climbsJested: Climb[] = [
     distance: 5870,
     heartRate: 137,
     elevationGain: 757,
-    track: jested01 as GeoJSON.GeoJsonObject,
+    trackPath: './assets/tracks/jested/jested01.json',
   },
   {
     id: 2,
@@ -22,7 +21,7 @@ export const climbsJested: Climb[] = [
     distance: 5560,
     heartRate: 138,
     elevationGain: 742,
-    track: jested02 as GeoJSON.GeoJsonObject,
+    trackPath: './assets/tracks/jested/jested02.json',
   },
   {
     id: 3,
@@ -41,6 +40,6 @@ export const climbsJested: Climb[] = [
     distance: 17710,
     heartRate: 126,
     elevationGain: 757,
-    track: jested03 as GeoJSON.GeoJsonObject,
+    trackPath: './assets/tracks/jested/jested03.json',
   },
 ];

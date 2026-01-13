@@ -1,5 +1,4 @@
 import { Climb } from '../types';
-import { rip03, rip02 } from '../tracks/rip/';
 
 export const climbsRip: Climb[] = [
   {
@@ -21,7 +20,7 @@ export const climbsRip: Climb[] = [
     distance: 2180,
     heartRate: 136,
     elevationGain: 203,
-    track: rip02 as GeoJSON.GeoJsonObject,
+    trackPath: './assets/tracks/rip/rip02.json',
   },
   {
     id: 3,
@@ -33,6 +32,6 @@ export const climbsRip: Climb[] = [
     distance: 2230,
     heartRate: 112,
     elevationGain: 216,
-    track: rip03 as GeoJSON.GeoJsonObject,
+    trackPath: './assets/tracks/rip/rip03.json',
   },
 ];
