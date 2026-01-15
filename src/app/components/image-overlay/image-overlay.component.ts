@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RequestService } from '../../request.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-image-overlay',
@@ -33,23 +34,19 @@ export class ImageOverlayComponent implements OnInit {
   public arrowRightIcon: string = '';
 
   public loadArrows(): void {
-    this.requestService
-      .unauthorizedGetRequest({
+    forkJoin({
+      left: this.requestService.unauthorizedGetRequest({
         path: './assets/icons/overlay-arrows/arrow-left.svg',
         responseType: 'blob',
-      })
-      .subscribe(data => {
-        this.arrowLeftIcon = URL.createObjectURL(data);
-      });
-
-    this.requestService
-      .unauthorizedGetRequest({
+      }),
+      right: this.requestService.unauthorizedGetRequest({
         path: './assets/icons/overlay-arrows/arrow-right.svg',
         responseType: 'blob',
-      })
-      .subscribe(data => {
-        this.arrowRightIcon = URL.createObjectURL(data);
-      });
+      }),
+    }).subscribe(({ left, right }) => {
+      this.arrowLeftIcon = URL.createObjectURL(left);
+      this.arrowRightIcon = URL.createObjectURL(right);
+    });
   }
 
   ngOnInit(): void {
