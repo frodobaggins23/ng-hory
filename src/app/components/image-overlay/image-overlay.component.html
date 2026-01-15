@@ -3,10 +3,10 @@
 
   <div class="overlay-navigation" *ngIf="canShowNavigation">
     <button class="overlay-nav-button prev" (click)="onPrevClick()" aria-label="Previous image">
-      <img src="./img/icons/arrow_left.svg" alt="Previous" class="nav-arrow-svg" />
+      <img [src]="arrowLeftIcon" alt="Previous" class="nav-arrow-svg" />
     </button>
     <button class="overlay-nav-button next" (click)="onNextClick()" aria-label="Next image">
-      <img src="./img/icons/arrow_right.svg" alt="Next" class="nav-arrow-svg" />
+      <img [src]="arrowRightIcon" alt="Next" class="nav-arrow-svg" />
     </button>
   </div>
 
