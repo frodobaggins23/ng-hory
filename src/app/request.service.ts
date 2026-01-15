@@ -13,6 +13,8 @@ export interface RequestConfig {
   responseType?: 'json' | 'text' | 'blob' | 'arraybuffer';
 }
 
+type UnauthorizedGetRequestConfig = Omit<RequestConfig, 'method' | 'doNotAuthorize' | 'payload'>;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -25,7 +27,8 @@ export class RequestService {
   request(config: RequestConfig & { responseType: 'blob' }): Observable<Blob>;
   request(config: RequestConfig & { responseType: 'text' }): Observable<string>;
   request(config: RequestConfig & { responseType: 'arraybuffer' }): Observable<ArrayBuffer>;
-  request(config: RequestConfig & { responseType?: 'json' }): Observable<unknown>;
+  request(config: RequestConfig & { responseType: 'json' }): Observable<unknown>;
+  request(config: RequestConfig): Observable<Blob | string | ArrayBuffer | unknown>;
   request(config: RequestConfig): Observable<Blob | string | ArrayBuffer | unknown> {
     const {
       method,
@@ -73,6 +76,33 @@ export class RequestService {
       default:
         throw new Error(`Unsupported HTTP method: ${method}`);
     }
+  }
+
+  unauthorizedGetRequest(
+    config: UnauthorizedGetRequestConfig & { responseType: 'blob' }
+  ): Observable<Blob>;
+  unauthorizedGetRequest(
+    config: UnauthorizedGetRequestConfig & { responseType: 'text' }
+  ): Observable<string>;
+  unauthorizedGetRequest(
+    config: UnauthorizedGetRequestConfig & { responseType: 'arraybuffer' }
+  ): Observable<ArrayBuffer>;
+  unauthorizedGetRequest(
+    config: UnauthorizedGetRequestConfig & { responseType: 'json' }
+  ): Observable<unknown>;
+  unauthorizedGetRequest(
+    config: UnauthorizedGetRequestConfig
+  ): Observable<Blob | string | ArrayBuffer | unknown>;
+  unauthorizedGetRequest({
+    responseType = 'json',
+    ...rest
+  }: UnauthorizedGetRequestConfig): Observable<Blob | string | ArrayBuffer | unknown> {
+    return this.request({
+      ...rest,
+      method: 'get',
+      doNotAuthorize: true,
+      responseType,
+    });
   }
 
   /**

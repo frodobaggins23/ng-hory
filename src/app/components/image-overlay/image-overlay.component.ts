@@ -34,10 +34,8 @@ export class ImageOverlayComponent implements OnInit {
 
   public loadArrows(): void {
     this.requestService
-      .request({
+      .unauthorizedGetRequest({
         path: './assets/icons/overlay-arrows/arrow-left.svg',
-        method: 'get',
-        doNotAuthorize: true,
         responseType: 'blob',
       })
       .subscribe(data => {
@@ -45,10 +43,8 @@ export class ImageOverlayComponent implements OnInit {
       });
 
     this.requestService
-      .request({
+      .unauthorizedGetRequest({
         path: './assets/icons/overlay-arrows/arrow-right.svg',
-        method: 'get',
-        doNotAuthorize: true,
         responseType: 'blob',
       })
       .subscribe(data => {

@@ -35,11 +35,9 @@ export class IconService {
       return of(icon);
     }
     return this.requestService
-      .request({
-        method: 'get',
+      .unauthorizedGetRequest({
         path: `./assets/icons/${iconName}.svg`,
         responseType: 'text',
-        doNotAuthorize: true,
       })
       .pipe(
         tap((svgContent: string) => {

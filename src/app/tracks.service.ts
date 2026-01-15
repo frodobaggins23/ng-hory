@@ -11,8 +11,7 @@ export class TracksService {
   constructor() {}
 
   loadTrack(trackPath: string) {
-    return this.requestService.request({
-      method: 'get',
+    return this.requestService.unauthorizedGetRequest({
       path: trackPath,
       responseType: 'json',
     }) as Observable<GeoJSON.GeoJsonObject>;
