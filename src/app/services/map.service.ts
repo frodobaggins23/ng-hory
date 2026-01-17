@@ -1,15 +1,14 @@
-import { inject, Injectable, OnDestroy } from '@angular/core';
+import { ComponentRef, inject, Injectable, OnDestroy, ViewContainerRef } from '@angular/core';
 import { Map, TileLayer, LayerGroup, LatLngBounds, Control, DomUtil, Circle } from 'leaflet';
 import { MountainService } from './mountain.service';
 import { IconService } from './icon.service';
-import { MapLegendUtil } from '../utils/map-legend.util';
 import { TooltipManager } from './managers/tooltip-manager';
 import { MarkerSelectionManager } from './managers/marker-selection-manager';
-import { IconLoader } from './managers/icon-loader';
 import { MapMarkerFactory } from '../utils/map-marker-factory';
 import { StatisticsService } from './statistics.service';
-import { Subject } from 'rxjs';
+import { Subject, lastValueFrom } from 'rxjs';
 import { MountainName } from '../../data/types';
+import { MapLegendComponent } from '../components/main/map/map-legend/map-legend.component';
 
 @Injectable({
   providedIn: 'root',
@@ -19,10 +18,10 @@ export class MapService implements OnDestroy {
 
   private map!: Map;
   private mountainsLayer: LayerGroup = new LayerGroup();
+  private legendComponentRef: ComponentRef<MapLegendComponent> | null = null;
 
   private tooltipManager!: TooltipManager;
   private selectionManager = new MarkerSelectionManager();
-  private iconLoader: IconLoader;
   private markerFactory!: MapMarkerFactory;
   private selectedMountainMarkerSubject = new Subject<MountainName>();
 
@@ -32,9 +31,7 @@ export class MapService implements OnDestroy {
   iconService = inject(IconService);
   statsService = inject(StatisticsService);
 
-  constructor() {
-    this.iconLoader = new IconLoader(this.iconService);
-  }
+  constructor() {}
 
   ngOnDestroy(): void {
     this.selectedMountainMarkerSubject.complete();
@@ -43,16 +40,16 @@ export class MapService implements OnDestroy {
     }
   }
 
-  async initMap(mapId: string, baseMapUrl: string) {
+  async initMap(mapId: string, baseMapUrl: string, viewContainerRef: ViewContainerRef) {
     const bounds = this.getDefaultBounds();
     this.map = new Map(mapId, {
       layers: [new TileLayer(baseMapUrl), this.mountainsLayer],
     }).fitBounds(bounds, { padding: [20, 20] });
 
-    const icons = await this.iconLoader.load();
-
     this.tooltipManager = new TooltipManager(this.map);
-    this.markerFactory = new MapMarkerFactory(icons.mountain, {
+    const mountainIcon = await this.loadMarkerIcon();
+
+    this.markerFactory = new MapMarkerFactory(mountainIcon, {
       onMouseOver: (latlng, name, altitude) => this.tooltipManager.show(latlng, name, altitude),
       onMouseOut: () => this.tooltipManager.hide(),
       onClick: (marker, name) => {
@@ -60,9 +57,12 @@ export class MapService implements OnDestroy {
         this.selectedMountainMarkerSubject.next(name);
       },
     });
-
-    this.createLegend(icons.trendingUp);
+    this.createLegend(viewContainerRef);
     this.populateWithMountainMarkers();
+  }
+
+  loadMarkerIcon() {
+    return lastValueFrom(this.iconService.getSvg('mountain'));
   }
 
   getDefaultBounds(): LatLngBounds {
@@ -70,17 +70,20 @@ export class MapService implements OnDestroy {
     return new LatLngBounds(coordinates as Array<[number, number]>);
   }
 
-  private createLegend(trendingUpIconSvg: string): void {
+  private createLegend(viewContainerRef: ViewContainerRef): void {
+    if (!this.map) return;
+
     const legend = new Control({ position: 'topright' });
     const { mountainCount, climbCount } = this.statsService.getBasicStats();
 
     legend.onAdd = () => {
       const div = DomUtil.create('div', 'map-legend');
-      div.innerHTML = new MapLegendUtil({
-        icon: trendingUpIconSvg,
-        mountainCount,
-        climbCount,
-      }).getHtml();
+
+      this.legendComponentRef = viewContainerRef.createComponent(MapLegendComponent);
+      this.legendComponentRef.setInput('mountainCount', mountainCount);
+      this.legendComponentRef.setInput('climbCount', climbCount);
+      div.appendChild(this.legendComponentRef.location.nativeElement);
+
       return div;
     };
     legend.addTo(this.map);
