@@ -8,9 +8,8 @@ describe('MountainDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MountainDialogComponent]
-    })
-    .compileComponents();
+      imports: [MountainDialogComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MountainDialogComponent);
     component = fixture.componentInstance;

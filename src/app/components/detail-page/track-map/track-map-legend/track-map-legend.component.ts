@@ -7,4 +7,3 @@ import { Component } from '@angular/core';
   styleUrl: './track-map-legend.component.scss',
 })
 export class TrackMapLegendComponent {}
-

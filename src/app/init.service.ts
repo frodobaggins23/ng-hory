@@ -1,4 +1,4 @@
-import { effect, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { RequestService } from './request.service';
 import { environment } from '../environments/environment';
 import { ImageService } from './services/image.service';
@@ -33,6 +33,7 @@ export class InitService {
         path: this.verifyTokenUrl,
       })
       .subscribe({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         next: (response: any) => {
           const valid = !!response?.valid;
           this.isGalleryLocked.set(!valid);

@@ -15,4 +15,3 @@ export class ClimbItemBadgeComponent {
   @Input() count?: number;
   @Input() isDesktop: boolean = false;
 }
-
