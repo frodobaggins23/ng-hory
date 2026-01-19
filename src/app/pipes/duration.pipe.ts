@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { secondsToDuration } from '../utils/duration.utils';
+import { secondsToDuration } from '../utils';
 
 /**
  * Angular pipe to format duration in seconds to HH:MM:SS string

@@ -4,7 +4,7 @@ import { MountainService } from './mountain.service';
 import { IconService } from './icon.service';
 import { TooltipManager } from './managers/tooltip-manager';
 import { MarkerSelectionManager } from './managers/marker-selection-manager';
-import { MapMarkerFactory } from '../utils/map-marker-factory';
+import { MapMarkerFactory } from '../utils';
 import { StatisticsService } from './statistics.service';
 import { Subject, lastValueFrom } from 'rxjs';
 import { MountainName } from '../../data/types';

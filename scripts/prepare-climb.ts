@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import type { Climb } from '../src/data/types';
-import { durationToSeconds } from '../src/app/utils/duration.utils';
+import { durationToSeconds } from '../src/app/utils';
 
 function parseCsvLine(line: string): string[] {
   const values: string[] = [];
