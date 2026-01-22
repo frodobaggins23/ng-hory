@@ -1,0 +1,22 @@
+<div class="stats-hero">
+  <div class="stats-hero-content">
+    <div class="stats-hero-content-header">
+      <h1 class="stats-hero-title">Statistiky</h1>
+      <h2 class="stats-hero-subtitle">Přehled všech výstupů</h2>
+    </div>
+    <div class="stats-hero-content-buttons">
+      <button
+        [ngClass]="{ 'stats-hero-button': true, selected: isSelectedYear(2025) }"
+        (click)="navigateToYear(2025)"
+      >
+        2025
+      </button>
+      <button
+        [ngClass]="{ 'stats-hero-button': true, selected: isSelectedYear(2026) }"
+        (click)="navigateToYear(2026)"
+      >
+        2026
+      </button>
+    </div>
+  </div>
+</div>

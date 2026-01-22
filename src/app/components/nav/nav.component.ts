@@ -42,7 +42,9 @@ export class NavComponent {
 
   activePage = computed(() => {
     const url = this.currentUrl();
-    const matchedItem = this.navItems.find(item => url === item.route);
+    const matchedItem = this.navItems.find(
+      item => item.route !== '/' && url.startsWith(item.route)
+    );
     return matchedItem?.id ?? 'home';
   });
 

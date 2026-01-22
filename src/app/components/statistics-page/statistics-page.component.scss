@@ -1,0 +1,8 @@
+.statistics-page {
+  display: grid;
+  grid-auto-flow: row;
+  align-items: start;
+  align-content: start;
+  background-color: var(--color-bg-secondary);
+  height: 100vh;
+}
