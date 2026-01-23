@@ -3,10 +3,11 @@ import { NavComponent } from '../nav/nav.component';
 import { HeroComponent } from './hero/hero.component';
 import { getCurrentYear } from '../../utils';
 import { Router } from '@angular/router';
+import { StatsCardContainerComponent } from './stats-card-container/stats-card-container.component';
 
 @Component({
   selector: 'app-statistics-page',
-  imports: [NavComponent, HeroComponent],
+  imports: [NavComponent, HeroComponent, StatsCardContainerComponent],
   templateUrl: './statistics-page.component.html',
   styleUrl: './statistics-page.component.scss',
 })

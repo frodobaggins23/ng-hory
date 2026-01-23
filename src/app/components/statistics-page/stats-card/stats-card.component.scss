@@ -1,0 +1,92 @@
+@use '../../../../styles/variables.scss' as *;
+
+$circle-radius: 80px;
+$circle-diameter: $circle-radius * 2;
+
+.container {
+  display: grid;
+  grid-auto-flow: row;
+  position: relative;
+  width: auto;
+  height: 150px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background-color: var(--color-white);
+  padding: 2rem;
+  gap: 0.5rem;
+
+  .corner {
+    position: absolute;
+    top: calc($circle-radius - $circle-diameter);
+    right: calc($circle-radius - $circle-diameter);
+    width: $circle-diameter;
+    height: $circle-diameter;
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+
+  &.orange {
+    .corner {
+      background: var(--color-orange-100);
+    }
+
+    .claim {
+      color: var(--color-orange-500);
+    }
+  }
+
+  &.amber {
+    .corner {
+      background: var(--color-amber-100);
+    }
+
+    .claim {
+      color: var(--color-amber-600);
+    }
+  }
+
+  &.stone {
+    .corner {
+      background: var(--color-stone-100);
+    }
+
+    .claim {
+      color: var(--color-stone-600);
+    }
+  }
+
+  &.rose {
+    .corner {
+      background: var(--color-rose-100);
+    }
+
+    .claim {
+      color: var(--color-rose-600);
+    }
+  }
+}
+
+.stat-value {
+  color: var(--color-text-primary);
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+
+  @include min-breakpoint(m) {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+}
+
+.stat-title {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--color-text-tertiary);
+}
+
+.claim {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+}

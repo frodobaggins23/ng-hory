@@ -1,0 +1,13 @@
+@use '../../../../styles/variables.scss' as *;
+
+.stats-card-container {
+  display: grid;
+  width: 100%;
+  grid-template-columns: auto;
+  gap: 0.5rem;
+
+  @include min-breakpoint(m) {
+    grid-template-columns: auto auto;
+    gap: 1rem;
+  }
+}

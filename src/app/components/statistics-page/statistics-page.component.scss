@@ -1,3 +1,5 @@
+@use '../../../styles/variables.scss' as *;
+
 .statistics-page {
   display: grid;
   grid-auto-flow: row;
@@ -5,4 +7,15 @@
   align-content: start;
   background-color: var(--color-bg-secondary);
   height: 100vh;
+
+  &-content {
+    width: 100%;
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+
+    @include min-breakpoint(s) {
+      padding: 2rem 1.5rem;
+    }
+  }
 }
