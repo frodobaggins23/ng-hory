@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 type ColorOption = 'orange' | 'amber' | 'rose' | 'stone';
+type CardPosition = '1' | '2' | '3' | '4';
 
 @Component({
   selector: 'app-statistics-stats-card',
@@ -14,4 +15,5 @@ export class StatsCardComponent {
   @Input({ required: true }) title!: string;
   @Input({ required: true }) value!: string;
   @Input({ required: true }) claim!: string;
+  @Input({ required: true }) position!: CardPosition;
 }
