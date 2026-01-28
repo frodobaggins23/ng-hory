@@ -1,0 +1,17 @@
+.ranking-container {
+  padding: 2rem 0;
+
+  .header {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 1.5rem;
+  }
+
+  .list {
+    display: grid;
+    grid-auto-flow: row;
+    gap: 1rem;
+  }
+}

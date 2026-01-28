@@ -32,7 +32,10 @@ export class StatsCardContainerComponent implements AfterViewInit {
     );
 
     (['1', '2', '3', '4'] as CardPosition[]).forEach(id => {
-      this.observer.observe(document.getElementById(id) as Element);
+      const element = document.getElementById(id);
+      if (element) {
+        this.observer.observe(element);
+      }
     });
   }
 

@@ -1,0 +1,24 @@
+<div class="ranking-card">
+  <div class="icon">
+    <app-statistics-rank-icon [rank]="rank" />
+  </div>
+  <div class="mountain">
+    <h3>{{ mountain }}</h3>
+    <p>1222 m.n.m</p>
+  </div>
+  <div class="climbs">
+    <p>{{ visits }} x</p>
+    <p>výstupů</p>
+  </div>
+  <div class="elevation">
+    <div class="elevation-value">
+      <app-icon icon="trending-up" stroke="primary-dark" fill="none" [size]="16" />
+      {{ elevation | elevation }}
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.--progress]="progressToDo + '%'" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+</div>

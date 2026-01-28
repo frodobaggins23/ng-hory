@@ -6,7 +6,7 @@
   align-items: start;
   align-content: start;
   background-color: var(--color-bg-secondary);
-  height: 100vh;
+  min-height: 100vh;
 
   &-content {
     width: 100%;

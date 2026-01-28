@@ -1,0 +1,43 @@
+.rank-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  color: var(--color-white);
+  background-color: var(--color-primary);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+
+  &.first {
+    background-image: linear-gradient(
+      to right bottom,
+      var(--color-amber-500),
+      var(--color-orange-500)
+    );
+  }
+
+  &.second {
+    background-image: linear-gradient(
+      to right bottom,
+      var(--color-stone-400),
+      var(--color-stone-600)
+    );
+  }
+
+  &.third {
+    background-image: linear-gradient(
+      to right bottom,
+      var(--color-amber-600),
+      var(--color-orange-600)
+    );
+  }
+
+  &.other {
+    color: var(--color-text-tertiary);
+    background-color: var(--color-bg-tertiary);
+  }
+}

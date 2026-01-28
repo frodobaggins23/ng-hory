@@ -14,7 +14,7 @@ export class HeroComponent {
   private router = inject(Router);
 
   navigateToYear(year: number): void {
-    this.router.navigate(['/stats', year]);
+    this.router.navigate(['/stats', year], { replaceUrl: true });
   }
 
   isSelectedYear(year: number): boolean {
