@@ -1,14 +1,16 @@
 <div class="image-overlay" [class.show]="isVisible">
   <img [src]="imageUrl" [alt]="altText" class="overlay-image" />
 
-  <div class="overlay-navigation" *ngIf="canShowNavigation">
-    <button class="overlay-nav-button prev" (click)="onPrevClick()" aria-label="Previous image">
-      <img [src]="arrowLeftIcon" alt="Previous" class="nav-arrow-svg" />
-    </button>
-    <button class="overlay-nav-button next" (click)="onNextClick()" aria-label="Next image">
-      <img [src]="arrowRightIcon" alt="Next" class="nav-arrow-svg" />
-    </button>
-  </div>
+  @if (canShowNavigation) {
+    <div class="overlay-navigation">
+      <button class="overlay-nav-button prev" (click)="onPrevClick()" aria-label="Previous image">
+        <img [src]="arrowLeftIcon" alt="Previous" class="nav-arrow-svg" />
+      </button>
+      <button class="overlay-nav-button next" (click)="onNextClick()" aria-label="Next image">
+        <img [src]="arrowRightIcon" alt="Next" class="nav-arrow-svg" />
+      </button>
+    </div>
+  }
 
   <!-- Close Button -->
   <button

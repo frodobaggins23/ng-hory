@@ -8,16 +8,17 @@
     </div>
 
     <div class="nav-tabs">
-      <button
-        *ngFor="let item of navItems"
-        (click)="navigate(item.id)"
-        [class.active]="activePage() === item.id"
-        class="nav-tab"
-        [attr.aria-current]="activePage() === item.id ? 'page' : null"
-      >
-        <app-icon [icon]="item.icon" stroke="primary-dark" [size]="16" />
-        <span class="nav-tab-label">{{ item.label }}</span>
-      </button>
+      @for (item of navItems; track item) {
+        <button
+          (click)="navigate(item.id)"
+          [class.active]="activePage() === item.id"
+          class="nav-tab"
+          [attr.aria-current]="activePage() === item.id ? 'page' : null"
+        >
+          <app-icon [icon]="item.icon" stroke="primary-dark" [size]="16" />
+          <span class="nav-tab-label">{{ item.label }}</span>
+        </button>
+      }
     </div>
   </div>
 </nav>

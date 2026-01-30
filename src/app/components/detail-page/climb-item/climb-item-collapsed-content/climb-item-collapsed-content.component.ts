@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { IconComponent } from '../../../icon/icon.component';
 import { ClimbItemBadgeComponent } from '../climb-item-badge/climb-item-badge.component';
 import { ClimbItemStatsComponent } from '../climb-item-stats/climb-item-stats.component';
@@ -8,13 +8,7 @@ import { Climb } from '../../../../../data/types';
 
 @Component({
   selector: 'app-climb-item-collapsed-content',
-  imports: [
-    CommonModule,
-    IconComponent,
-    ClimbItemBadgeComponent,
-    ClimbItemStatsComponent,
-    CzechDatePipe,
-  ],
+  imports: [IconComponent, ClimbItemBadgeComponent, ClimbItemStatsComponent, CzechDatePipe],
   templateUrl: './climb-item-collapsed-content.component.html',
   styleUrl: './climb-item-collapsed-content.component.scss',
   host: {

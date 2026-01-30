@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnDestroy, inject, ViewChild, ElementRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ImageService } from '../../../services/image.service';
 import { OverlayService } from '../../../services/overlay.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -8,7 +8,7 @@ import { IconComponent } from '../../icon/icon.component';
 @Component({
   selector: 'app-climb-gallery',
   standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [IconComponent],
   templateUrl: './climb-gallery.component.html',
   styleUrl: './climb-gallery.component.scss',
 })

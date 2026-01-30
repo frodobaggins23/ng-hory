@@ -13,20 +13,24 @@
     ></app-icon>
   </div>
 
-  <div class="hover-tooltip" *ngIf="isHovering()">
-    <span>Zadejte heslo pro odemčení fotek v galeriích</span>
-  </div>
+  @if (isHovering()) {
+    <div class="hover-tooltip">
+      <span>Zadejte heslo pro odemčení fotek v galeriích</span>
+    </div>
+  }
 
-  <div class="password-input-container" *ngIf="showPasswordInput()">
-    <input
-      type="password"
-      class="password-input"
-      [(ngModel)]="password"
-      placeholder="Heslo"
-      (keyup.enter)="onSubmitPassword()"
-    />
-    <button class="submit-button" (click)="onSubmitPassword()" [disabled]="!password()">
-      <app-icon icon="chevron-right" fill="none" stroke="primary-light" [size]="20"></app-icon>
-    </button>
-  </div>
+  @if (showPasswordInput()) {
+    <div class="password-input-container">
+      <input
+        type="password"
+        class="password-input"
+        [(ngModel)]="password"
+        placeholder="Heslo"
+        (keyup.enter)="onSubmitPassword()"
+      />
+      <button class="submit-button" (click)="onSubmitPassword()" [disabled]="!password()">
+        <app-icon icon="chevron-right" fill="none" stroke="primary-light" [size]="20"></app-icon>
+      </button>
+    </div>
+  }
 </div>

@@ -1,6 +1,6 @@
 import { Component, inject, computed } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { filter, map, startWith } from 'rxjs';
 import { IconComponent } from '../icon/icon.component';
 import { IconName } from '../../services/icon.service';
@@ -18,7 +18,7 @@ interface NavItem {
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'],
   standalone: true,
-  imports: [CommonModule, IconComponent, IconComponent],
+  imports: [IconComponent, IconComponent],
 })
 export class NavComponent {
   constructor() {}

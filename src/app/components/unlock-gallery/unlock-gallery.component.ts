@@ -1,7 +1,7 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { IconComponent } from '../icon/icon.component';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { RequestService } from '../../request.service';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -14,7 +14,7 @@ const UNLOCK_GALLERY_URL = `${environment.fileServerHost}/api/unlock-gallery`;
 
 @Component({
   selector: 'app-unlock-gallery',
-  imports: [IconComponent, FormsModule, CommonModule],
+  imports: [IconComponent, FormsModule],
   templateUrl: './unlock-gallery.component.html',
   styleUrl: './unlock-gallery.component.scss',
 })

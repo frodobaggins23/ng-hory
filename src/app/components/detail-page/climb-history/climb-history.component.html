@@ -6,13 +6,14 @@
     </h2>
 
     <div class="climbs-list">
-      <app-climb-item
-        *ngFor="let climb of climbs; let i = index"
-        [climb]="climb"
-        [isNewest]="i === 0"
-        [mountainName]="mountainName"
-        [imgFolder]="imgFolder"
-      ></app-climb-item>
+      @for (climb of climbs; track climb; let i = $index) {
+        <app-climb-item
+          [climb]="climb"
+          [isNewest]="i === 0"
+          [mountainName]="mountainName"
+          [imgFolder]="imgFolder"
+        ></app-climb-item>
+      }
     </div>
   </div>
 </section>

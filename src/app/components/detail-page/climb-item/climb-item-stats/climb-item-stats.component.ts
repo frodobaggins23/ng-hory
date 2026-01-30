@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { IconComponent } from '../../../icon/icon.component';
 import { DistancePipe } from '../../../../pipes/distance.pipe';
 import { DurationPipe } from '../../../../pipes/duration.pipe';
@@ -9,7 +9,7 @@ import { Climb } from '../../../../../data/types';
 
 @Component({
   selector: 'app-climb-item-stats',
-  imports: [CommonModule, IconComponent, DistancePipe, DurationPipe, HeartRatePipe, ElevationPipe],
+  imports: [IconComponent, DistancePipe, DurationPipe, HeartRatePipe, ElevationPipe],
   templateUrl: './climb-item-stats.component.html',
   styleUrl: './climb-item-stats.component.scss',
   host: {

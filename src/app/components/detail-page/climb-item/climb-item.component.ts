@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Climb } from '../../../../data/types';
 import { ImageService } from '../../../services/image.service';
 import { ClimbItemMainPhotoComponent } from './climb-item-main-photo/climb-item-main-photo.component';
@@ -9,7 +9,6 @@ import { ClimbItemExpandedContentComponent } from './climb-item-expanded-content
 @Component({
   selector: 'app-climb-item',
   imports: [
-    CommonModule,
     ClimbItemMainPhotoComponent,
     ClimbItemCollapsedContentComponent,
     ClimbItemExpandedContentComponent,

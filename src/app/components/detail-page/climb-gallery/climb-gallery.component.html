@@ -1,29 +1,31 @@
 <div class="climb-gallery">
   <div class="gallery-header">
     <h3 class="detail-title">Galerie ({{ images.length }})</h3>
-    <div class="scroll-controls" *ngIf="showLeftArrow || showRightArrow">
-      <button
-        class="scroll-button"
-        [class.hidden]="!showLeftArrow"
-        (click)="scroll('left')"
-        aria-label="Scroll left"
-      >
-        <app-icon
-          icon="chevron-right"
-          class="rotate-180"
-          [size]="16"
-          stroke="text-secondary"
-        ></app-icon>
-      </button>
-      <button
-        class="scroll-button"
-        [class.hidden]="!showRightArrow"
-        (click)="scroll('right')"
-        aria-label="Scroll right"
-      >
-        <app-icon icon="chevron-right" [size]="16" stroke="text-secondary"></app-icon>
-      </button>
-    </div>
+    @if (showLeftArrow || showRightArrow) {
+      <div class="scroll-controls">
+        <button
+          class="scroll-button"
+          [class.hidden]="!showLeftArrow"
+          (click)="scroll('left')"
+          aria-label="Scroll left"
+        >
+          <app-icon
+            icon="chevron-right"
+            class="rotate-180"
+            [size]="16"
+            stroke="text-secondary"
+          ></app-icon>
+        </button>
+        <button
+          class="scroll-button"
+          [class.hidden]="!showRightArrow"
+          (click)="scroll('right')"
+          aria-label="Scroll right"
+        >
+          <app-icon icon="chevron-right" [size]="16" stroke="text-secondary"></app-icon>
+        </button>
+      </div>
+    }
   </div>
 
   <div class="gallery-scroll-container" #scrollContainer (scroll)="updateArrowVisibility()">

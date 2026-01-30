@@ -13,10 +13,12 @@
       <p class="mountain-subtitle">{{ subtitle }}</p>
     </div>
     <div class="statistics-grid">
-      <div class="stat-card" *ngFor="let stat of statistics">
-        <div class="stat-value">{{ stat.getValue() }}</div>
-        <div class="stat-label">{{ stat.label }}</div>
-      </div>
+      @for (stat of statistics; track stat) {
+        <div class="stat-card">
+          <div class="stat-value">{{ stat.getValue() }}</div>
+          <div class="stat-label">{{ stat.label }}</div>
+        </div>
+      }
     </div>
     <button class="action-button" (click)="onActionClick()">
       {{ actionButtonText }}

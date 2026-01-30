@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, DestroyRef, inject, ViewContainerRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CommonModule } from '@angular/common';
 
 import { MAPY_CZ_URL } from '../../../constants';
 import { MapService } from '../../../services/map.service';
@@ -16,7 +15,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-map',
-  imports: [CommonModule, MountainDialogComponent],
+  imports: [MountainDialogComponent],
   templateUrl: './main-map.component.html',
   styleUrl: './main-map.component.scss',
 })

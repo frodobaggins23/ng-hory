@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { IconComponent } from '../../icon/icon.component';
 
 export interface MountainStatistic {
@@ -9,7 +9,7 @@ export interface MountainStatistic {
 
 @Component({
   selector: 'app-main-mountain-dialog',
-  imports: [CommonModule, IconComponent],
+  imports: [IconComponent],
   templateUrl: './mountain-dialog.component.html',
   styleUrl: './mountain-dialog.component.scss',
 })

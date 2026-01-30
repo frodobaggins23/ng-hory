@@ -7,14 +7,14 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RequestService } from '../../request.service';
 import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-image-overlay',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './image-overlay.component.html',
   styleUrl: './image-overlay.component.scss',
 })

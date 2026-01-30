@@ -1,2 +1,4 @@
 <router-outlet></router-outlet>
-<app-unlock-gallery *ngIf="initService.isGalleryLocked()" />
+@if (initService.isGalleryLocked()) {
+  <app-unlock-gallery />
+}
