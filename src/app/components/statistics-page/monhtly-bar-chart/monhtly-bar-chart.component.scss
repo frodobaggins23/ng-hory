@@ -1,0 +1,13 @@
+.container {
+  display: grid;
+  grid-auto-flow: row;
+  height: 20rem;
+  background-color: var(--color-white);
+  border-radius: 1rem;
+  padding: 2rem;
+  border: 1px solid var(--color-border);
+}
+
+::ng-deep .ngx-charts .x.axis .tick text {
+  fill: var(--color-text-muted);
+}

@@ -1,0 +1,21 @@
+<div class="container">
+  <app-statistics-section-header title="Výstupy za měsíc" />
+  <div>
+    <ngx-charts-bar-vertical
+      [results]="data"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [scheme]="colorScheme"
+      [showGridLines]="showGridLines"
+      [xAxisTickFormatting]="formatXAxisLabel"
+    >
+      ></ngx-charts-bar-vertical
+    >
+  </div>
+</div>
