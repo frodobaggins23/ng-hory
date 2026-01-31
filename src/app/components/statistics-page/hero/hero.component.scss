@@ -1,3 +1,5 @@
+@use '../../../../styles/variables.scss' as *;
+
 .stats-hero {
   display: flex;
   height: 17vh;
@@ -9,9 +11,13 @@
     display: flex;
     max-width: 66rem;
     flex-grow: 1;
-    padding: 1.5rem 2.5rem;
+    padding: 1.5rem 1rem;
     justify-content: space-between;
     align-items: center;
+
+    @include min-breakpoint(s) {
+      padding: 1.5rem 2.5rem;
+    }
 
     &-header {
       flex: 0 0 50%;
@@ -27,20 +33,25 @@
 
   &-title {
     margin-bottom: 0.5rem;
-    font-size: 1.875rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--color-stone-800);
 
-    @media (min-width: 640px) {
+    @include min-breakpoint(s) {
       font-size: 2.25rem;
     }
   }
 
   &-subtitle {
-    line-height: 1.5rem;
-    font-size: 1.2rem;
+    line-height: 1.2rem;
+    font-size: 1rem;
     font-weight: normal;
     color: var(--color-text-tertiary);
+
+    @include min-breakpoint(s) {
+      line-height: 1.5rem;
+      font-size: 1.2rem;
+    }
   }
 
   &-button {

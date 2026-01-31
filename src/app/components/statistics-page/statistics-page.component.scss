@@ -13,6 +13,7 @@
     max-width: 64rem;
     margin: 0 auto;
     padding: 1.5rem 1rem;
+    overflow-x: hidden;
 
     @include min-breakpoint(s) {
       padding: 2rem 1.5rem;

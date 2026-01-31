@@ -1,12 +1,18 @@
+@use '../../../../styles/variables.scss' as *;
+
 .container {
   display: grid;
   grid-auto-flow: row;
   height: 20rem;
   background-color: var(--color-white);
   border-radius: 1rem;
-  padding: 2rem;
+  padding: 1rem;
   border: 1px solid var(--color-border);
   margin-bottom: 2rem;
+
+  @include min-breakpoint(s) {
+    padding: 2rem;
+  }
 }
 
 .chart-container {

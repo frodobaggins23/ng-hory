@@ -5,7 +5,6 @@
   grid-template-columns: 100% 100% 100% 100%;
   gap: 0.5rem;
   overflow: scroll;
-  margin-bottom: 2rem;
 
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -19,13 +18,15 @@
     width: 100%;
     grid-template-columns: auto auto;
     gap: 1rem;
+    margin-bottom: 2rem;
   }
 }
 
 .carousel-dots {
   display: flex;
   justify-content: center;
-  margin-top: 0.5rem;
+  margin-top: 0.7rem;
+  margin-bottom: 1.5rem;
 
   .dot {
     height: 10px;
