@@ -1,0 +1,36 @@
+<div class="container">
+  <app-statistics-section-header title="Kumulativní převýšení" />
+  <div class="chart-container">
+    <ngx-charts-area-chart
+      class="area-layer"
+      [results]="data"
+      [scheme]="areaOptions.colorScheme"
+      [showGridLines]="areaOptions.showGridLines"
+      [showXAxisLabel]="areaOptions.showXAxisLabel"
+      [showYAxisLabel]="areaOptions.showYAxisLabel"
+      [legend]="areaOptions.showLegend"
+      [xAxis]="areaOptions.showXAxis"
+      [yAxis]="areaOptions.showYAxis"
+      [xAxisLabel]="areaOptions.xAxisLabel"
+      [yAxisLabel]="areaOptions.yAxisLabel"
+      [xAxisTickFormatting]="areaOptions.formatXAxisLabel"
+      [gradient]="true"
+    >
+    </ngx-charts-area-chart>
+    <ngx-charts-line-chart
+      class="line-layer"
+      [results]="data"
+      [scheme]="lineOptions.colorScheme"
+      [showGridLines]="lineOptions.showGridLines"
+      [showXAxisLabel]="lineOptions.showXAxisLabel"
+      [showYAxisLabel]="lineOptions.showYAxisLabel"
+      [legend]="lineOptions.showLegend"
+      [xAxis]="lineOptions.showXAxis"
+      [yAxis]="lineOptions.showYAxis"
+      [xAxisLabel]="lineOptions.xAxisLabel"
+      [yAxisLabel]="lineOptions.yAxisLabel"
+      [xAxisTickFormatting]="lineOptions.formatXAxisLabel"
+    >
+    </ngx-charts-line-chart>
+  </div>
+</div>

@@ -3,17 +3,17 @@
   <div>
     <ngx-charts-bar-vertical
       [results]="data"
-      [gradient]="gradient"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [legend]="showLegend"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-      [scheme]="colorScheme"
-      [showGridLines]="showGridLines"
-      [xAxisTickFormatting]="formatXAxisLabel"
+      [gradient]="chartOptions.gradient"
+      [xAxis]="chartOptions.showXAxis"
+      [yAxis]="chartOptions.showYAxis"
+      [legend]="chartOptions.showLegend"
+      [showXAxisLabel]="chartOptions.showXAxisLabel"
+      [showYAxisLabel]="chartOptions.showYAxisLabel"
+      [xAxisLabel]="chartOptions.xAxisLabel"
+      [yAxisLabel]="chartOptions.yAxisLabel"
+      [scheme]="chartOptions.colorScheme"
+      [showGridLines]="chartOptions.showGridLines"
+      [xAxisTickFormatting]="chartOptions.formatXAxisLabel"
     >
       ></ngx-charts-bar-vertical
     >

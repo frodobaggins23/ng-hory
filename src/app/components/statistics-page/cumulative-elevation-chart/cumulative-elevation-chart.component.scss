@@ -1,0 +1,35 @@
+.container {
+  display: grid;
+  grid-auto-flow: row;
+  height: 20rem;
+  background-color: var(--color-white);
+  border-radius: 1rem;
+  padding: 2rem;
+  border: 1px solid var(--color-border);
+  margin-bottom: 2rem;
+}
+
+.chart-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: stretch;
+}
+
+.area-layer,
+.line-layer {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.line-layer {
+  pointer-events: none;
+}
+
+::ng-deep .line-layer .gridline-path,
+::ng-deep .line-layer .axis {
+  opacity: 0;
+}
+
+::ng-deep .line-layer .line-series path {
+  stroke-width: 3px;
+}

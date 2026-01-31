@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { StatsCardContainerComponent } from './stats-card-container/stats-card-container.component';
 import { RankingContainerComponent } from './ranking-container/ranking-container.component';
 import { MonhtlyBarChartComponent } from './monhtly-bar-chart/monhtly-bar-chart.component';
+import { CumulativeElevationChartComponent } from './cumulative-elevation-chart/cumulative-elevation-chart.component';
 
 @Component({
   selector: 'app-statistics-page',
@@ -15,6 +16,7 @@ import { MonhtlyBarChartComponent } from './monhtly-bar-chart/monhtly-bar-chart.
     StatsCardContainerComponent,
     RankingContainerComponent,
     MonhtlyBarChartComponent,
+    CumulativeElevationChartComponent,
   ],
   templateUrl: './statistics-page.component.html',
   styleUrl: './statistics-page.component.scss',
