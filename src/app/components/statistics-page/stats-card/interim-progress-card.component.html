@@ -1,0 +1,14 @@
+<div
+  [ngClass]="{
+    container: true,
+    interim: true,
+    orange: color === 'orange',
+    amber: color === 'amber',
+    rose: color === 'rose',
+    stone: color === 'stone',
+  }"
+>
+  <div class="corner"></div>
+  <p class="stat-value">{{ value }}</p>
+  <p class="stat-title">{{ title }}</p>
+</div>

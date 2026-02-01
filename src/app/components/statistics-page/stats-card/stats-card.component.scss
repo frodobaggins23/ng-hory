@@ -17,6 +17,10 @@ $circle-diameter: $circle-radius * 2;
   gap: 0.5rem;
   scroll-snap-align: start;
 
+  &.interim {
+    width: 15rem;
+  }
+
   .corner {
     position: absolute;
     top: calc($circle-radius - $circle-diameter);

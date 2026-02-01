@@ -1,0 +1,81 @@
+@use '../../../../styles/variables.scss' as *;
+
+.not-enough-data {
+  display: grid;
+  grid-auto-flow: row;
+  place-items: center;
+  gap: 2rem;
+  padding: 1.5rem;
+
+  @include min-breakpoint(m) {
+    gap: 3rem;
+    padding: 2rem;
+  }
+}
+
+.header {
+  display: grid;
+  grid-auto-flow: row;
+  place-items: center;
+  text-align: center;
+  gap: 1rem;
+
+  @include min-breakpoint(m) {
+    gap: 1.5rem;
+  }
+}
+
+.icon-wrapper {
+  display: grid;
+  place-items: center;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background-color: var(--color-rose-100);
+
+  @include min-breakpoint(m) {
+    width: 6rem;
+    height: 6rem;
+  }
+}
+
+.title {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+
+  @include min-breakpoint(m) {
+    font-size: 1.75rem;
+    line-height: 2.75rem;
+  }
+}
+
+.description {
+  margin: 0;
+  max-width: 32rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: var(--color-text-secondary);
+
+  @include min-breakpoint(m) {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+}
+
+.interim-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  @include min-breakpoint(s) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  @include min-breakpoint(m) {
+    gap: 1.5rem;
+  }
+}

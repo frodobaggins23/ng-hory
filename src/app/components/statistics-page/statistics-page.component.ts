@@ -7,6 +7,7 @@ import { StatsCardContainerComponent } from './stats-card-container/stats-card-c
 import { RankingContainerComponent } from './ranking-container/ranking-container.component';
 import { MonhtlyBarChartComponent } from './monhtly-bar-chart/monhtly-bar-chart.component';
 import { CumulativeElevationChartComponent } from './cumulative-elevation-chart/cumulative-elevation-chart.component';
+import { NotEnoughDataComponent } from './not-enough-data/not-enough-data.component';
 
 @Component({
   selector: 'app-statistics-page',
@@ -17,6 +18,7 @@ import { CumulativeElevationChartComponent } from './cumulative-elevation-chart/
     RankingContainerComponent,
     MonhtlyBarChartComponent,
     CumulativeElevationChartComponent,
+    NotEnoughDataComponent,
   ],
   templateUrl: './statistics-page.component.html',
   styleUrl: './statistics-page.component.scss',
