@@ -34,4 +34,16 @@ export const climbsRip: Climb[] = [
     elevationGain: 216,
     trackPath: './assets/tracks/rip/rip03.json',
   },
+  {
+    id: 4,
+    date: '2026-02-08',
+    imgs: ['rip04_01.webp', 'rip04_02.webp', 'rip04_03.webp'],
+    description:
+      'Pokus o dvojitý výstup, který ale zhatilo bahno na jižní straně Řípu. Nakonec tedy jen výstup od Krabčic a poprvé taky náštěva jak pražské, tak roudnické vyhlídky.',
+    duration: 3641, // 1:00:41
+    distance: 3370,
+    heartRate: 129,
+    elevationGain: 263,
+    trackPath: './assets/tracks/rip/rip04.json',
+  },
 ];
