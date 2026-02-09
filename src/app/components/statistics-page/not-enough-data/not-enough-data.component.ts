@@ -3,6 +3,7 @@ import { InterimProgressCardComponent } from '../stats-card/interim-progress-car
 import { IconComponent } from '../../icon/icon.component';
 import { ElevationPipe } from '../../../pipes/elevation.pipe';
 import { InterimStats } from '../statistics-page.utils';
+import { getCurrentYear } from '../../../utils';
 
 @Component({
   selector: 'app-statistics-not-enough-data',
@@ -12,4 +13,10 @@ import { InterimStats } from '../statistics-page.utils';
 })
 export class NotEnoughDataComponent {
   @Input() stats: InterimStats = { totalClimbs: 0, totalElevationGain: 0 };
+
+  currentYear: number;
+
+  constructor() {
+    this.currentYear = getCurrentYear();
+  }
 }
