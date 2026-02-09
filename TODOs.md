@@ -8,3 +8,6 @@
 
 ## Auth
 [ ] nastavit refresh tokenu, aby nedochazelo k expiraci
+
+## improvements
+[ ] Pridat pipu na altitude

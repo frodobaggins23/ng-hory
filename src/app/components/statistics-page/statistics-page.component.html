@@ -2,13 +2,13 @@
   <app-nav />
   <app-hero [selectedYear]="year" />
   <div class="statistics-page-content">
-    @if (year === '2026') {
-      <app-statistics-not-enough-data />
+    @if (showInterimView) {
+      <app-statistics-not-enough-data [stats]="interimStatsData" />
     } @else {
-      <app-statistics-stats-card-container />
-      <app-statistics-monhtly-bar-chart />
-      <app-statistics-cumulative-elevation-chart />
-      <app-statistics-ranking-container />
+      <app-statistics-stats-card-container [cards]="statsCardsData" />
+      <app-statistics-monhtly-bar-chart [monthlyClimbs]="monthlyChartData" />
+      <app-statistics-cumulative-elevation-chart [cumulativeElevation]="cumulativeElevationData" />
+      <app-statistics-ranking-container [rankings]="rankings?.rankings ?? []" />
     }
   </div>
 </div>

@@ -4,7 +4,7 @@
   </div>
   <div class="mountain">
     <h3>{{ mountain }}</h3>
-    <p>1222 m.n.m</p>
+    <p>{{ altitude }} m.n.m</p>
   </div>
   <div class="climbs">
     <p>{{ visits }} x</p>
@@ -17,7 +17,11 @@
     </div>
     <div class="progress-bar-container">
       <div class="progress-bar">
-        <div class="progress-fill" [style.--progress]="progressToDo + '%'" aria-hidden="true"></div>
+        <div
+          class="progress-fill"
+          [style.--progress]="sharePercentage * 100 + '%'"
+          aria-hidden="true"
+        ></div>
       </div>
     </div>
   </div>

@@ -40,6 +40,7 @@ export type MountainRankingStat = {
   mountainName: MountainName;
   totalClimbs: number;
   totalElevationGain: number;
+  totalElevationGainSharePercentage: number;
 };
 
 export type MountainRankingStatByYear = {
@@ -151,7 +152,7 @@ export class StatisticsService {
   private calculateMountainRankingStatsForYear(year: number): MountainRankingStatByYear {
     const sliceFirstN = 5;
 
-    const rankingStats: MountainRankingStat[] = mountains.map(mountain => {
+    const rankingStats = mountains.map(mountain => {
       const climbs = filterDataByKey(allClimbsMap[mountain.name] || [], 'date', dateStr =>
         isDateInYear(dateStr, year)
       );
@@ -166,9 +167,21 @@ export class StatisticsService {
       };
     });
 
+    const topRankingStats = rankingStats
+      .sort((a, b) => b.totalClimbs - a.totalClimbs || b.totalElevationGain - a.totalElevationGain)
+      .slice(0, sliceFirstN);
+
+    const totalElevationOfTopRankings =
+      topRankingStats.reduce((sum, stat) => sum + stat.totalElevationGain, 0) || 1; // prevent division by zero
+
+    const finalRankingStats = topRankingStats.map(stat => ({
+      ...stat,
+      totalElevationGainSharePercentage: stat.totalElevationGain / totalElevationOfTopRankings,
+    }));
+
     return {
       year,
-      rankings: rankingStats.sort((a, b) => b.totalClimbs - a.totalClimbs).slice(0, sliceFirstN),
+      rankings: finalRankingStats,
     };
   }
 

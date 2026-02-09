@@ -1,6 +1,7 @@
-import { Component, inject, AfterViewInit } from '@angular/core';
+import { Component, inject, AfterViewInit, Input } from '@angular/core';
 import { StatsCardComponent } from '../stats-card/stats-card.component';
 import { DOCUMENT, NgClass } from '@angular/common';
+import { StatsCardData } from '../statistics-page.utils';
 
 type CardPosition = '1' | '2' | '3' | '4';
 
@@ -11,6 +12,8 @@ type CardPosition = '1' | '2' | '3' | '4';
   styleUrl: './stats-card-container.component.scss',
 })
 export class StatsCardContainerComponent implements AfterViewInit {
+  @Input() cards: StatsCardData[] = [];
+
   private doc = inject(DOCUMENT);
   private observer!: IntersectionObserver;
 

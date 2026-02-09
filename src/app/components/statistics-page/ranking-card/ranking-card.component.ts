@@ -14,14 +14,6 @@ export class RankingCardComponent {
   @Input({ required: true }) visits!: number;
   @Input({ required: true }) rank!: Rank;
   @Input({ required: true }) elevation!: number;
-
-  public progressToDo: number = 75;
-
-  constructor() {
-    this.progressToDo = this.getRandomProgress();
-  }
-
-  private getRandomProgress(): number {
-    return Math.floor(Math.random() * 101);
-  }
+  @Input({ required: true }) altitude!: number;
+  @Input({ required: true }) sharePercentage!: number;
 }

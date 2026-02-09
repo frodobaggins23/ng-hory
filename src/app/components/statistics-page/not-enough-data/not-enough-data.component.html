@@ -11,7 +11,15 @@
   </div>
 
   <div class="interim-cards">
-    <app-statistics-interim-progress-card title="Výstupů" value="3" color="amber" />
-    <app-statistics-interim-progress-card title="Převýšení" value="2145m" color="orange" />
+    <app-statistics-interim-progress-card
+      title="Výstupů"
+      [value]="stats.totalClimbs.toString()"
+      color="amber"
+    />
+    <app-statistics-interim-progress-card
+      title="Převýšení"
+      [value]="stats.totalElevationGain | elevation"
+      color="orange"
+    />
   </div>
 </div>
