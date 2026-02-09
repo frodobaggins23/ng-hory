@@ -1,7 +1,7 @@
 
 SOURCE_FILES_DIR='./.tracks-tmp'
 
-TRACKS_ROOT_DIR='./src/data/tracks'
+TRACKS_ROOT_DIR='./public/assets/tracks'
 BLANIK_DIR="${TRACKS_ROOT_DIR}/blanik"
 BABKA_DIR="${TRACKS_ROOT_DIR}/babka"
 JESTED_DIR="${TRACKS_ROOT_DIR}/jested"
