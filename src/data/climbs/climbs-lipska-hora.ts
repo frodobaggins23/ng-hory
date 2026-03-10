@@ -18,4 +18,14 @@ export const climbsLipskaHora: Climb[] = [
     elevationGain: 321,
     trackPath: './assets/tracks/lipska_hora/lipska_hora01.json',
   },
+  {
+    id: 2,
+    date: '2026-03-07',
+    description: 'Jarní rychlovýšlap. Bohužel byl opar, takže výhledy nic moc.',
+    duration: 2271, // 0:37:51
+    distance: 2090,
+    heartRate: 153,
+    elevationGain: 297,
+    trackPath: './assets/tracks/lipska_hora/lipska_hora02.json',
+  },
 ];

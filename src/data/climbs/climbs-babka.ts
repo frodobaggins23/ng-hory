@@ -18,4 +18,15 @@ export const climbsBabka: Climb[] = [
     elevationGain: 282,
     trackPath: './assets/tracks/babka/babka01.json',
   },
+  {
+    id: 2,
+    date: '2026-03-02',
+    description:
+      'Vzal jsem si volno a jel se projít do Brd. Tentokrát jsem se po výšlapu na Babku vracel novou trasou po modré do Dobřichovic. Počasí bylo parádní.',
+    duration: 3589, //0:59:49
+    distance: 3590,
+    heartRate: 125,
+    elevationGain: 305,
+    trackPath: './assets/tracks/babka/babka02.json',
+  },
 ];

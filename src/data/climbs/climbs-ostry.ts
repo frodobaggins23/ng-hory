@@ -12,4 +12,15 @@ export const climbsOstry: Climb[] = [
     heartRate: 142,
     elevationGain: 227,
   },
+  {
+    id: 2,
+    date: '2026-03-07',
+    description:
+      'Byl první opravdu pěkný jarní den, takže na vrcholu byly davy a moc jsem tam nezdržel. Bohužel byl taky opar, takže výhledy nic moc.',
+    duration: 2322, // 0:38:42
+    distance: 2280,
+    heartRate: 133,
+    elevationGain: 223,
+    trackPath: './assets/tracks/ostry/ostry02.json',
+  },
 ];
