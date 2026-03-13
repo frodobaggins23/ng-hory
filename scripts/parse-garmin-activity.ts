@@ -256,6 +256,7 @@ async function main() {
   await generateAndSaveGeoJSON(file, filePath);
   console.log('-----------------------------');
   console.log('// Duration in Human Readable Format:', timeToHhMmSs(climb.duration));
+  console.log('// Lap count:', 'lapCount' in lapInfo ? lapInfo.lapCount : 1);
   console.log('// Copy data below to climb data file');
   console.log('-----------------------------');
 

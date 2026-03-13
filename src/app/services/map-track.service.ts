@@ -23,6 +23,14 @@ export class MapTrackService implements OnDestroy {
     return this.map;
   }
 
+  private getLapColor(lapIndex?: number): string {
+    if (lapIndex === undefined) return 'var(--color-orange-500)'; // default color
+
+    const colors = ['var(--color-orange-500)', 'var(--color-amber-600)', 'var(--color-rose-500)'];
+
+    return colors[(lapIndex - 1) % colors.length];
+  }
+
   showTrack(geoData: GeoJSON.GeoJsonObject, viewContainerRef?: ViewContainerRef): void {
     if (!this.map) {
       console.warn('MapTrackService: Map not initialized');
@@ -30,11 +38,11 @@ export class MapTrackService implements OnDestroy {
     }
 
     this.track = new GeoJSON(geoData, {
-      style: {
+      style: feature => ({
         opacity: 1,
-        color: 'var(--color-orange-500)', // orange-500 to match the original design
+        color: this.getLapColor(feature?.properties?.lapIndex),
         weight: 3,
-      },
+      }),
     }).addTo(this.map);
 
     // Fit map to track bounds
