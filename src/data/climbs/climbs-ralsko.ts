@@ -51,4 +51,15 @@ export const climbsRalsko: Climb[] = [
     elevationGain: 419,
     trackPath: './assets/tracks/ralsko/ralsko04.json',
   },
+  {
+    id: 5,
+    date: '2026-03-22',
+    description:
+      'První letošní výstup. Alternativní trasou z Novin pod Ralskem. Šel jsem sportovním tempem, bez zastávky.',
+    duration: 3696, //1:01:36
+    distance: 3721,
+    heartRate: 145,
+    elevationGain: 414,
+    trackPath: './assets/tracks/ralsko/ralsko05.json',
+  },
 ];
