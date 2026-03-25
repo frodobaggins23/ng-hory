@@ -15,7 +15,7 @@ export const climbsRalsko: Climb[] = [
     duration: 5763, // 01:36:03,
     distance: 4660,
     heartRate: 131,
-    elevationGain: 542,
+    elevationGain: 410,
     trackPath: './assets/tracks/ralsko/ralsko01.json',
   },
   {
@@ -26,7 +26,7 @@ export const climbsRalsko: Climb[] = [
     duration: 5437, // 01:30:37,
     distance: 5370,
     heartRate: 125,
-    elevationGain: 538,
+    elevationGain: 420,
     trackPath: './assets/tracks/ralsko/ralsko02.json',
   },
   {

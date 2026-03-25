@@ -36,7 +36,7 @@ export const climbsJested: Climb[] = [
     ],
     description:
       'Spíš výlet, než klasický výstup. Procházka po hřebeni se zastávkou na krásné výhlídce Červený kámen',
-    duration: 16979,
+    duration: 16979, // 04:42:59,
     distance: 17710,
     heartRate: 126,
     elevationGain: 757,

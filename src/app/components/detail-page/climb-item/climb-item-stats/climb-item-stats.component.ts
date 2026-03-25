@@ -6,6 +6,7 @@ import { DurationPipe } from '../../../../pipes/duration.pipe';
 import { HeartRatePipe } from '../../../../pipes/heartRate.pipe';
 import { ElevationPipe } from '../../../../pipes/elevation.pipe';
 import { Climb } from '../../../../../data/types';
+import { calculateCPI } from '../../../../utils/climb-performance.utils';
 
 @Component({
   selector: 'app-climb-item-stats',
@@ -18,4 +19,8 @@ import { Climb } from '../../../../../data/types';
 })
 export class ClimbItemStatsComponent {
   @Input() climb!: Climb;
+
+  get cpi(): number {
+    return calculateCPI(this.climb);
+  }
 }

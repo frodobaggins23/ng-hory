@@ -10,6 +10,7 @@ export type IconName =
   | 'chevron-right'
   | 'clock'
   | 'footprints'
+  | 'gauge'
   | 'heart'
   | 'home'
   | 'lock'

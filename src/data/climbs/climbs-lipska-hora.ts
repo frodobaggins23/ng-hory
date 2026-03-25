@@ -15,7 +15,7 @@ export const climbsLipskaHora: Climb[] = [
     duration: 2343, // 0:39:03,
     distance: 2030,
     heartRate: 147,
-    elevationGain: 321,
+    elevationGain: 295,
     trackPath: './assets/tracks/lipska_hora/lipska_hora01.json',
   },
   {

@@ -1,4 +1,8 @@
 <span class="stat">
+  <app-icon icon="gauge" [size]="16" class="stat-icon" stroke="rose"></app-icon>
+  <b>{{ cpi }} </b>
+</span>
+<span class="stat">
   <app-icon icon="clock" [size]="16" class="stat-icon" stroke="text-muted"></app-icon>
   {{ climb.duration | duration }}
 </span>

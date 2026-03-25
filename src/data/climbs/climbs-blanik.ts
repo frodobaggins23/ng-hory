@@ -20,7 +20,7 @@ export const climbsBlanik: Climb[] = [
     duration: 1011, // 00:16:51,
     distance: 1000,
     heartRate: 148,
-    elevationGain: 211,
+    elevationGain: 165,
     trackPath: './assets/tracks/blanik/blanik02.json',
   },
   {

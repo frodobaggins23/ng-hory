@@ -10,7 +10,7 @@ export const climbsMilesovka: Climb[] = [
     duration: 5581, // 01:33:01,
     distance: 4550,
     heartRate: 137,
-    elevationGain: 701,
+    elevationGain: 523,
     trackPath: './assets/tracks/milesovka/milesovka01.json',
   },
   {
@@ -27,7 +27,7 @@ export const climbsMilesovka: Climb[] = [
     duration: 4653, // 01:17:33,
     distance: 4310,
     heartRate: 126,
-    elevationGain: 639,
+    elevationGain: 520,
     trackPath: './assets/tracks/milesovka/milesovka02.json',
   },
   {
