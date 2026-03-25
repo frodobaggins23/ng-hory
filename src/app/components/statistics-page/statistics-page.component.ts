@@ -43,7 +43,7 @@ export class StatisticsPageComponent implements OnInit, OnChanges {
   private statisticsService = inject(StatisticsService);
 
   // Configuration flag - set to true to show full stats for current year
-  private readonly SHOW_FULL_STATS_FOR_CURRENT_YEAR = false;
+  private readonly SHOW_FULL_STATS_FOR_CURRENT_YEAR = true;
 
   // Raw service data
   yearlyStats: YearlyStat | null = null;
