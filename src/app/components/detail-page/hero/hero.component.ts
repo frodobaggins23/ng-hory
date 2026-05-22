@@ -1,5 +1,6 @@
 import { Component, effect, inject } from '@angular/core';
 import { IconComponent } from '../../icon/icon.component';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { MountainStateService } from '../../../services/mountain-state.service';
 import { StatisticsService } from '../../../services/statistics.service';
 import { MountainDetails, MountainService } from '../../../services/mountain.service';
@@ -7,7 +8,7 @@ import { MountainName } from '../../../../data/types';
 
 @Component({
   selector: 'app-detail-page-hero',
-  imports: [IconComponent],
+  imports: [IconComponent, TranslatePipe],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss',
 })

@@ -16,9 +16,29 @@
           [attr.aria-current]="activePage() === item.id ? 'page' : null"
         >
           <app-icon [icon]="item.icon" stroke="primary-dark" [size]="16" />
-          <span class="nav-tab-label">{{ item.label }}</span>
+          <span class="nav-tab-label">{{ item.labelKey | translate }}</span>
         </button>
       }
+    </div>
+
+    <div class="lang-switcher">
+      <button
+        class="lang-btn"
+        [class.active]="currentLang() === 'cs'"
+        (click)="setLanguage('cs')"
+        aria-label="Czech"
+      >
+        CS
+      </button>
+      <span class="lang-divider">|</span>
+      <button
+        class="lang-btn"
+        [class.active]="currentLang() === 'en'"
+        (click)="setLanguage('en')"
+        aria-label="English"
+      >
+        EN
+      </button>
     </div>
   </div>
 </nav>

@@ -4,10 +4,11 @@ import { TrackMapComponent } from '../../track-map/track-map.component';
 import { ClimbGalleryComponent } from '../../climb-gallery/climb-gallery.component';
 import { Climb } from '../../../../../data/types';
 import { TracksService } from '../../../../tracks.service';
+import { TranslatePipe } from '../../../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-climb-item-expanded-content',
-  imports: [TrackMapComponent, ClimbGalleryComponent],
+  imports: [TrackMapComponent, ClimbGalleryComponent, TranslatePipe],
   templateUrl: './climb-item-expanded-content.component.html',
   styleUrl: './climb-item-expanded-content.component.scss',
   host: {

@@ -3,21 +3,20 @@
     <div class="icon-wrapper">
       <app-icon icon="mountain" fill="white" background="rose" [size]="48" [rounded]="true" />
     </div>
-    <h2 class="title">Zatím málo dat</h2>
+    <h2 class="title">{{ 'stats.notEnoughData.title' | translate }}</h2>
     <p class="description">
-      V roce {{ currentYear }} máš teprve pár výstupů, takže statistiky ještě nemají moc smysl.
-      Vyraz ještě pár krát a uvidíš tady pěkný grafy!
+      {{ 'stats.notEnoughData.description' | translate: { year: currentYear } }}
     </p>
   </div>
 
   <div class="interim-cards">
     <app-statistics-interim-progress-card
-      title="Výstupů"
+      [title]="'stats.climbCount' | translate"
       [value]="stats.totalClimbs.toString()"
       color="amber"
     />
     <app-statistics-interim-progress-card
-      title="Převýšení"
+      [title]="'stats.elevation' | translate"
       [value]="stats.totalElevationGain | elevation"
       color="orange"
     />

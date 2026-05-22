@@ -1,5 +1,5 @@
 <div class="container">
-  <app-statistics-section-header title="Výstupy za měsíc" />
+  <app-statistics-section-header [title]="'stats.monthlyClimbs' | translate" />
   <div>
     <ngx-charts-bar-vertical
       [results]="data"

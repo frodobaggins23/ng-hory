@@ -24,22 +24,11 @@ export type AreaChartDataPoint = {
   series: LineChartDataPoint[];
 };
 
-const MONTHS = [
-  'leden',
-  'únor',
-  'březen',
-  'duben',
-  'květen',
-  'červen',
-  'červenec',
-  'srpen',
-  'září',
-  'říjen',
-  'listopad',
-  'prosinec',
-];
-
-export const getCommonChartOptions = (color: string, yAxisLabel: string): ChartOptions => {
+export const getCommonChartOptions = (
+  color: string,
+  yAxisLabel: string,
+  months: string[]
+): ChartOptions => {
   return {
     colorScheme: {
       name: 'ng-hory-theme',
@@ -54,16 +43,19 @@ export const getCommonChartOptions = (color: string, yAxisLabel: string): ChartO
     showGridLines: false,
     showXAxisLabel: false,
     showYAxisLabel: false,
-    xAxisLabel: 'Měsíc',
+    xAxisLabel: '',
     yAxisLabel,
     formatXAxisLabel: value => {
-      return MONTHS.indexOf(value) + 1;
+      return months.indexOf(value) + 1;
     },
   };
 };
 
-export const transformDataToMonthlyFormat = (data: number[]): LineChartDataPoint[] => {
-  return MONTHS.map((month, index) => ({
+export const transformDataToMonthlyFormat = (
+  data: number[],
+  months: string[]
+): LineChartDataPoint[] => {
+  return months.map((month, index) => ({
     name: month,
     value: data[index] || 0,
   }));
@@ -71,12 +63,13 @@ export const transformDataToMonthlyFormat = (data: number[]): LineChartDataPoint
 
 export const transformDataToMonthlyFormatForAreaChart = (
   data: number[],
-  seriesName: string
+  seriesName: string,
+  months: string[]
 ): AreaChartDataPoint[] => {
   return [
     {
       name: seriesName,
-      series: transformDataToMonthlyFormat(data),
+      series: transformDataToMonthlyFormat(data, months),
     },
   ];
 };

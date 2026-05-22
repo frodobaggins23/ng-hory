@@ -1,5 +1,5 @@
 <div class="ranking-container">
-  <app-statistics-section-header title="Nejčastěji navštěvované hory" />
+  <app-statistics-section-header [title]="'stats.ranking.title' | translate" />
   <div class="list">
     @for (ranking of rankings; track ranking.mountainName; let i = $index) {
       <app-statistics-ranking-card

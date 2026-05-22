@@ -15,7 +15,7 @@
 
   @if (isHovering()) {
     <div class="hover-tooltip">
-      <span>Zadejte heslo pro odemčení fotek v galeriích</span>
+      <span>{{ 'gallery.unlockHint' | translate }}</span>
     </div>
   }
 
@@ -25,7 +25,7 @@
         type="password"
         class="password-input"
         [(ngModel)]="password"
-        placeholder="Heslo"
+        [placeholder]="'gallery.password' | translate"
         (keyup.enter)="onSubmitPassword()"
       />
       <button class="submit-button" (click)="onSubmitPassword()" [disabled]="!password()">

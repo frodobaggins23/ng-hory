@@ -16,12 +16,12 @@
       @for (stat of statistics; track stat) {
         <div class="stat-card">
           <div class="stat-value">{{ stat.getValue() }}</div>
-          <div class="stat-label">{{ stat.label }}</div>
+          <div class="stat-label">{{ stat.labelKey | translate }}</div>
         </div>
       }
     </div>
     <button class="action-button" (click)="onActionClick()">
-      {{ actionButtonText }}
+      {{ actionButtonText || ('mountain.viewDetail' | translate) }}
       <app-icon icon="chevron-right" [size]="20" stroke="primary-light" />
     </button>
   </div>

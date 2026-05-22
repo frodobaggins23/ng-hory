@@ -3,7 +3,7 @@
   <app-main-mountain-dialog
     [title]="dialogParams.selectedMountain"
     [subtitle]="dialogParams.subtitle"
-    [statistics]="dialogStatistics"
+    [statistics]="dialogStatistics()"
     (closeOutput)="handleDialogClose()"
     (actionClickOutput)="handleDialogAction()"
   ></app-main-mountain-dialog>

@@ -1,10 +1,11 @@
 import { NgClass } from '@angular/common';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { Component, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-hero',
-  imports: [NgClass],
+  imports: [NgClass, TranslatePipe],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss',
 })

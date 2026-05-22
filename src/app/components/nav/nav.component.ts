@@ -5,11 +5,13 @@ import { filter, map, startWith } from 'rxjs';
 import { IconComponent } from '../icon/icon.component';
 import { IconName } from '../../services/icon.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { TranslateService, Language } from '../../services/translate.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 interface NavItem {
   id: 'home' | 'mountain' | 'stats';
   icon: IconName;
-  label: string;
+  labelKey: string;
   route: string;
 }
 
@@ -18,18 +20,19 @@ interface NavItem {
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'],
   standalone: true,
-  imports: [IconComponent, IconComponent],
+  imports: [IconComponent, TranslatePipe],
 })
 export class NavComponent {
-  constructor() {}
+  private translateService = inject(TranslateService);
 
   navItems: NavItem[] = [
-    { id: 'home', icon: 'home', label: 'Mapa', route: '/' },
-    { id: 'mountain', icon: 'map-pin', label: 'Hora', route: '/detail' },
-    { id: 'stats', icon: 'bar-chart-3', label: 'Statistiky', route: '/stats' },
+    { id: 'home', icon: 'home', labelKey: 'nav.map', route: '/' },
+    { id: 'mountain', icon: 'map-pin', labelKey: 'nav.mountain', route: '/detail' },
+    { id: 'stats', icon: 'bar-chart-3', labelKey: 'nav.stats', route: '/stats' },
   ];
 
   router = inject(Router);
+  currentLang = this.translateService.lang;
 
   private currentUrl = toSignal(
     this.router.events.pipe(
@@ -53,5 +56,9 @@ export class NavComponent {
     if (route) {
       this.router.navigate([route]);
     }
+  }
+
+  setLanguage(lang: Language): void {
+    this.translateService.setLanguage(lang);
   }
 }

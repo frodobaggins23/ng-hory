@@ -1,15 +1,16 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { IconComponent } from '../../icon/icon.component';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 
 export interface MountainStatistic {
   getValue: () => string;
-  label: string;
+  labelKey: string;
 }
 
 @Component({
   selector: 'app-main-mountain-dialog',
-  imports: [IconComponent],
+  imports: [IconComponent, TranslatePipe],
   templateUrl: './mountain-dialog.component.html',
   styleUrl: './mountain-dialog.component.scss',
 })
@@ -17,7 +18,7 @@ export class MountainDialogComponent {
   @Input() title: string = '';
   @Input() subtitle: string = '';
   @Input() statistics: MountainStatistic[] = [];
-  @Input() actionButtonText: string = 'Zobrazit detail';
+  @Input() actionButtonText: string = '';
 
   @Output() closeOutput = new EventEmitter<void>();
   @Output() actionClickOutput = new EventEmitter<void>();

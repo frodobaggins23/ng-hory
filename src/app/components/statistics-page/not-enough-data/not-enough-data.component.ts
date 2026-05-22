@@ -2,12 +2,13 @@ import { Component, Input } from '@angular/core';
 import { InterimProgressCardComponent } from '../stats-card/interim-progress-card.component';
 import { IconComponent } from '../../icon/icon.component';
 import { ElevationPipe } from '../../../pipes/elevation.pipe';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { InterimStats } from '../statistics-page.utils';
 import { getCurrentYear } from '../../../utils';
 
 @Component({
   selector: 'app-statistics-not-enough-data',
-  imports: [InterimProgressCardComponent, IconComponent, ElevationPipe],
+  imports: [InterimProgressCardComponent, IconComponent, ElevationPipe, TranslatePipe],
   templateUrl: './not-enough-data.component.html',
   styleUrl: './not-enough-data.component.scss',
 })

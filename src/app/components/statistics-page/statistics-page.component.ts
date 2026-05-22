@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, effect, inject, Input, OnInit, SimpleChanges, OnChanges } from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { HeroComponent } from './hero/hero.component';
 import { getCurrentYear } from '../../utils';
@@ -21,6 +21,7 @@ import {
   StatsCardData,
   InterimStats,
 } from './statistics-page.utils';
+import { TranslateService } from '../../services/translate.service';
 
 @Component({
   selector: 'app-statistics-page',
@@ -41,6 +42,7 @@ export class StatisticsPageComponent implements OnInit, OnChanges {
 
   private router = inject(Router);
   private statisticsService = inject(StatisticsService);
+  private translateService = inject(TranslateService);
 
   // Configuration flag - set to true to show full stats for current year
   private readonly SHOW_FULL_STATS_FOR_CURRENT_YEAR = true;
@@ -60,6 +62,18 @@ export class StatisticsPageComponent implements OnInit, OnChanges {
 
   get currentYear(): number {
     return getCurrentYear();
+  }
+
+  constructor() {
+    effect(() => {
+      this.translateService.lang();
+      if (this.yearlyStats && !this.showInterimView) {
+        this.statsCardsData = toStatsCards(
+          this.yearlyStats,
+          this.translateService.get.bind(this.translateService)
+        );
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -84,18 +98,18 @@ export class StatisticsPageComponent implements OnInit, OnChanges {
   }
 
   private loadYearData(year: number): void {
-    // Fetch all data
     this.yearlyStats = this.statisticsService.getYearlyStats(year);
     this.rankings = this.statisticsService.getMountainRankingStatsForYear(year);
 
-    // Determine view mode
     this.showInterimView = this.shouldShowInterimView(year);
 
-    // Transform for appropriate view
     if (this.showInterimView) {
       this.interimStatsData = toInterimStats(this.yearlyStats);
     } else {
-      this.statsCardsData = toStatsCards(this.yearlyStats);
+      this.statsCardsData = toStatsCards(
+        this.yearlyStats,
+        this.translateService.get.bind(this.translateService)
+      );
       this.monthlyChartData = toMonthlyClimbCounts(this.yearlyStats);
       this.cumulativeElevationData = toCumulativeElevation(this.yearlyStats);
     }
@@ -105,12 +119,10 @@ export class StatisticsPageComponent implements OnInit, OnChanges {
     const currentYear = getCurrentYear();
     const isCurrentYear = year === currentYear;
 
-    // Historical years always show full stats
     if (!isCurrentYear) {
       return false;
     }
 
-    // For current year, use manual flag
     return !this.SHOW_FULL_STATS_FOR_CURRENT_YEAR;
   }
 }

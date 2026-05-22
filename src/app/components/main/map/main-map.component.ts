@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, DestroyRef, inject, ViewContainerRef } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  ViewContainerRef,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { MAPY_CZ_URL } from '../../../constants';
@@ -12,6 +19,7 @@ import { MountainName } from '../../../../data/types';
 import { MountainService } from '../../../services/mountain.service';
 import { MountainStateService } from '../../../services/mountain-state.service';
 import { Router } from '@angular/router';
+import { TranslateService } from '../../../services/translate.service';
 
 @Component({
   selector: 'app-main-map',
@@ -28,6 +36,8 @@ export class MainMapComponent implements AfterViewInit {
   router = inject(Router);
   viewContainerRef = inject(ViewContainerRef);
 
+  private translateService = inject(TranslateService);
+
   showDialog: boolean = false;
 
   dialogParams = {
@@ -38,14 +48,20 @@ export class MainMapComponent implements AfterViewInit {
     totalDistance: 0,
   };
 
-  dialogStatistics: MountainStatistic[] = [
-    { label: 'výstupů', getValue: () => String(this.dialogParams.totalClimbs) },
-    { label: 'převýšení', getValue: () => `${this.dialogParams.totalElevationGain} m` },
-    {
-      label: 'v nohách',
-      getValue: () => `${(this.dialogParams.totalDistance / 1000).toFixed(1)} km`,
-    },
-  ];
+  dialogStatistics = computed<MountainStatistic[]>(() => {
+    this.translateService.lang();
+    return [
+      { labelKey: 'mountain.climbs', getValue: () => String(this.dialogParams.totalClimbs) },
+      {
+        labelKey: 'mountain.elevation',
+        getValue: () => `${this.dialogParams.totalElevationGain} m`,
+      },
+      {
+        labelKey: 'mountain.distance',
+        getValue: () => `${(this.dialogParams.totalDistance / 1000).toFixed(1)} km`,
+      },
+    ];
+  });
 
   async ngAfterViewInit() {
     await this.mapService.initMap('map', MAPY_CZ_URL, this.viewContainerRef);

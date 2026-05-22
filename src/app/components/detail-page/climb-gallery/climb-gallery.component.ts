@@ -4,11 +4,12 @@ import { ImageService } from '../../../services/image.service';
 import { OverlayService } from '../../../services/overlay.service';
 import { Subject, takeUntil } from 'rxjs';
 import { IconComponent } from '../../icon/icon.component';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-climb-gallery',
   standalone: true,
-  imports: [IconComponent],
+  imports: [IconComponent, TranslatePipe],
   templateUrl: './climb-gallery.component.html',
   styleUrl: './climb-gallery.component.scss',
 })
