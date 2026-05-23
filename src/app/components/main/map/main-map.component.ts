@@ -49,7 +49,6 @@ export class MainMapComponent implements AfterViewInit {
   };
 
   dialogStatistics = computed<MountainStatistic[]>(() => {
-    this.translateService.lang();
     return [
       { labelKey: 'mountain.climbs', getValue: () => String(this.dialogParams.totalClimbs) },
       {

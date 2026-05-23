@@ -31,9 +31,10 @@ export class MonhtlyBarChartComponent implements OnChanges {
     this.chartOptions = this.buildChartOptions();
 
     effect(() => {
-      this.translateService.lang();
       this.chartOptions = this.buildChartOptions();
-      this.data = transformDataToMonthlyFormat(this.storedClimbs, this.translateService.months());
+      if (this.storedClimbs.length) {
+        this.data = transformDataToMonthlyFormat(this.storedClimbs, this.translateService.months());
+      }
     });
   }
 

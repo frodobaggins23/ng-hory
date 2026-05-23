@@ -32,14 +32,15 @@ export class CumulativeElevationChartComponent implements OnChanges {
     this.lineOptions = this.buildLineOptions();
 
     effect(() => {
-      this.translateService.lang();
       this.areaOptions = this.buildAreaOptions();
       this.lineOptions = this.buildLineOptions();
-      this.data = transformDataToMonthlyFormatForAreaChart(
-        this.storedElevation,
-        this.translateService.get('stats.cumulativeElevation'),
-        this.translateService.months()
-      );
+      if (this.storedElevation.length) {
+        this.data = transformDataToMonthlyFormatForAreaChart(
+          this.storedElevation,
+          this.translateService.get('stats.cumulativeElevation'),
+          this.translateService.months()
+        );
+      }
     });
   }
 

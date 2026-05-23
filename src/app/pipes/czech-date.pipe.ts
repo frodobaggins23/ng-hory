@@ -10,11 +10,16 @@ import { TranslateService } from '../services/translate.service';
 export class CzechDatePipe implements PipeTransform {
   private translateService = inject(TranslateService);
 
+  private readonly pipes = {
+    'cs-CZ': new DatePipe('cs-CZ'),
+    'en-US': new DatePipe('en-US'),
+  };
+
   transform(
     value: Date | string | number | null | undefined,
     format: string = 'mediumDate'
   ): string | null {
     const locale = this.translateService.lang() === 'cs' ? 'cs-CZ' : 'en-US';
-    return new DatePipe(locale).transform(value, format, '', locale);
+    return this.pipes[locale].transform(value, format, '', locale);
   }
 }

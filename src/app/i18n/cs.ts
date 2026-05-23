@@ -47,7 +47,6 @@ export const cs: Record<string, string> = {
 
   'charts.climbCountLabel': 'Počet výstupů',
   'charts.elevationLabel': 'Převýšení (m)',
-  'charts.month': 'Měsíc',
 
   'months.1': 'leden',
   'months.2': 'únor',

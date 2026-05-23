@@ -47,7 +47,6 @@ export const en: Record<string, string> = {
 
   'charts.climbCountLabel': 'Number of climbs',
   'charts.elevationLabel': 'Elevation (m)',
-  'charts.month': 'Month',
 
   'months.1': 'January',
   'months.2': 'February',

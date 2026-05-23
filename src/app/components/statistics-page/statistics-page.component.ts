@@ -66,7 +66,6 @@ export class StatisticsPageComponent implements OnInit, OnChanges {
 
   constructor() {
     effect(() => {
-      this.translateService.lang();
       if (this.yearlyStats && !this.showInterimView) {
         this.statsCardsData = toStatsCards(
           this.yearlyStats,
