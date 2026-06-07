@@ -40,6 +40,17 @@ export const climbsMilesovka: Climb[] = [
     distance: 4660,
     heartRate: 129,
     elevationGain: 525,
-    trackPath: './assets/tracks/milesovka/milesovka02.json',
+    trackPath: './assets/tracks/milesovka/milesovka03.json',
+  },
+  {
+    id: 4,
+    date: '2026-06-06',
+    description:
+      'Bylo hezké počasí a na vrcholu více lidí, než obvykle, což zážitek trochu kazilo. Ale jinak to byl příjemný výlet.',
+    duration: 4913, // 01:21:53,
+    distance: 4676,
+    heartRate: 132,
+    elevationGain: 518,
+    trackPath: './assets/tracks/milesovka/milesovka04.json',
   },
 ];
