@@ -9,7 +9,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { MapTrackService } from '../../../services/map-track.service';
-import { MAPY_CZ_URL } from '../../../constants';
+import { ConfigService } from '../../../config/config.service';
 
 @Component({
   selector: 'app-track-map',
@@ -25,6 +25,7 @@ export class TrackMapComponent implements AfterViewInit, OnDestroy {
   @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef<HTMLDivElement>;
 
   private mapService = inject(MapTrackService);
+  private configService = inject(ConfigService);
   private viewContainerRef = inject(ViewContainerRef);
 
   ngAfterViewInit(): void {
@@ -34,7 +35,8 @@ export class TrackMapComponent implements AfterViewInit, OnDestroy {
     }
 
     // Initialize map and show track
-    this.mapService.initMap(this.mapContainer.nativeElement, MAPY_CZ_URL);
+    const mapTileUrl = this.configService.buildMapTileUrl();
+    this.mapService.initMap(this.mapContainer.nativeElement, mapTileUrl);
     this.mapService.showTrack(this.track, this.viewContainerRef);
   }
 

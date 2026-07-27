@@ -1,22 +1,19 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { RequestService } from './request.service';
-import { environment } from '../environments/environment';
 import { ImageService } from './services/image.service';
 import { TokenService } from './token.service';
+import { ConfigService } from './config/config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InitService {
-  constructor() {}
-
   private requestService = inject(RequestService);
   private imageService = inject(ImageService);
   private tokenService = inject(TokenService);
+  private configService = inject(ConfigService);
 
   isGalleryLocked = signal(false);
-
-  private verifyTokenUrl = `${environment.fileServerHost}/api/verify-token`;
 
   cleanUpGalleryOnInit = () => {
     const galleryToken = this.tokenService.getToken('GALLERY_TOKEN');
@@ -27,10 +24,11 @@ export class InitService {
   };
 
   verifyGalleryToken() {
+    const verifyTokenUrl = this.configService.buildApiUrl('verify-token');
     this.requestService
       .request({
         method: 'get',
-        path: this.verifyTokenUrl,
+        path: verifyTokenUrl,
       })
       .subscribe({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

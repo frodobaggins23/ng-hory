@@ -1,0 +1,22 @@
+/**
+ * Development environment configuration
+ * Copy this file to environment.development.ts and fill in the required secrets
+ */
+export const environment = {
+  production: false,
+
+  // Map API key from Mapy.cz
+  // Get it from: https://api.mapy.cz/
+  mapApiKey: 'YOUR_MAPY_CZ_API_KEY_HERE',
+
+  // File server base URL
+  // Example: http://localhost:3000 or https://your-file-server.com
+  fileServerHost: 'http://localhost:3000',
+
+  // Image cache settings
+  imageCache: {
+    maxImages: 15,
+    maxSizePerImage: 5 * 1024 * 1024, // 5MB
+    maxTotalSize: 75 * 1024 * 1024, // 75MB
+  },
+} as const;

@@ -7,10 +7,8 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { TokenService } from '../../token.service';
 import { ImageService } from '../../services/image.service';
-import { environment } from '../../../environments/environment';
+import { ConfigService } from '../../config/config.service';
 import { Router } from '@angular/router';
-
-const UNLOCK_GALLERY_URL = `${environment.fileServerHost}/api/unlock-gallery`;
 
 @Component({
   selector: 'app-unlock-gallery',
@@ -22,6 +20,7 @@ export class UnlockGalleryComponent {
   private requestService = inject(RequestService);
   private tokenService = inject(TokenService);
   private imageService = inject(ImageService);
+  private configService = inject(ConfigService);
   private router = inject(Router);
 
   isLocked = signal(true);
@@ -58,9 +57,10 @@ export class UnlockGalleryComponent {
   }
 
   exchangePassphraseForToken(passphrase: string): Observable<unknown> {
+    const unlockGalleryUrl = this.configService.buildApiUrl('unlock-gallery');
     return this.requestService.request({
       method: 'post',
-      path: UNLOCK_GALLERY_URL,
+      path: unlockGalleryUrl,
       payload: { passphrase },
       responseType: 'json',
       doNotAuthorize: true,
