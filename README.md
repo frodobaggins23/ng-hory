@@ -6,11 +6,15 @@ In the same time, this is my first project in Angular, created heavily with assi
 
 ## 💻 Local development
 
-### 1. Define environment variables
+### 1. Configure your environment
 
-Create `src/environments/environment.development.ts` and populate it with secrets.
+See [Configuration Guide](src/app/config/README.md) for detailed setup instructions.
 
-This file is used by dev server using file replacements. DO NOT place any secrets to src/environments/environment.ts, as this is is placeholder file used in CI pipelines.
+Quick start:
+```bash
+cp src/environments/environment.development.ts.template src/environments/environment.development.ts
+# Edit the file with your actual API keys
+```
 
 ### 2. Start local development
 

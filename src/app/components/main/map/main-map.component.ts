@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, DestroyRef, inject, ViewContainerRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { MAPY_CZ_URL } from '../../../constants';
 import { MapService } from '../../../services/map.service';
+import { ConfigService } from '../../../config/config.service';
 import {
   MountainDialogComponent,
   MountainStatistic,
@@ -21,6 +21,7 @@ import { Router } from '@angular/router';
 })
 export class MainMapComponent implements AfterViewInit {
   private destroyRef = inject(DestroyRef);
+  private configService = inject(ConfigService);
   mapService = inject(MapService);
   statisticsService = inject(StatisticsService);
   mountainService = inject(MountainService);
@@ -48,7 +49,8 @@ export class MainMapComponent implements AfterViewInit {
   ];
 
   async ngAfterViewInit() {
-    await this.mapService.initMap('map', MAPY_CZ_URL, this.viewContainerRef);
+    const mapTileUrl = this.configService.buildMapTileUrl();
+    await this.mapService.initMap('map', mapTileUrl, this.viewContainerRef);
 
     this.mapService.selectedMountainMarker$
       .pipe(takeUntilDestroyed(this.destroyRef))

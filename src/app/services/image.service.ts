@@ -4,7 +4,7 @@ import { switchMap, catchError, map, share } from 'rxjs/operators';
 import { ImageCacheService } from './image-cache.service';
 import { RequestService } from '../request.service';
 import { MountainUtils, RxJSUtils, BlobUtils } from '../utils';
-import { environment } from '../../environments/environment';
+import { ConfigService } from '../config/config.service';
 
 export interface ImageLoadResult {
   url: string;
@@ -20,6 +20,7 @@ export class ImageService {
 
   private cacheService = inject(ImageCacheService);
   private requestService = inject(RequestService);
+  private configService = inject(ConfigService);
 
   /**
    * Get image URL for display - cache first, then file server download
@@ -83,7 +84,8 @@ export class ImageService {
     const mountainId = MountainUtils.normalizeMountainName(mountainName);
 
     // Construct file server URL using imgFolder
-    const url = `${environment.fileServerHost}/api/get-file?folder=${encodeURIComponent(imgFolder)}&filename=${encodeURIComponent(imageName)}`;
+    const baseUrl = this.configService.getFileServerHost();
+    const url = `${baseUrl}/api/get-file?folder=${encodeURIComponent(imgFolder)}&filename=${encodeURIComponent(imageName)}`;
 
     // Download the image from file server
     return this.requestService
