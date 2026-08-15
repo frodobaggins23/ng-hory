@@ -62,4 +62,16 @@ export const climbsRalsko: Climb[] = [
     elevationGain: 414,
     trackPath: './assets/tracks/ralsko/ralsko05.json',
   },
+  {
+    id: 6,
+    date: '2026-08-11',
+    imgs: ['ralsko06_01.webp', 'ralsko06_02.webp', 'ralsko06_03.webp', 'ralsko06_04.webp'],
+    description:
+      'Po delší době zase výšlap na nějaký kopec. A táhlo mě to zas na Ralsko. Trasa obvyklá z Mimoňě, jen jsem udělal neplánovaný přesun autem na začátku',
+    duration: 4477, // 1:14:37
+    distance: 4150,
+    heartRate: 126,
+    elevationGain: 433,
+    trackPath: './assets/tracks/ralsko/ralsko06.json',
+  },
 ];
