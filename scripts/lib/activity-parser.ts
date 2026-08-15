@@ -1,11 +1,7 @@
-import { readFile, writeFile } from 'fs/promises';
-import path from 'path';
-import readline from 'readline';
+import { readFile } from 'fs/promises';
 import { parseStringPromise } from 'xml2js';
 import { DOMParser } from '@xmldom/xmldom';
 import { tcx as tcxToGeoJSON } from '@tmcw/togeojson';
-import { Climb } from '../src/data/types';
-import { mountains } from '../src/data';
 
 type LapInformation = {
   totalTimeSeconds: number;
@@ -32,23 +28,6 @@ const getTraverseInstructions = {
   lapObj: (lapNr: number) => [...COMMON_TRAVERSE, 'Activity', 0, 'Lap', lapNr - 1],
   laps: () => [...COMMON_TRAVERSE, 'Activity', 0, 'Lap'],
 };
-
-const rl = readline.createInterface(process.stdin, process.stdout);
-
-function isValidGarminActivityFile(filePath: string) {
-  const fileName = path.basename(filePath);
-  return path.extname(fileName).toLowerCase() === '.tcx';
-}
-
-async function loadActivityFile(filePath: string) {
-  try {
-    const file = await readFile(filePath, 'utf-8');
-    return file;
-  } catch (error: unknown) {
-    console.error('Error loading file', { message: (error as Error).message });
-    return null;
-  }
-}
 
 function traverseInTheFile(
   parsedFile: TCXNode,
@@ -157,31 +136,35 @@ function getAggregatedLapInformation(parsedFile: TCXNode): AggregatedLapInformat
   };
 }
 
-function generatePrompt(message: string): Promise<string> {
-  return new Promise(resolve => {
-    rl.question(message, input => {
-      resolve(input);
-    });
-  });
+export interface ParsedActivity {
+  /** YYYY-MM-DD */
+  date: string;
+  /** Duration in seconds */
+  duration: number;
+  /** Distance in meters */
+  distance: number;
+  /** Average heart rate in beats per minute */
+  heartRate: number;
+  /** Elevation gain in meters */
+  elevationGain: number;
+  geoJSON: ReturnType<typeof tcxToGeoJSON>;
 }
 
-function timeToHhMmSs(totalSeconds: number): string {
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = Math.round(totalSeconds % 60);
-
-  return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+export function isTcxFile(filePath: string): boolean {
+  return filePath.toLowerCase().endsWith('.tcx');
 }
 
-function printMountainsList() {
-  return mountains.map((m, i) => `"${m.name}": ${i}`).join(', ');
-}
+export async function parseActivityFile(tcxFilePath: string): Promise<ParsedActivity> {
+  const fileContent = await readFile(tcxFilePath, 'utf-8');
+  const parsedFile = await parseStringPromise(fileContent);
 
-function getLatestClimbId(mountainId: number) {
-  return mountains[mountainId].climbs?.at(-1)?.id ?? 0;
-}
+  const dateString = traverseInTheFile(
+    parsedFile,
+    getTraverseInstructions.date()
+  ) as unknown as string;
 
-async function generateAndSaveGeoJSON(fileContent: string, tcxFilePath: string): Promise<void> {
+  const lapInfo = getAggregatedLapInformation(parsedFile);
+
   const doc = new DOMParser().parseFromString(fileContent, 'text/xml');
   const geoJSON = tcxToGeoJSON(doc);
 
@@ -194,75 +177,12 @@ async function generateAndSaveGeoJSON(fileContent: string, tcxFilePath: string):
     };
   });
 
-  // Derive output path: same directory, same filename, .geojson extension
-  const outputPath = tcxFilePath.replace(/\.tcx$/i, '.json');
-  await writeFile(outputPath, JSON.stringify(geoJSON, null, 2), 'utf-8');
-  console.log(`GeoJSON saved to: ${outputPath}`);
-}
-
-async function main() {
-  const filePath = process.argv[2];
-  const lapToParse = parseInt(process.argv[3], 10) || null;
-
-  if (!filePath) {
-    console.error('No file provided!');
-    console.log('Usage: parse-garmin-activity <path-to-file.tcx> [lap-number]');
-    process.exit(1);
-  }
-
-  const isValid = isValidGarminActivityFile(filePath);
-  if (!isValid) {
-    throw new Error('Invalid activity file, please provide .tcx file');
-  }
-
-  const file = await loadActivityFile(filePath);
-  if (!file) return;
-
-  const parsedFile = await parseStringPromise(file);
-
-  const dateString = traverseInTheFile(
-    parsedFile,
-    getTraverseInstructions.date()
-  ) as unknown as string;
-
-  let lapInfo: LapInformation | AggregatedLapInformation = getAggregatedLapInformation(parsedFile);
-
-  const description = await generatePrompt(`Provide activity description: \n`);
-
-  const mountainId = await generatePrompt(
-    `Select mountain to which the climb is related: \n ${printMountainsList()} \n Provide number:`
-  );
-
-  const mountainIdNum = parseInt(mountainId, 10);
-  if (isNaN(mountainIdNum) || mountainIdNum < 0 || mountainIdNum >= mountains.length) {
-    throw new Error(`Invalid mountain selection: "${mountainId}"`);
-  }
-
-  if (lapToParse) {
-    lapInfo = getLapInformation(parsedFile, lapToParse);
-  }
-
-  const climb: Climb = {
-    id: getLatestClimbId(mountainIdNum) + 1,
+  return {
     date: new Date(dateString).toISOString().split('T')[0],
-    description,
     duration: Math.round(lapInfo.totalTimeSeconds),
     distance: Math.round(lapInfo.distanceMeters),
     heartRate: Math.round(lapInfo.averageHeartRateBpm),
     elevationGain: lapInfo.elevationGain,
+    geoJSON,
   };
-
-  console.log('-----------------------------');
-  await generateAndSaveGeoJSON(file, filePath);
-  console.log('-----------------------------');
-  console.log('// Duration in Human Readable Format:', timeToHhMmSs(climb.duration));
-  console.log('// Lap count:', 'lapCount' in lapInfo ? lapInfo.lapCount : 1);
-  console.log('// Copy data below to climb data file');
-  console.log('-----------------------------');
-
-  rl.close();
-
-  console.log(climb);
 }
-
-main();

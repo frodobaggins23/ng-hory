@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs/promises';
+import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import mime from 'mime-types';
 
@@ -150,6 +151,39 @@ export const verifyToken = req => {
   } catch {
     return false;
   }
+};
+
+/**
+ * Verifies the admin bearer token used for write operations (e.g. uploading files).
+ * This is intentionally separate from verifyToken/PASSPHRASE, which only grant
+ * read access to the private gallery - the admin token is the only credential
+ * allowed to write to file storage.
+ *
+ * @param {Object} req - Express request object
+ * @returns {boolean} - True if the Authorization header carries a valid admin token
+ *
+ * @example
+ * if (!verifyAdminToken(req)) return res.status(401).json({ error: 'Unauthorized' });
+ */
+export const verifyAdminToken = req => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return false;
+  }
+
+  const adminToken = process.env.ADMIN_TOKEN;
+  if (!adminToken) {
+    return false;
+  }
+
+  const providedToken = Buffer.from(authHeader.substring(7));
+  const expectedToken = Buffer.from(adminToken);
+
+  if (providedToken.length !== expectedToken.length) {
+    return false;
+  }
+
+  return crypto.timingSafeEqual(providedToken, expectedToken);
 };
 
 /**
