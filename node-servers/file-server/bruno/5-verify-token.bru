@@ -1,0 +1,19 @@
+meta {
+  name: Verify Token
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/verify-token
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{galleryToken}}
+}
+
+assert {
+  res.status: eq 200
+}
