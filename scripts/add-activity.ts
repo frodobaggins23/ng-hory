@@ -135,7 +135,10 @@ function buildBranchName(added: AddedClimb[]): string {
 function buildPrBody(added: AddedClimb[]): string {
   const lines = added.map(
     ({ mountain, climb }) =>
-      `- **${mountain.name}** #${climb.id} (${climb.date}) - ${climb.distance}m, ` +
+      // `#N` inside code spans is never autolinked to an issue/PR - a bare
+      // `#N` in body text is, and GitHub can even expand it inline to show
+      // the target's title, which is confusing here.
+      `- **${mountain.name}** \`#${climb.id}\` (${climb.date}) - ${climb.distance}m, ` +
       `+${climb.elevationGain}m elevation, ${climb.imgs?.length ?? 0} photo(s)`
   );
   return `Added via the \`add-activity\` wizard:\n\n${lines.join('\n')}`;
