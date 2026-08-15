@@ -550,8 +550,7 @@ test('verifyToken - valid token with Bearer prefix', () => {
   process.env.JWT_SECRET_KEY = secret;
 
   const decoded = verifyToken(req);
-  assert.ok(decoded);
-  assert.strictEqual(decoded.status, 'unlocked');
+  assert.strictEqual(decoded, true);
 
   process.env.JWT_SECRET_KEY = originalEnv;
 });
@@ -586,7 +585,7 @@ test('verifyToken - invalid token signature', () => {
   };
 
   const decoded = verifyToken(req);
-  assert.strictEqual(decoded, null);
+  assert.strictEqual(decoded, false);
 });
 
 test('verifyToken - expired token', () => {
@@ -602,7 +601,7 @@ test('verifyToken - expired token', () => {
   process.env.JWT_SECRET_KEY = secret;
 
   const decoded = verifyToken(req);
-  assert.strictEqual(decoded, null);
+  assert.strictEqual(decoded, false);
 
   process.env.JWT_SECRET_KEY = originalEnv;
 });
@@ -621,7 +620,7 @@ test('verifyToken - wrong secret key', () => {
   process.env.JWT_SECRET_KEY = secret2;
 
   const decoded = verifyToken(req);
-  assert.strictEqual(decoded, null);
+  assert.strictEqual(decoded, false);
 
   process.env.JWT_SECRET_KEY = originalEnv;
 });
