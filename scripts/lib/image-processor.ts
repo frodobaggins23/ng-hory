@@ -1,6 +1,6 @@
 import { execFileSync } from 'child_process';
 import { existsSync } from 'fs';
-import { mkdir } from 'fs/promises';
+import { copyFile, mkdir, unlink } from 'fs/promises';
 import { homedir } from 'os';
 import path from 'path';
 
@@ -33,20 +33,36 @@ export async function compressAndRenamePhotos(
   assertMagickAvailable();
   await mkdir(outputDir, { recursive: true });
 
-  return sourceFiles.map((sourceFile, index) => {
+  const results: CompressedImage[] = [];
+
+  for (const [index, sourceFile] of sourceFiles.entries()) {
     const filename = `${namePrefix}_${String(index + 1).padStart(2, '0')}.webp`;
     const destPath = path.join(outputDir, filename);
 
-    execFileSync(MAGICK_BIN, [
-      sourceFile,
-      '-auto-orient',
-      '-resize',
-      RESIZE,
-      '-quality',
-      QUALITY,
-      destPath,
-    ]);
+    // ImageMagick's CLI does its own filename-pattern scanning (frame
+    // selectors, glob-style matching) that can misfire on names with
+    // parentheses/special characters - common in phone/app export names
+    // like "WhatsApp Image ... (1).jpeg". Copying to a safe, plain-ASCII
+    // temp name first sidesteps that entirely.
+    const safeSourcePath = path.join(outputDir, `.src-${index + 1}${path.extname(sourceFile)}`);
+    await copyFile(sourceFile, safeSourcePath);
 
-    return { filename, path: destPath };
-  });
+    try {
+      execFileSync(MAGICK_BIN, [
+        safeSourcePath,
+        '-auto-orient',
+        '-resize',
+        RESIZE,
+        '-quality',
+        QUALITY,
+        destPath,
+      ]);
+    } finally {
+      await unlink(safeSourcePath);
+    }
+
+    results.push({ filename, path: destPath });
+  }
+
+  return results;
 }
