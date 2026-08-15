@@ -1,4 +1,4 @@
-import { test } from 'node:test';
+import { test, describe, beforeEach, afterEach } from 'node:test';
 import assert from 'node:assert';
 import path from 'path';
 import fs from 'fs/promises';
@@ -630,74 +630,66 @@ test('verifyToken - wrong secret key', () => {
 // Admin Token Verification Tests
 // ============================================================================
 
-test('verifyAdminToken - valid token with Bearer prefix', () => {
-  const adminToken = 'super-secret-admin-token';
-  const req = { headers: { authorization: `Bearer ${adminToken}` } };
+describe('verifyAdminToken', () => {
+  let originalAdminToken;
 
-  const originalEnv = process.env.ADMIN_TOKEN;
-  process.env.ADMIN_TOKEN = adminToken;
+  beforeEach(() => {
+    originalAdminToken = process.env.ADMIN_TOKEN;
+  });
 
-  assert.strictEqual(verifyAdminToken(req), true);
+  afterEach(() => {
+    if (originalAdminToken === undefined) {
+      delete process.env.ADMIN_TOKEN;
+    } else {
+      process.env.ADMIN_TOKEN = originalAdminToken;
+    }
+  });
 
-  process.env.ADMIN_TOKEN = originalEnv;
-});
+  test('valid token with Bearer prefix', () => {
+    const adminToken = 'super-secret-admin-token';
+    const req = { headers: { authorization: `Bearer ${adminToken}` } };
+    process.env.ADMIN_TOKEN = adminToken;
 
-test('verifyAdminToken - missing authorization header', () => {
-  const req = { headers: {} };
+    assert.strictEqual(verifyAdminToken(req), true);
+  });
 
-  const originalEnv = process.env.ADMIN_TOKEN;
-  process.env.ADMIN_TOKEN = 'super-secret-admin-token';
+  test('missing authorization header', () => {
+    const req = { headers: {} };
+    process.env.ADMIN_TOKEN = 'super-secret-admin-token';
 
-  assert.strictEqual(verifyAdminToken(req), false);
+    assert.strictEqual(verifyAdminToken(req), false);
+  });
 
-  process.env.ADMIN_TOKEN = originalEnv;
-});
+  test('missing Bearer prefix', () => {
+    const adminToken = 'super-secret-admin-token';
+    const req = { headers: { authorization: adminToken } };
+    process.env.ADMIN_TOKEN = adminToken;
 
-test('verifyAdminToken - missing Bearer prefix', () => {
-  const adminToken = 'super-secret-admin-token';
-  const req = { headers: { authorization: adminToken } };
+    assert.strictEqual(verifyAdminToken(req), false);
+  });
 
-  const originalEnv = process.env.ADMIN_TOKEN;
-  process.env.ADMIN_TOKEN = adminToken;
+  test('wrong token', () => {
+    const req = { headers: { authorization: 'Bearer wrong-token' } };
+    process.env.ADMIN_TOKEN = 'super-secret-admin-token';
 
-  assert.strictEqual(verifyAdminToken(req), false);
+    assert.strictEqual(verifyAdminToken(req), false);
+  });
 
-  process.env.ADMIN_TOKEN = originalEnv;
-});
+  test('ADMIN_TOKEN not configured on server', () => {
+    const req = { headers: { authorization: 'Bearer whatever' } };
+    delete process.env.ADMIN_TOKEN;
 
-test('verifyAdminToken - wrong token', () => {
-  const req = { headers: { authorization: 'Bearer wrong-token' } };
+    assert.strictEqual(verifyAdminToken(req), false);
+  });
 
-  const originalEnv = process.env.ADMIN_TOKEN;
-  process.env.ADMIN_TOKEN = 'super-secret-admin-token';
+  test('gallery passphrase-derived token must not grant admin access', () => {
+    // The gallery unlock token (verifyToken) and admin token are separate credentials;
+    // a valid gallery JWT should never satisfy verifyAdminToken.
+    const req = { headers: { authorization: 'Bearer some-jwt-gallery-token' } };
+    process.env.ADMIN_TOKEN = 'completely-different-admin-secret';
 
-  assert.strictEqual(verifyAdminToken(req), false);
-
-  process.env.ADMIN_TOKEN = originalEnv;
-});
-
-test('verifyAdminToken - ADMIN_TOKEN not configured on server', () => {
-  const req = { headers: { authorization: 'Bearer whatever' } };
-
-  const originalEnv = process.env.ADMIN_TOKEN;
-  delete process.env.ADMIN_TOKEN;
-
-  assert.strictEqual(verifyAdminToken(req), false);
-
-  process.env.ADMIN_TOKEN = originalEnv;
-});
-
-test('verifyAdminToken - gallery passphrase-derived token must not grant admin access', () => {
-  // The gallery unlock token (verifyToken) and admin token are separate credentials;
-  // a valid gallery JWT should never satisfy verifyAdminToken.
-  const req = { headers: { authorization: 'Bearer some-jwt-gallery-token' } };
-
-  const originalEnv = process.env.ADMIN_TOKEN;
-  process.env.ADMIN_TOKEN = 'completely-different-admin-secret';
-
-  assert.strictEqual(verifyAdminToken(req), false);
-
-  process.env.ADMIN_TOKEN = originalEnv;
+    assert.strictEqual(verifyAdminToken(req), false);
+  });
 });
 
 // ============================================================================
