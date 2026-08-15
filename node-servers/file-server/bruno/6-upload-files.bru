@@ -14,10 +14,9 @@ auth:bearer {
   token: {{adminToken}}
 }
 
-body:multipartForm {
+body:multipart-form {
   folder: {{folder}}
-  files: @file(/absolute/path/to/photo1.webp)
-  files: @file(/absolute/path/to/photo2.webp)
+  files: @file(/absolute/path/to/photo1.webp|/absolute/path/to/photo2.webp)
 }
 
 assert {
@@ -27,6 +26,9 @@ assert {
 docs {
   Admin-only endpoint - requires FILE_SERVER_ADMIN_TOKEN (set as adminToken
   in the environment) to match ADMIN_TOKEN on the server. Replace the
-  @file(...) paths with real files before sending; add/remove `files:`
-  lines to change how many you upload (server caps it at 10 per request).
+  @file(...) paths with real files before sending; add or remove
+  pipe-separated paths in the single files: line to change how many you
+  upload (server caps it at 10 per request). Multiple files under one
+  multipart field name must go in one @file(a|b|c) call, not repeated
+  files: lines - Bruno's block parser overwrites duplicate keys.
 }
