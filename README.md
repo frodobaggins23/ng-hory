@@ -37,20 +37,31 @@ App related node servers are located in ./node-servers.
 
 Each server has its dedicated dependencies and CI/CD process. 
 
-## 🛠️ Asset helper scripts
+## 🥾 Adding a new activity
 
-The project includes several helper scripts for preparing assets. Each script has specific prerequisites:
+`npm run add-activity` walks through adding a climb end to end: parsing the
+Garmin `.tcx`, compressing and renaming photos, uploading them to the file
+server, writing the `Climb` entry and its GeoJSON track, and opening a draft
+PR. Prerequisites:
 
-- `npm run prepare:tracks`
-	- Requires `.tracks-tmp` folder with GPX files to be present in the project root.
+- ImageMagick binary at `~/Apps/magick/magick` (download and install if missing).
+- A local `.env` (gitignored) with:
+  - `FILE_SERVER_HOST` - same value used for the app build.
+  - `FILE_SERVER_ADMIN_TOKEN` - must match `ADMIN_TOKEN` configured on the file server (see [node-servers/file-server/README.md](node-servers/file-server/README.md)). This is a separate secret from the gallery passphrase.
+  - `GITHUB_TOKEN` - a fine-grained GitHub PAT scoped to this repo only, with contents + pull request write access.
 
-- `npm run prepare:climb`
-	- Needs a Garmin activity export in CSV format as input.
+To use it:
 
-- `npm run prepare:images`
-	- Requires ImageMagick binary at `~/Apps/magick/magick` (download and install if missing).
-	- Needs `.images-tmp` folder in the project root with `.jpg` images to process.
-	- Will create `.images-tmp/compressed` if it does not exist.
+1. Run `npm run add-activity`.
+2. When prompted, drop the activity's `.tcx` file and its `.jpg`/`.jpeg`
+   photos into `.activity-tmp/<mountain-slug>/` (slugs are each mountain's
+   `imgFolder`, e.g. `jested`, `lipska_hora` - the prompt lists all of them).
+3. Press Enter. The wizard parses the track, compresses and sequentially
+   renames the photos, uploads them, asks for a one-line description, then
+   writes and commits the data changes, pushes a branch, and opens a draft
+   PR for you to review.
+4. Publishing to the live site is still a separate, manual step: merge the
+   PR, then run the "Deploy website" GitHub Actions workflow.
 
 
 ## 🅰️ Angular CLI

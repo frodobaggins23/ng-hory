@@ -11,6 +11,7 @@ import {
   isOriginAllowed,
   getCorsOptions,
   verifyToken,
+  verifyAdminToken,
   serveFile,
 } from './utils.js';
 
@@ -623,6 +624,80 @@ test('verifyToken - wrong secret key', () => {
   assert.strictEqual(decoded, null);
 
   process.env.JWT_SECRET_KEY = originalEnv;
+});
+
+// ============================================================================
+// Admin Token Verification Tests
+// ============================================================================
+
+test('verifyAdminToken - valid token with Bearer prefix', () => {
+  const adminToken = 'super-secret-admin-token';
+  const req = { headers: { authorization: `Bearer ${adminToken}` } };
+
+  const originalEnv = process.env.ADMIN_TOKEN;
+  process.env.ADMIN_TOKEN = adminToken;
+
+  assert.strictEqual(verifyAdminToken(req), true);
+
+  process.env.ADMIN_TOKEN = originalEnv;
+});
+
+test('verifyAdminToken - missing authorization header', () => {
+  const req = { headers: {} };
+
+  const originalEnv = process.env.ADMIN_TOKEN;
+  process.env.ADMIN_TOKEN = 'super-secret-admin-token';
+
+  assert.strictEqual(verifyAdminToken(req), false);
+
+  process.env.ADMIN_TOKEN = originalEnv;
+});
+
+test('verifyAdminToken - missing Bearer prefix', () => {
+  const adminToken = 'super-secret-admin-token';
+  const req = { headers: { authorization: adminToken } };
+
+  const originalEnv = process.env.ADMIN_TOKEN;
+  process.env.ADMIN_TOKEN = adminToken;
+
+  assert.strictEqual(verifyAdminToken(req), false);
+
+  process.env.ADMIN_TOKEN = originalEnv;
+});
+
+test('verifyAdminToken - wrong token', () => {
+  const req = { headers: { authorization: 'Bearer wrong-token' } };
+
+  const originalEnv = process.env.ADMIN_TOKEN;
+  process.env.ADMIN_TOKEN = 'super-secret-admin-token';
+
+  assert.strictEqual(verifyAdminToken(req), false);
+
+  process.env.ADMIN_TOKEN = originalEnv;
+});
+
+test('verifyAdminToken - ADMIN_TOKEN not configured on server', () => {
+  const req = { headers: { authorization: 'Bearer whatever' } };
+
+  const originalEnv = process.env.ADMIN_TOKEN;
+  delete process.env.ADMIN_TOKEN;
+
+  assert.strictEqual(verifyAdminToken(req), false);
+
+  process.env.ADMIN_TOKEN = originalEnv;
+});
+
+test('verifyAdminToken - gallery passphrase-derived token must not grant admin access', () => {
+  // The gallery unlock token (verifyToken) and admin token are separate credentials;
+  // a valid gallery JWT should never satisfy verifyAdminToken.
+  const req = { headers: { authorization: 'Bearer some-jwt-gallery-token' } };
+
+  const originalEnv = process.env.ADMIN_TOKEN;
+  process.env.ADMIN_TOKEN = 'completely-different-admin-secret';
+
+  assert.strictEqual(verifyAdminToken(req), false);
+
+  process.env.ADMIN_TOKEN = originalEnv;
 });
 
 // ============================================================================

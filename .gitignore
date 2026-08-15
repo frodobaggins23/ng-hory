@@ -43,9 +43,7 @@ testem.log
 Thumbs.db
 
 # temp files
-.tracks-tmp
-.climbs-tmp
-.images-tmp
+.activity-tmp
 
 # logs
 .claude/custom_hook_scripts/logs

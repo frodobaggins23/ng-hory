@@ -12,10 +12,7 @@
     "lint:fix": "eslint \"src/**/*.{ts,html}\" --fix",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "prepare:tracks": "bash ./scripts/prepare-tracks.sh",
-    "prepare:climb": "tsx ./scripts/prepare-climb.ts",
-    "prepare:images": "bash ./scripts/prepare-images.sh",
-    "parse:activity": "tsx ./scripts/parse-garmin-activity.ts",
+    "add-activity": "tsx ./scripts/add-activity.ts",
     "prepare": "husky"
   },
   "lint-staged": {

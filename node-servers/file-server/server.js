@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs/promises';
@@ -10,6 +11,7 @@ import {
   listFilesByDirectory,
   getCorsOptions,
   verifyToken,
+  verifyAdminToken,
   serveFile,
 } from './utils.js';
 
@@ -24,6 +26,59 @@ app.use(cors(getCorsOptions()));
 app.use(express.json());
 
 const FILES_DIR = path.join(__dirname, 'file-storage');
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 20 * 1024 * 1024, files: 30 },
+});
+
+app.post('/api/upload-files', upload.array('files', 30), async (req, res) => {
+  try {
+    if (!verifyAdminToken(req)) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { folder } = req.body;
+    const safeFolder = sanitizePathComponent(folder);
+
+    if (!safeFolder) {
+      return res.status(400).json({ error: 'Missing or invalid folder' });
+    }
+
+    const files = req.files;
+    if (!files || files.length === 0) {
+      return res.status(400).json({ error: 'No files provided' });
+    }
+
+    const destDir = path.join(FILES_DIR, safeFolder);
+    if (!isPathWithinDirectory(destDir, FILES_DIR)) {
+      return res.status(403).json({ error: 'Access denied' });
+    }
+
+    await fs.mkdir(destDir, { recursive: true });
+
+    const saved = [];
+    for (const file of files) {
+      const safeFilename = sanitizePathComponent(file.originalname);
+      if (!safeFilename) {
+        return res.status(400).json({ error: `Invalid filename: ${file.originalname}` });
+      }
+
+      const destPath = path.join(destDir, safeFilename);
+      if (!isPathWithinDirectory(destPath, FILES_DIR)) {
+        return res.status(403).json({ error: 'Access denied' });
+      }
+
+      await fs.writeFile(destPath, file.buffer);
+      saved.push(safeFilename);
+    }
+
+    res.json({ folder: safeFolder, saved });
+  } catch (error) {
+    console.error('Error uploading files:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 app.get('/api/get-file', async (req, res) => {
   try {
