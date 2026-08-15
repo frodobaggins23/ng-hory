@@ -27,12 +27,15 @@ app.use(express.json());
 
 const FILES_DIR = path.join(__dirname, 'file-storage');
 
+const MAX_UPLOAD_FILES = 10;
+const MAX_UPLOAD_FILE_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
+
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 20 * 1024 * 1024, files: 30 },
+  limits: { fileSize: MAX_UPLOAD_FILE_SIZE_BYTES, files: MAX_UPLOAD_FILES },
 });
 
-app.post('/api/upload-files', upload.array('files', 30), async (req, res) => {
+app.post('/api/upload-files', upload.array('files', MAX_UPLOAD_FILES), async (req, res) => {
   try {
     if (!verifyAdminToken(req)) {
       return res.status(401).json({ error: 'Unauthorized' });
