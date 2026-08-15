@@ -1,0 +1,32 @@
+meta {
+  name: Unlock Gallery
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/unlock-gallery
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "passphrase": "{{passphrase}}"
+  }
+}
+
+script:post-response {
+  if (res.body && res.body.token) {
+    bru.setEnvVar("galleryToken", res.body.token);
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  On success, stores the returned JWT into the galleryToken environment
+  variable so Get File / Verify Token can use it automatically.
+}

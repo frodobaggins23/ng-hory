@@ -1,0 +1,26 @@
+meta {
+  name: Get File
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/get-file?folder={{folder}}&filename={{filename}}
+  body: none
+  auth: bearer
+}
+
+params:query {
+  folder: {{folder}}
+  filename: {{filename}}
+}
+
+auth:bearer {
+  token: {{galleryToken}}
+}
+
+docs {
+  Leave galleryToken empty in the environment to exercise the "locked"
+  path - the server returns the locked-gallery placeholder (200) instead
+  of a 401 when the token is missing/invalid.
+}

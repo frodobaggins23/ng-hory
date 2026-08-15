@@ -1,0 +1,32 @@
+meta {
+  name: Upload Files
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/upload-files
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:multipartForm {
+  folder: {{folder}}
+  files: @file(/absolute/path/to/photo1.webp)
+  files: @file(/absolute/path/to/photo2.webp)
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  Admin-only endpoint - requires FILE_SERVER_ADMIN_TOKEN (set as adminToken
+  in the environment) to match ADMIN_TOKEN on the server. Replace the
+  @file(...) paths with real files before sending; add/remove `files:`
+  lines to change how many you upload (server caps it at 10 per request).
+}
