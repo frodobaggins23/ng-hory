@@ -19,6 +19,9 @@
     "src/**/*.{ts,html,scss,css,json}": "prettier --write"
   },
   "private": true,
+  "overrides": {
+    "qs": "^6.16.0"
+  },
   "dependencies": {
     "@angular/animations": "^20.3.27",
     "@angular/cdk": "^20.2.14",
