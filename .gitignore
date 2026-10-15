@@ -45,6 +45,12 @@ Thumbs.db
 # temp files
 .activity-tmp
 
+# gallery photos - raw originals never get committed, and the .enc files
+# the build generates from them are bundled straight into the Vercel deploy
+# without ever going through git either (see scripts/encrypt-gallery.ts)
+/photos-raw
+/public/assets/gallery
+
 # logs
 .claude/custom_hook_scripts/logs
 
@@ -56,3 +62,4 @@ src/environments/environment.development.ts
 !.claude/settings.local.json
 .claude/custom_hook_scripts/tmp_files
 .playwright-mcp
+.claude-logs

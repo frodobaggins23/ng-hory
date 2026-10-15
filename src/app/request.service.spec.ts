@@ -25,9 +25,7 @@ describe('RequestService', () => {
   });
 
   describe('GET requests', () => {
-    it('should send GET request with authorization token from localStorage', () => {
-      localStorage.setItem('auth_token', 'Bearer custom-token');
-
+    it('should send a GET request', () => {
       service
         .request({
           method: 'get',
@@ -37,40 +35,6 @@ describe('RequestService', () => {
 
       const req = httpMock.expectOne('/api/data');
       expect(req.request.method).toBe('GET');
-      expect(req.request.headers.get('Authorization')).toBe('Bearer custom-token');
-
-      req.flush({});
-    });
-
-    it('should use default test token when localStorage is empty', () => {
-      localStorage.removeItem('auth_token');
-
-      service
-        .request({
-          method: 'get',
-          path: '/api/data',
-        })
-        .subscribe();
-
-      const req = httpMock.expectOne('/api/data');
-      expect(req.request.headers.get('Authorization')).toBe('Bearer testtoken');
-
-      req.flush({});
-    });
-
-    it('should not include authorization header when doNotAuthorize is true', () => {
-      localStorage.setItem('auth_token', 'Bearer custom-token');
-
-      service
-        .request({
-          method: 'get',
-          path: '/api/data',
-          doNotAuthorize: true,
-        })
-        .subscribe();
-
-      const req = httpMock.expectOne('/api/data');
-      expect(req.request.headers.get('Authorization')).toBeNull();
 
       req.flush({});
     });
@@ -86,7 +50,6 @@ describe('RequestService', () => {
 
       const req = httpMock.expectOne('/api/data');
       expect(req.request.headers.get('X-Custom-Header')).toBe('custom-value');
-      expect(req.request.headers.get('Authorization')).toBe('Bearer testtoken');
 
       req.flush({});
     });
@@ -124,10 +87,27 @@ describe('RequestService', () => {
 
       req.flush('text content');
     });
+
+    it('should handle arraybuffer response type', () => {
+      service
+        .request({
+          method: 'get',
+          path: '/api/binary',
+          responseType: 'arraybuffer',
+        })
+        .subscribe((buffer: ArrayBuffer) => {
+          expect(buffer instanceof ArrayBuffer).toBe(true);
+        });
+
+      const req = httpMock.expectOne('/api/binary');
+      expect(req.request.responseType).toBe('arraybuffer');
+
+      req.flush(new ArrayBuffer(0));
+    });
   });
 
   describe('POST requests', () => {
-    it('should send POST request with payload and authorization', () => {
+    it('should send POST request with payload', () => {
       const payload = { name: 'John', age: 30 };
 
       service
@@ -141,34 +121,13 @@ describe('RequestService', () => {
       const req = httpMock.expectOne('/api/users');
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(payload);
-      expect(req.request.headers.get('Authorization')).toBe('Bearer testtoken');
-
-      req.flush({});
-    });
-
-    it('should send POST request without authorization when doNotAuthorize is true', () => {
-      const payload = { username: 'user', password: 'pass' };
-
-      service
-        .request({
-          method: 'post',
-          path: '/api/login',
-          payload,
-          doNotAuthorize: true,
-        })
-        .subscribe();
-
-      const req = httpMock.expectOne('/api/login');
-      expect(req.request.method).toBe('POST');
-      expect(req.request.body).toEqual(payload);
-      expect(req.request.headers.get('Authorization')).toBeNull();
 
       req.flush({});
     });
   });
 
   describe('PUT requests', () => {
-    it('should send PUT request with payload and authorization', () => {
+    it('should send PUT request with payload', () => {
       const payload = { name: 'Jane' };
 
       service
@@ -182,14 +141,13 @@ describe('RequestService', () => {
       const req = httpMock.expectOne('/api/users/1');
       expect(req.request.method).toBe('PUT');
       expect(req.request.body).toEqual(payload);
-      expect(req.request.headers.get('Authorization')).toBe('Bearer testtoken');
 
       req.flush({});
     });
   });
 
   describe('DELETE requests', () => {
-    it('should send DELETE request with authorization', () => {
+    it('should send DELETE request', () => {
       service
         .request({
           method: 'delete',
@@ -199,14 +157,13 @@ describe('RequestService', () => {
 
       const req = httpMock.expectOne('/api/users/1');
       expect(req.request.method).toBe('DELETE');
-      expect(req.request.headers.get('Authorization')).toBe('Bearer testtoken');
 
       req.flush({});
     });
   });
 
   describe('PATCH requests', () => {
-    it('should send PATCH request with payload and authorization', () => {
+    it('should send PATCH request with payload', () => {
       const payload = { status: 'active' };
 
       service
@@ -220,7 +177,6 @@ describe('RequestService', () => {
       const req = httpMock.expectOne('/api/users/1');
       expect(req.request.method).toBe('PATCH');
       expect(req.request.body).toEqual(payload);
-      expect(req.request.headers.get('Authorization')).toBe('Bearer testtoken');
 
       req.flush({});
     });

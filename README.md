@@ -31,23 +31,34 @@ Then run
 npm run build
 ```
 
-## 🖥️ Node servers
+## 🔒 Gallery photos & encryption
 
-App related node servers are located in ./node-servers.
+There is no backend. Every climb photo is encrypted client-side (AES-GCM,
+key derived from a passphrase via PBKDF2) before it ever leaves your
+machine, and decrypted in the visitor's browser only after they type the
+correct passphrase into the unlock control. See
+[`src/app/services/gallery-crypto.service.ts`](src/app/services/gallery-crypto.service.ts)
+and [`scripts/encrypt-gallery.ts`](scripts/encrypt-gallery.ts).
 
-Each server has its dedicated dependencies and CI/CD process. 
+- `photos-raw/<imgFolder>/<file>.webp` holds the raw, unencrypted originals.
+  It's gitignored and lives only on your machine - there is no second copy,
+  so back it up yourself.
+- `npm run encrypt-gallery` reads `photos-raw/`, derives the key from
+  `GALLERY_PASSPHRASE` (your local, gitignored `.env`), and writes `.enc`
+  files into `public/assets/gallery/`. That output is also gitignored -
+  it never reaches git, only the Vercel deploy (see `.vercelignore`).
+- Rotating the passphrase means re-encrypting and redeploying everything,
+  since the key is derived directly from it.
 
 ## 🥾 Adding a new activity
 
 `npm run add-activity` walks through adding a climb end to end: parsing the
-Garmin `.tcx`, compressing and renaming photos, uploading them to the file
-server, writing the `Climb` entry and its GeoJSON track, and opening a draft
-PR. Prerequisites:
+Garmin `.tcx`, compressing and renaming photos into `photos-raw/`, writing
+the `Climb` entry and its GeoJSON track, and opening a draft PR.
+Prerequisites:
 
 - ImageMagick binary at `~/Apps/magick/magick` (download and install if missing).
 - A local `.env` (gitignored) with:
-  - `FILE_SERVER_HOST` - same value used for the app build.
-  - `FILE_SERVER_ADMIN_TOKEN` - must match `ADMIN_TOKEN` configured on the file server (see [node-servers/file-server/README.md](node-servers/file-server/README.md)). This is a separate secret from the gallery passphrase.
   - `GITHUB_TOKEN` - a fine-grained GitHub PAT scoped to this repo only, with contents + pull request write access.
 
 To use it:
@@ -57,11 +68,12 @@ To use it:
    photos into `.activity-tmp/<mountain-slug>/` (slugs are each mountain's
    `imgFolder`, e.g. `jested`, `lipska_hora` - the prompt lists all of them).
 3. Press Enter. The wizard parses the track, compresses and sequentially
-   renames the photos, uploads them, asks for a one-line description, then
-   writes and commits the data changes, pushes a branch, and opens a draft
-   PR for you to review.
+   renames the photos into `photos-raw/<mountain-slug>/`, asks for a
+   one-line description, then writes and commits the data changes, pushes
+   a branch, and opens a draft PR for you to review.
 4. Publishing to the live site is still a separate, manual step: merge the
-   PR, then run the "Deploy website" GitHub Actions workflow.
+   PR, then run `npm run deploy` (encrypts the gallery, builds, and runs
+   `vercel deploy --prod`).
 
 
 ## 🅰️ Angular CLI

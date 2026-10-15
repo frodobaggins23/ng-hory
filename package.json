@@ -5,7 +5,7 @@
     "ng": "ng",
     "prebuild": "node ./scripts/inject-env.js",
     "start": "ng serve",
-    "build": "ng build --base-href=/hory/",
+    "build": "ng build",
     "format": "prettier --write \"src/**/*.{ts,html,scss,css,json}\"",
     "format:check": "prettier --check \"src/**/*.{ts,html,scss,css,json}\"",
     "lint": "eslint \"src/**/*.{ts,html}\"",
@@ -13,6 +13,9 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "add-activity": "tsx ./scripts/add-activity.ts",
+    "encrypt-gallery": "tsx ./scripts/encrypt-gallery.ts",
+    "predeploy": "npm run encrypt-gallery",
+    "deploy": "vercel deploy --prod",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -67,6 +70,7 @@
     "lint-staged": "^16.2.7",
     "prettier": "^3.6.2",
     "typescript": "~5.9.3",
+    "vercel": "^63.1.2",
     "xml2js": "^0.6.2"
   }
 }
