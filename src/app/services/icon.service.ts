@@ -36,7 +36,8 @@ export class IconService {
       return of(icon);
     }
     return this.requestService
-      .unauthorizedGetRequest({
+      .request({
+        method: 'get',
         path: `./assets/icons/${iconName}.svg`,
         responseType: 'text',
       })

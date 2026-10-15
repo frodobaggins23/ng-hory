@@ -1,10 +1,10 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, from, of, throwError } from 'rxjs';
 import { switchMap, catchError, map, share } from 'rxjs/operators';
 import { ImageCacheService } from './image-cache.service';
 import { RequestService } from '../request.service';
+import { GalleryCryptoService } from './gallery-crypto.service';
 import { MountainUtils, RxJSUtils, BlobUtils } from '../utils';
-import { environment } from '../../environments/environment';
 
 export interface ImageLoadResult {
   url: string;
@@ -16,19 +16,26 @@ export interface ImageLoadResult {
   providedIn: 'root',
 })
 export class ImageService {
+  private readonly lockedPlaceholderUrl = './assets/gallery/locked-gallery.webp';
+
   private pendingImageRequests = new Map<string, Observable<ImageLoadResult>>();
 
   private cacheService = inject(ImageCacheService);
   private requestService = inject(RequestService);
+  private galleryCryptoService = inject(GalleryCryptoService);
 
   /**
-   * Get image URL for display - cache first, then file server download
+   * Get image URL for display - cache first, then encrypted asset fetch + decrypt
    */
   getImageUrl(
     mountainName: string,
     imageName: string,
     imgFolder: string
   ): Observable<ImageLoadResult> {
+    if (!this.galleryCryptoService.isUnlocked()) {
+      return of({ url: this.lockedPlaceholderUrl, fromCache: false });
+    }
+
     const imageKey = MountainUtils.createImageKey(mountainName, imageName);
     const mountainId = MountainUtils.normalizeMountainName(mountainName);
 
@@ -51,7 +58,7 @@ export class ImageService {
           return pendingRequest;
         }
 
-        // Not in cache - download from file server
+        // Not in cache - fetch and decrypt
         const downloadRequest$ = this.downloadAndCacheImage(
           mountainName,
           imageName,
@@ -66,6 +73,12 @@ export class ImageService {
         return downloadRequest$;
       }),
       catchError(error => {
+        // Gallery may have been locked mid-flight (e.g. a stale key was
+        // cleared concurrently) - fall back to the placeholder instead of
+        // surfacing an error for what is really just a locked state.
+        if (!this.galleryCryptoService.isUnlocked()) {
+          return of({ url: this.lockedPlaceholderUrl, fromCache: false });
+        }
         console.error('Error loading image:', error);
         return throwError(() => error);
       })
@@ -73,7 +86,8 @@ export class ImageService {
   }
 
   /**
-   * Download image from file server and store in cache
+   * Fetch the encrypted image asset, decrypt it client-side, and store the
+   * decrypted blob in cache
    */
   private downloadAndCacheImage(
     mountainName: string,
@@ -82,17 +96,18 @@ export class ImageService {
   ): Observable<ImageLoadResult> {
     const mountainId = MountainUtils.normalizeMountainName(mountainName);
 
-    // Construct file server URL using imgFolder
-    const url = `${environment.fileServerHost}/api/get-file?folder=${encodeURIComponent(imgFolder)}&filename=${encodeURIComponent(imageName)}`;
+    const url = `./assets/gallery/${encodeURIComponent(imgFolder)}/${encodeURIComponent(imageName)}.enc`;
 
-    // Download the image from file server
     return this.requestService
       .request({
         method: 'get',
         path: url,
-        responseType: 'blob',
+        responseType: 'arraybuffer',
       })
       .pipe(
+        switchMap((buffer: ArrayBuffer) =>
+          from(this.galleryCryptoService.decryptToBlob(buffer, 'image/webp'))
+        ),
         switchMap((blob: Blob) => {
           // Store in cache
           return this.cacheService.storeImage(mountainId, imageName, blob).pipe(

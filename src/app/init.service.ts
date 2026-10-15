@@ -1,8 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { RequestService } from './request.service';
-import { environment } from '../environments/environment';
 import { ImageService } from './services/image.service';
-import { TokenService } from './token.service';
+import { GalleryCryptoService } from './services/gallery-crypto.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,41 +8,19 @@ import { TokenService } from './token.service';
 export class InitService {
   constructor() {}
 
-  private requestService = inject(RequestService);
   private imageService = inject(ImageService);
-  private tokenService = inject(TokenService);
+  private galleryCryptoService = inject(GalleryCryptoService);
 
   isGalleryLocked = signal(false);
 
-  private verifyTokenUrl = `${environment.fileServerHost}/api/verify-token`;
+  async verifyGalleryToken(): Promise<void> {
+    await this.galleryCryptoService.restoreFromStorage();
 
-  cleanUpGalleryOnInit = () => {
-    const galleryToken = this.tokenService.getToken('GALLERY_TOKEN');
-    if (galleryToken) {
+    const locked = !this.galleryCryptoService.isUnlocked();
+    this.isGalleryLocked.set(locked);
+
+    if (locked) {
       this.imageService.clearCache().subscribe();
-      this.tokenService.removeToken('GALLERY_TOKEN');
     }
-  };
-
-  verifyGalleryToken() {
-    this.requestService
-      .request({
-        method: 'get',
-        path: this.verifyTokenUrl,
-      })
-      .subscribe({
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        next: (response: any) => {
-          const valid = !!response?.valid;
-          this.isGalleryLocked.set(!valid);
-          if (!valid) {
-            this.cleanUpGalleryOnInit();
-          }
-        },
-        error: error => {
-          console.error('Token verification failed:', error);
-          this.isGalleryLocked.set(true);
-        },
-      });
   }
 }

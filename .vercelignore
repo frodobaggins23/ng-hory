@@ -1,0 +1,24 @@
+# Vercel CLI uploads everything NOT listed here, ignoring .gitignore
+# entirely once this file exists. public/assets/gallery/ (the encrypted
+# photos, generated locally by `npm run encrypt-gallery`) is gitignored but
+# deliberately NOT listed here - it has to reach Vercel's build.
+
+node_modules
+/dist
+/tmp
+/out-tsc
+/.angular/cache
+
+/photos-raw
+.env
+.env.*
+!.env.example
+
+.git
+.github
+.husky
+.vscode
+.idea
+
+/coverage
+*.log

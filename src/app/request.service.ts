@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TokenService, TokenType } from './token.service';
 
 export interface RequestConfig {
   method: 'get' | 'post' | 'put' | 'delete' | 'patch';
@@ -9,20 +8,14 @@ export interface RequestConfig {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   payload?: any;
   headers?: Record<string, string>;
-  doNotAuthorize?: boolean;
   responseType?: 'json' | 'text' | 'blob' | 'arraybuffer';
 }
-
-type UnauthorizedGetRequestConfig = Omit<RequestConfig, 'method' | 'doNotAuthorize' | 'payload'>;
 
 @Injectable({
   providedIn: 'root',
 })
 export class RequestService {
   private httpClient = inject(HttpClient);
-  private tokenService = inject(TokenService);
-
-  private tokenType: TokenType = 'GALLERY_TOKEN'; // TODO: Make this configurable if needed
 
   request(config: RequestConfig & { responseType: 'blob' }): Observable<Blob>;
   request(config: RequestConfig & { responseType: 'text' }): Observable<string>;
@@ -30,28 +23,10 @@ export class RequestService {
   request(config: RequestConfig & { responseType: 'json' }): Observable<unknown>;
   request(config: RequestConfig): Observable<Blob | string | ArrayBuffer | unknown>;
   request(config: RequestConfig): Observable<Blob | string | ArrayBuffer | unknown> {
-    const {
-      method,
-      path,
-      payload,
-      headers = {},
-      doNotAuthorize = false,
-      responseType = 'json',
-    } = config;
-
-    // Build headers
-    let requestHeaders = new HttpHeaders(headers);
-
-    // Add authorization header if not disabled
-    if (!doNotAuthorize) {
-      const token = this.getAuthToken();
-      if (token) {
-        requestHeaders = requestHeaders.set('Authorization', token);
-      }
-    }
+    const { method, path, payload, headers = {}, responseType = 'json' } = config;
 
     // Disable HTTP caching to prevent browser cache
-    requestHeaders = requestHeaders
+    const requestHeaders = new HttpHeaders(headers)
       .set('Cache-Control', 'no-cache, no-store, must-revalidate')
       .set('Pragma', 'no-cache')
       .set('Expires', '0');
@@ -76,40 +51,5 @@ export class RequestService {
       default:
         throw new Error(`Unsupported HTTP method: ${method}`);
     }
-  }
-
-  unauthorizedGetRequest(
-    config: UnauthorizedGetRequestConfig & { responseType: 'blob' }
-  ): Observable<Blob>;
-  unauthorizedGetRequest(
-    config: UnauthorizedGetRequestConfig & { responseType: 'text' }
-  ): Observable<string>;
-  unauthorizedGetRequest(
-    config: UnauthorizedGetRequestConfig & { responseType: 'arraybuffer' }
-  ): Observable<ArrayBuffer>;
-  unauthorizedGetRequest(
-    config: UnauthorizedGetRequestConfig & { responseType: 'json' }
-  ): Observable<unknown>;
-  unauthorizedGetRequest(
-    config: UnauthorizedGetRequestConfig
-  ): Observable<Blob | string | ArrayBuffer | unknown>;
-  unauthorizedGetRequest({
-    responseType = 'json',
-    ...rest
-  }: UnauthorizedGetRequestConfig): Observable<Blob | string | ArrayBuffer | unknown> {
-    return this.request({
-      ...rest,
-      method: 'get',
-      doNotAuthorize: true,
-      responseType,
-    });
-  }
-
-  /**
-   * Retrieve authorization token from localStorage
-   */
-  private getAuthToken(): string {
-    const token = this.tokenService.getToken(this.tokenType);
-    return `Bearer ${token || 'missing-token'}`;
   }
 }

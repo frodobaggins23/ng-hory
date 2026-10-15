@@ -6,7 +6,6 @@ import { mountains } from '../src/data';
 import type { Climb, Mountain } from '../src/data/types';
 import { isTcxFile, parseActivityFile } from './lib/activity-parser';
 import { compressAndRenamePhotos } from './lib/image-processor';
-import { uploadImagesToFileServer } from './lib/file-server-client';
 import { appendClimbToFile, writeTrackGeoJSON } from './lib/climb-writer';
 import {
   assertCleanWorkingTree,
@@ -21,6 +20,7 @@ const REPO_ROOT = process.cwd();
 const WATCH_DIR = path.join(REPO_ROOT, '.activity-tmp');
 const TRACKS_ROOT = path.join(REPO_ROOT, 'public/assets/tracks');
 const CLIMBS_DIR = path.join(REPO_ROOT, 'src/data/climbs');
+const PHOTOS_RAW_ROOT = path.join(REPO_ROOT, 'photos-raw');
 
 const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg']);
 
@@ -54,9 +54,7 @@ async function processMountainFolder(
   slug: string,
   folderPath: string,
   mountain: Mountain,
-  rl: Interface,
-  fileServerHost: string,
-  fileServerAdminToken: string
+  rl: Interface
 ): Promise<AddedClimb> {
   const tcxFiles = await findFile(folderPath, isTcxFile);
   if (tcxFiles.length !== 1) {
@@ -84,15 +82,12 @@ async function processMountainFolder(
   );
 
   console.log(`Compressing ${photoFiles.length} photo(s)...`);
-  const compressedDir = path.join(folderPath, '.compressed');
+  const rawPhotosDir = path.join(PHOTOS_RAW_ROOT, slug);
   const compressed = await compressAndRenamePhotos(
     photoFiles.map(name => path.join(folderPath, name)),
-    compressedDir,
+    rawPhotosDir,
     namePrefix
   );
-
-  console.log(`Uploading ${compressed.length} photo(s) to the file server...`);
-  await uploadImagesToFileServer(fileServerHost, fileServerAdminToken, slug, compressed);
 
   const trackFilePath = path.join(TRACKS_ROOT, slug, `${namePrefix}.json`);
   const climb: Climb = {
@@ -145,8 +140,6 @@ function buildPrBody(added: AddedClimb[]): string {
 }
 
 async function main() {
-  const fileServerHost = requireEnv('FILE_SERVER_HOST');
-  const fileServerAdminToken = requireEnv('FILE_SERVER_ADMIN_TOKEN');
   const githubToken = requireEnv('GITHUB_TOKEN');
 
   assertCleanWorkingTree();
@@ -182,14 +175,7 @@ async function main() {
     }
 
     try {
-      const result = await processMountainFolder(
-        slug,
-        folderPath,
-        mountain,
-        rl,
-        fileServerHost,
-        fileServerAdminToken
-      );
+      const result = await processMountainFolder(slug, folderPath, mountain, rl);
       added.push(result);
       processedFolders.push(folderPath);
     } catch (error) {
@@ -228,7 +214,7 @@ async function main() {
 
   console.log(`\nDone. ${added.length} climb(s) added: ${prUrl}`);
   console.log(
-    'Deploy is still manual - run the "Deploy website" workflow when you are ready to go live.'
+    'Deploy is still manual - once merged, run `npm run deploy` when you are ready to go live.'
   );
 }
 

@@ -35,11 +35,13 @@ export class ImageOverlayComponent implements OnInit {
 
   public loadArrows(): void {
     forkJoin({
-      left: this.requestService.unauthorizedGetRequest({
+      left: this.requestService.request({
+        method: 'get',
         path: './assets/icons/overlay-arrows/arrow-left.svg',
         responseType: 'blob',
       }),
-      right: this.requestService.unauthorizedGetRequest({
+      right: this.requestService.request({
+        method: 'get',
         path: './assets/icons/overlay-arrows/arrow-right.svg',
         responseType: 'blob',
       }),
