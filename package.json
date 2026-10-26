@@ -32,7 +32,9 @@
     "path-to-regexp@^8.0.0": "^8.4.0",
     "undici@^5.0.0": "^6.28.1",
     "undici@^6.0.0": "^6.28.1",
-    "@fastify/busboy": "^3.2.3"
+    "@fastify/busboy": "^3.2.3",
+    "vite@^7.0.0": "^7.3.7",
+    "zod@^4.0.0": "^4.6.6"
   },
   "dependencies": {
     "@angular/animations": "^20.3.33",
